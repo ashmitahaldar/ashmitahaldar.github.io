@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { terminalCommands, profileData } from '../data/mock';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
 
-const Terminal = () => {
+const Terminal = ({ profileData }) => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState([
     { type: 'info', text: '╔═══════════════════════════════════════════════════════╗' },
-    { type: 'info', text: '║  Welcome to ' + profileData.name + '\'s Portfolio Terminal  ║' },
+    { type: 'info', text: '║  Welcome to ' + (profileData?.name || 'Portfolio') + '\'s Portfolio Terminal  ║' },
     { type: 'info', text: '╚═══════════════════════════════════════════════════════╝' },
     { type: 'info', text: '' },
     { type: 'success', text: 'System initialized successfully...' },
@@ -15,6 +15,7 @@ const Terminal = () => {
   ]);
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [skills, setSkills] = useState(null);
   const inputRef = useRef(null);
   const outputRef = useRef(null);
   const navigate = useNavigate();
@@ -24,6 +25,94 @@ const Terminal = () => {
       outputRef.current.scrollTop = outputRef.current.scrollHeight;
     }
   }, [output]);
+
+  useEffect(() => {
+    // Fetch skills for terminal commands
+    const fetchSkills = async () => {
+      try {
+        const response = await api.getSkills();
+        setSkills(response.data);
+      } catch (error) {
+        console.error('Error fetching skills:', error);
+      }
+    };
+    fetchSkills();
+  }, []);
+
+  const getTerminalOutput = (command) => {
+    switch(command) {
+      case 'help':
+        return `Available Commands:
+
+  help           - Show this help message
+  about          - Learn more about me
+  projects       - View my projects
+  skills         - Display my technical skills
+  contact        - Get my contact information
+  clear          - Clear the terminal
+  echo <text>    - Echo back the text
+
+Navigation Shortcuts:
+  /home          - Go to home page
+  /about         - Go to about page
+  /projects      - Go to projects page
+  /experience    - Go to experience page
+  /education     - Go to education page
+  /blog          - Go to blog page
+  /resume        - Go to resume page
+
+Tips:
+  - Use UP/DOWN arrows to cycle through command history
+  - Try typing 'sudo' before any command ;)
+  - There might be some hidden easter eggs...
+    `;
+      
+      case 'about':
+        return `About Me:
+
+${profileData?.name || 'User'}
+${profileData?.title || 'Developer'}
+
+${profileData?.bio || 'Bio not available'}
+
+Location: ${profileData?.location || 'N/A'}
+Email: ${profileData?.email || 'N/A'}
+GitHub: ${profileData?.github || 'N/A'}
+
+Type 'skills' to see my technical skills!
+    `;
+      
+      case 'skills':
+        if (!skills) return 'Loading skills...';
+        return `Technical Skills:
+
+Languages:
+  ${skills.languages?.join(', ') || 'N/A'}
+
+Frameworks:
+  ${skills.frameworks?.join(', ') || 'N/A'}
+
+Tools:
+  ${skills.tools?.join(', ') || 'N/A'}
+
+Interests:
+  ${skills.interests?.join(', ') || 'N/A'}
+    `;
+      
+      case 'contact':
+        return `Contact Information:
+
+Email: ${profileData?.email || 'N/A'}
+GitHub: ${profileData?.github || 'N/A'}
+LinkedIn: ${profileData?.linkedin || 'N/A'}
+
+Feel free to reach out! Always happy to chat about tech, games, or pixel art.
+    `;
+      
+      default:
+        return null;
+    }
+  };
 
   const handleCommand = (cmd) => {
     const trimmedCmd = cmd.trim();
@@ -56,54 +145,42 @@ const Terminal = () => {
     }
 
     // Handle commands
-    switch (command) {
-      case 'help':
-        setOutput(prev => [...prev, { type: 'output', text: terminalCommands.help.output }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'about':
-        setOutput(prev => [...prev, { type: 'output', text: terminalCommands.about.output }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'skills':
-        setOutput(prev => [...prev, { type: 'output', text: terminalCommands.skills.output }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'projects':
-        setOutput(prev => [...prev, { type: 'output', text: terminalCommands.projects?.output || 'Navigate to /projects page to see all projects!' }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'contact':
-        setOutput(prev => [...prev, { type: 'output', text: terminalCommands.contact.output }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'clear':
-        setOutput([]);
-        break;
-      
-      case 'echo':
-        const echoText = args.join(' ');
-        setOutput(prev => [...prev, { type: 'output', text: echoText || '' }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'sudo':
-        setOutput(prev => [...prev, { type: 'error', text: 'Nice try! But you don\'t have sudo privileges here 😉' }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'ls':
-        setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  experience/  education/  blog/  resume.pdf' }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'whoami':
-        setOutput(prev => [...prev, { type: 'output', text: 'visitor' }, { type: 'info', text: '' }]);
-        break;
-      
-      case 'pwd':
-        setOutput(prev => [...prev, { type: 'output', text: '/home/visitor/portfolio' }, { type: 'info', text: '' }]);
-        break;
-      
-      default:
-        setOutput(prev => [...prev, { type: 'error', text: `Command not found: ${command}. Type 'help' for available commands.` }, { type: 'info', text: '' }]);
+    if (command === 'clear') {
+      setOutput([]);
+      return;
+    }
+
+    if (command === 'echo') {
+      const echoText = args.join(' ');
+      setOutput(prev => [...prev, { type: 'output', text: echoText || '' }, { type: 'info', text: '' }]);
+      return;
+    }
+
+    if (command === 'sudo') {
+      setOutput(prev => [...prev, { type: 'error', text: 'Nice try! But you don\'t have sudo privileges here 😉' }, { type: 'info', text: '' }]);
+      return;
+    }
+
+    if (command === 'ls') {
+      setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  experience/  education/  blog/  resume.pdf' }, { type: 'info', text: '' }]);
+      return;
+    }
+
+    if (command === 'whoami') {
+      setOutput(prev => [...prev, { type: 'output', text: 'visitor' }, { type: 'info', text: '' }]);
+      return;
+    }
+
+    if (command === 'pwd') {
+      setOutput(prev => [...prev, { type: 'output', text: '/home/visitor/portfolio' }, { type: 'info', text: '' }]);
+      return;
+    }
+
+    const terminalOutput = getTerminalOutput(command);
+    if (terminalOutput) {
+      setOutput(prev => [...prev, { type: 'output', text: terminalOutput }, { type: 'info', text: '' }]);
+    } else {
+      setOutput(prev => [...prev, { type: 'error', text: `Command not found: ${command}. Type 'help' for available commands.` }, { type: 'info', text: '' }]);
     }
   };
 
