@@ -10,7 +10,7 @@ const Home = () => {
         {/* Hero Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Intro Card */}
-          <div className="bg-[#1A1B26] border-2 border-teal-500 rounded-lg p-8 shadow-[0_0_30px_rgba(20,184,166,0.2)] hover:shadow-[0_0_40px_rgba(20,184,166,0.3)] transition-all duration-300">
+          <div className="bg-[#1A1B26] border-2 border-teal-500 rounded-lg p-8 transition-all duration-300">
             <div className="flex flex-col items-center text-center">
               {/* Pixelated Avatar */}
               <div className="w-40 h-40 mb-6 relative">
