@@ -144,7 +144,7 @@ const Terminal = () => {
   };
 
   return (
-    <div className="w-full h-full bg-[#0A0E27] border-4 border-pink-500 rounded-lg shadow-[0_0_30px_rgba(236,72,153,0.3)] overflow-hidden">
+    <div className="w-full h-full bg-[#0A0E27] border-4 border-pink-500 rounded-lg overflow-hidden">
       {/* Terminal Header */}
       <div className="bg-gradient-to-r from-pink-600 to-teal-600 px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
