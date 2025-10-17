@@ -1,8 +1,38 @@
-import React from 'react';
-import { profileData, skills } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { Code2, Wrench, Heart, Sparkles } from 'lucide-react';
+import { api } from '../services/api';
 
 const About = () => {
+  const [profileData, setProfileData] = useState(null);
+  const [skills, setSkills] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [profileRes, skillsRes] = await Promise.all([
+          api.getProfile(),
+          api.getSkills()
+        ]);
+        setProfileData(profileRes.data);
+        setSkills(skillsRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
@@ -22,7 +52,7 @@ const About = () => {
           </div>
           <div className="text-gray-300 leading-relaxed space-y-4">
             <p>
-              Hi there! I'm {profileData.name}, a computer science student with a passion for creating elegant solutions to complex problems. My journey into tech started with a curiosity about how video games work, which led me down the rabbit hole of programming.
+              Hi there! I'm {profileData?.name}, a computer science student with a passion for creating elegant solutions to complex problems. My journey into tech started with a curiosity about how video games work, which led me down the rabbit hole of programming.
             </p>
             <p>
               When I'm not coding, you'll find me creating pixel art, playing retro games (shoutout to all the classic RPGs!), or experimenting with new frameworks and technologies. I love the intersection of creativity and logic that programming provides.
@@ -42,8 +72,8 @@ const About = () => {
               <h3 className="text-xl font-bold font-mono text-teal-400">Languages</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.languages.map(lang => (
-                <span key={lang} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-all duration-200">
+              {skills?.languages?.map(lang => (
+                <span key={lang} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
                   {lang}
                 </span>
               ))}
@@ -57,8 +87,8 @@ const About = () => {
               <h3 className="text-xl font-bold font-mono text-pink-400">Frameworks</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.frameworks.map(framework => (
-                <span key={framework} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-all duration-200">
+              {skills?.frameworks?.map(framework => (
+                <span key={framework} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors">
                   {framework}
                 </span>
               ))}
@@ -72,8 +102,8 @@ const About = () => {
               <h3 className="text-xl font-bold font-mono text-teal-400">Tools & Technologies</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.tools.map(tool => (
-                <span key={tool} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-all duration-200">
+              {skills?.tools?.map(tool => (
+                <span key={tool} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
                   {tool}
                 </span>
               ))}
@@ -87,8 +117,8 @@ const About = () => {
               <h3 className="text-xl font-bold font-mono text-pink-400">Interests</h3>
             </div>
             <div className="flex flex-wrap gap-2">
-              {skills.interests.map(interest => (
-                <span key={interest} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-all duration-200">
+              {skills?.interests?.map(interest => (
+                <span key={interest} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors">
                   {interest}
                 </span>
               ))}

@@ -1,8 +1,33 @@
-import React from 'react';
-import { experience } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, Calendar, Code2 } from 'lucide-react';
+import { api } from '../services/api';
 
 const Experience = () => {
+  const [experience, setExperience] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchExperience = async () => {
+      try {
+        const response = await api.getExperience();
+        setExperience(response.data);
+      } catch (error) {
+        console.error('Error fetching experience:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchExperience();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
@@ -63,7 +88,7 @@ const Experience = () => {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {exp.technologies.map(tech => (
-                      <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 transition-all duration-200">
+                      <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 transition-colors">
                         {tech}
                       </span>
                     ))}

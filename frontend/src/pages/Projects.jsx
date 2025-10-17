@@ -1,9 +1,25 @@
-import React, { useState } from 'react';
-import { projects } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode } from 'lucide-react';
+import { api } from '../services/api';
 
 const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await api.getProjects();
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProjects();
+  }, []);
 
   const getProjectIcon = (imageType) => {
     switch(imageType) {
@@ -13,6 +29,14 @@ const Projects = () => {
       default: return Code2;
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
@@ -62,7 +86,7 @@ const Projects = () => {
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map(tech => (
-                        <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs hover:border-teal-500 transition-all duration-200">
+                        <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs hover:border-teal-500 transition-colors">
                           {tech}
                         </span>
                       ))}
@@ -102,8 +126,7 @@ const Projects = () => {
         <div className="mt-12 bg-[#1A1B26] border-2 border-pink-500/30 rounded-lg p-6 font-mono text-center">
           <p className="text-gray-400">
             <span className="text-teal-400">// </span>
-            Want to add more projects? Edit the data in 
-            <code className="text-pink-300 mx-1">/frontend/src/data/mock.js</code>
+            Projects are stored in MongoDB. Use the API to add/edit projects dynamically.
           </p>
         </div>
       </div>
