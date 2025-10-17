@@ -9,11 +9,11 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Copyright */}
           <div className="text-gray-400 font-mono text-sm">
-            <p className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               © {new Date().getFullYear()} {profileData.name}
               <span className="text-pink-400">•</span>
               Made with <Heart className="w-4 h-4 text-pink-400 inline" /> and lots of ☕
-            </p>
+            </div>
           </div>
 
           {/* Social Links */}
