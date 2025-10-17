@@ -20,7 +20,7 @@ const Footer = () => {
           <div className="flex gap-4">
             <a
               href={`mailto:${profileData.email}`}
-              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-200"
+              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"
               aria-label="Email"
             >
               <Mail className="w-5 h-5 text-pink-400" />
@@ -29,7 +29,7 @@ const Footer = () => {
               href={`https://${profileData.github}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 bg-[#1A1B26] border border-teal-500 rounded hover:bg-teal-500/10 hover:shadow-[0_0_15px_rgba(20,184,166,0.3)] transition-all duration-200"
+              className="p-2 bg-[#1A1B26] border border-teal-500 rounded hover:bg-teal-500/10 transition-all duration-200"
               aria-label="GitHub"
             >
               <Github className="w-5 h-5 text-teal-400" />
@@ -38,7 +38,7 @@ const Footer = () => {
               href={`https://${profileData.linkedin}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-200"
+              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5 text-pink-400" />

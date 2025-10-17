@@ -36,7 +36,7 @@ const Projects = () => {
                 onMouseLeave={() => setHoveredProject(null)}
                 className={`bg-[#1A1B26] border-2 ${
                   index % 2 === 0 ? 'border-pink-500' : 'border-teal-500'
-                } rounded-lg overflow-hidden shadow-[0_0_30px_rgba(236,72,153,0.2)] hover:shadow-[0_0_40px_rgba(20,184,166,0.3)] transition-all duration-300`}
+                } rounded-lg overflow-hidden transition-all duration-300`}
               >
                 {/* Project Icon/Image */}
                 <div className={`h-48 flex items-center justify-center ${
@@ -62,7 +62,7 @@ const Projects = () => {
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
                       {project.technologies.map(tech => (
-                        <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs hover:border-teal-500 hover:shadow-[0_0_10px_rgba(20,184,166,0.3)] transition-all duration-200">
+                        <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs hover:border-teal-500 transition-all duration-200">
                           {tech}
                         </span>
                       ))}
@@ -75,7 +75,7 @@ const Projects = () => {
                       href={`https://${project.github}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-pink-500 rounded-lg text-pink-400 font-mono text-sm hover:bg-pink-500/10 hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-200"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-pink-500 rounded-lg text-pink-400 font-mono text-sm hover:bg-pink-500/10 transition-all duration-200"
                     >
                       <Github className="w-4 h-4" />
                       Code
@@ -85,7 +85,7 @@ const Projects = () => {
                         href={`https://${project.demo}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-teal-500 rounded-lg text-teal-400 font-mono text-sm hover:bg-teal-500/10 hover:shadow-[0_0_15px_rgba(20,184,166,0.3)] transition-all duration-200"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-teal-500 rounded-lg text-teal-400 font-mono text-sm hover:bg-teal-500/10 transition-all duration-200"
                       >
                         <ExternalLink className="w-4 h-4" />
                         Demo

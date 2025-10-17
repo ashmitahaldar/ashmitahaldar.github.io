@@ -18,7 +18,7 @@ const Resume = () => {
           </h1>
           <button
             onClick={handleDownload}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-teal-600 text-white font-mono rounded-lg hover:shadow-[0_0_30px_rgba(236,72,153,0.4)] transition-all duration-300"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-teal-600 text-white font-mono rounded-lg transition-all duration-300"
           >
             <Download className="w-5 h-5" />
             Download PDF
@@ -26,7 +26,7 @@ const Resume = () => {
         </div>
 
         {/* Resume Content */}
-        <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg shadow-[0_0_30px_rgba(236,72,153,0.2)]">
+        <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg">
           {/* Header Section */}
           <div className="border-b-2 border-teal-500/30 p-8 text-center">
             <h2 className="text-4xl font-bold font-mono text-pink-400 mb-2">{profileData.name}</h2>

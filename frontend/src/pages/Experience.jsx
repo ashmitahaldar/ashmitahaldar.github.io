@@ -24,12 +24,12 @@ const Experience = () => {
             {experience.map((exp, index) => (
               <div key={exp.id} className="relative pl-20">
                 {/* Timeline Dot */}
-                <div className="absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full shadow-[0_0_15px_rgba(20,184,166,0.5)] z-10"></div>
+                <div className="absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full z-10"></div>
 
                 {/* Content Card */}
                 <div className={`bg-[#1A1B26] border-2 ${
                   index % 2 === 0 ? 'border-pink-500' : 'border-teal-500'
-                } rounded-lg p-6 shadow-[0_0_30px_rgba(236,72,153,0.2)] hover:shadow-[0_0_40px_rgba(20,184,166,0.3)] transition-all duration-300`}>
+                } rounded-lg p-6 transition-all duration-300`}>
                   {/* Header */}
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold font-mono text-pink-400 mb-2">
@@ -63,7 +63,7 @@ const Experience = () => {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {exp.technologies.map(tech => (
-                      <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 hover:shadow-[0_0_10px_rgba(236,72,153,0.3)] transition-all duration-200">
+                      <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 transition-all duration-200">
                         {tech}
                       </span>
                     ))}
