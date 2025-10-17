@@ -42,13 +42,13 @@ const Home = () => {
 
               {/* Social Links */}
               <div className="flex gap-4">
-                <a href={`mailto:${profileData.email}`} className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-200">
+                <a href={`mailto:${profileData.email}`} className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 transition-all duration-200">
                   <Mail className="w-5 h-5 text-pink-400" />
                 </a>
-                <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-teal-500 rounded-lg hover:bg-teal-500/10 hover:shadow-[0_0_15px_rgba(20,184,166,0.3)] transition-all duration-200">
+                <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-teal-500 rounded-lg hover:bg-teal-500/10 transition-all duration-200">
                   <Github className="w-5 h-5 text-teal-400" />
                 </a>
-                <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] transition-all duration-200">
+                <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 transition-all duration-200">
                   <Linkedin className="w-5 h-5 text-pink-400" />
                 </a>
               </div>
