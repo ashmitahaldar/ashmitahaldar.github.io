@@ -1,10 +1,26 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { blogPosts } from '../data/mock';
 import { Calendar, Tag, ArrowRight } from 'lucide-react';
+import { api } from '../services/api';
 
 const Blog = () => {
+  const [blogPosts, setBlogPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState('All');
+
+  useEffect(() => {
+    const fetchBlogPosts = async () => {
+      try {
+        const response = await api.getBlogPosts();
+        setBlogPosts(response.data);
+      } catch (error) {
+        console.error('Error fetching blog posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogPosts();
+  }, []);
 
   // Get all unique tags
   const allTags = useMemo(() => {
@@ -13,13 +29,21 @@ const Blog = () => {
       post.tags.forEach(tag => tags.add(tag));
     });
     return ['All', ...Array.from(tags)];
-  }, []);
+  }, [blogPosts]);
 
   // Filter posts by selected tag
   const filteredPosts = useMemo(() => {
     if (selectedTag === 'All') return blogPosts;
     return blogPosts.filter(post => post.tags.includes(selectedTag));
-  }, [selectedTag]);
+  }, [selectedTag, blogPosts]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
@@ -111,8 +135,7 @@ const Blog = () => {
         <div className="mt-12 bg-[#1A1B26] border-2 border-pink-500/30 rounded-lg p-6 font-mono text-center">
           <p className="text-gray-400">
             <span className="text-teal-400">// </span>
-            Want to add blog posts? Edit the markdown content in 
-            <code className="text-pink-300 mx-1">/frontend/src/data/mock.js</code>
+            Blog posts are stored in MongoDB. Use the API to add/edit posts dynamically.
           </p>
         </div>
       </div>

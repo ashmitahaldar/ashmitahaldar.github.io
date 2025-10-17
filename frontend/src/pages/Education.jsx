@@ -1,8 +1,33 @@
-import React from 'react';
-import { education } from '../data/mock';
+import React, { useState, useEffect } from 'react';
 import { GraduationCap, MapPin, Calendar, BookOpen } from 'lucide-react';
+import { api } from '../services/api';
 
 const Education = () => {
+  const [education, setEducation] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchEducation = async () => {
+      try {
+        const response = await api.getEducation();
+        setEducation(response.data);
+      } catch (error) {
+        console.error('Error fetching education:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEducation();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">

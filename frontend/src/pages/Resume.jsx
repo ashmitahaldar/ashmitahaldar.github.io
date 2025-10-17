@@ -1,12 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Download, Github, Linkedin, Mail } from 'lucide-react';
-import { profileData, skills, experience, education } from '../data/mock';
+import { api } from '../services/api';
 
 const Resume = () => {
+  const [profileData, setProfileData] = useState(null);
+  const [skills, setSkills] = useState(null);
+  const [experience, setExperience] = useState([]);
+  const [education, setEducation] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [profileRes, skillsRes, expRes, eduRes] = await Promise.all([
+          api.getProfile(),
+          api.getSkills(),
+          api.getExperience(),
+          api.getEducation()
+        ]);
+        setProfileData(profileRes.data);
+        setSkills(skillsRes.data);
+        setExperience(expRes.data);
+        setEducation(eduRes.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleDownload = () => {
     // Placeholder for PDF download
     alert('PDF download functionality - Add your resume PDF to /public/resume.pdf');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
+        <div className="text-pink-400 font-mono">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
@@ -29,20 +65,20 @@ const Resume = () => {
         <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg">
           {/* Header Section */}
           <div className="border-b-2 border-teal-500/30 p-8 text-center">
-            <h2 className="text-4xl font-bold font-mono text-pink-400 mb-2">{profileData.name}</h2>
-            <p className="text-xl text-teal-400 font-mono mb-4">{profileData.title}</p>
+            <h2 className="text-4xl font-bold font-mono text-pink-400 mb-2">{profileData?.name}</h2>
+            <p className="text-xl text-teal-400 font-mono mb-4">{profileData?.title}</p>
             <div className="flex justify-center gap-6 text-sm">
-              <span className="text-gray-400 font-mono">{profileData.email}</span>
-              <span className="text-gray-400 font-mono">{profileData.location}</span>
+              <span className="text-gray-400 font-mono">{profileData?.email}</span>
+              <span className="text-gray-400 font-mono">{profileData?.location}</span>
             </div>
             <div className="flex justify-center gap-4 mt-4">
-              <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors">
+              <a href={`https://${profileData?.github}`} target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors">
                 <Github className="w-5 h-5" />
               </a>
-              <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:text-pink-300 transition-colors">
+              <a href={`https://${profileData?.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:text-pink-300 transition-colors">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href={`mailto:${profileData.email}`} className="text-teal-400 hover:text-teal-300 transition-colors">
+              <a href={`mailto:${profileData?.email}`} className="text-teal-400 hover:text-teal-300 transition-colors">
                 <Mail className="w-5 h-5" />
               </a>
             </div>
@@ -103,19 +139,19 @@ const Resume = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <h4 className="text-pink-400 font-mono mb-2">Languages:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills.languages.join(', ')}</p>
+                <p className="text-gray-300 font-mono text-sm">{skills?.languages?.join(', ')}</p>
               </div>
               <div>
                 <h4 className="text-pink-400 font-mono mb-2">Frameworks:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills.frameworks.join(', ')}</p>
+                <p className="text-gray-300 font-mono text-sm">{skills?.frameworks?.join(', ')}</p>
               </div>
               <div>
                 <h4 className="text-pink-400 font-mono mb-2">Tools:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills.tools.join(', ')}</p>
+                <p className="text-gray-300 font-mono text-sm">{skills?.tools?.join(', ')}</p>
               </div>
               <div>
                 <h4 className="text-pink-400 font-mono mb-2">Interests:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills.interests.join(', ')}</p>
+                <p className="text-gray-300 font-mono text-sm">{skills?.interests?.join(', ')}</p>
               </div>
             </div>
           </div>
