@@ -56,7 +56,13 @@ export const education = [
     location: "San Francisco, CA",
     period: "2022 - 2026 (Expected)",
     gpa: "3.8/4.0",
-    relevant: ["Data Structures", "Algorithms", "Web Development", "Database Systems", "Machine Learning", "Software Engineering"]
+    relevant: ["Data Structures", "Algorithms", "Web Development", "Database Systems", "Machine Learning", "Software Engineering"],
+    description: [
+      "Dean's List for 4 consecutive semesters",
+      "Member of Women in Computer Science club",
+      "Led team project building a social networking app for students",
+      "Participated in hackathons and coding competitions"
+    ]
   },
   {
     id: "edu2",
@@ -65,7 +71,12 @@ export const education = [
     location: "San Francisco, CA",
     period: "2018 - 2022",
     gpa: "4.0/4.0",
-    relevant: ["AP Computer Science", "AP Calculus", "Physics"]
+    relevant: ["AP Computer Science", "AP Calculus", "Physics"],
+    description: [
+      "Valedictorian of graduating class",
+      "Founded coding club with 50+ members",
+      "Won first place in regional science fair for AI project"
+    ]
   }
 ];
 

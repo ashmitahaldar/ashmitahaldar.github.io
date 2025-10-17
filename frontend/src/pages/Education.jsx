@@ -19,7 +19,7 @@ const Education = () => {
           {education.map((edu, index) => (
             <div key={edu.id} className={`bg-[#1A1B26] border-2 ${
               index % 2 === 0 ? 'border-teal-500' : 'border-pink-500'
-            } rounded-lg p-8 shadow-[0_0_30px_rgba(20,184,166,0.2)] hover:shadow-[0_0_40px_rgba(236,72,153,0.3)] transition-all duration-300`}>
+            } rounded-lg p-8 transition-all duration-300`}>
               {/* Icon & Degree */}
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg">
@@ -53,6 +53,23 @@ const Education = () => {
                 </span>
               </div>
 
+              {/* Description/Highlights */}
+              {edu.description && edu.description.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="text-lg font-mono text-pink-400 mb-2 flex items-center gap-2">
+                    <span>•</span> Highlights:
+                  </h4>
+                  <ul className="space-y-1 text-gray-300">
+                    {edu.description.map((item, idx) => (
+                      <li key={idx} className="font-mono text-sm flex items-start gap-2">
+                        <span className="text-teal-400 mt-1">▸</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               {/* Relevant Coursework */}
               <div>
                 <h4 className="text-lg font-mono text-teal-400 mb-3 flex items-center gap-2">
@@ -60,7 +77,7 @@ const Education = () => {
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {edu.relevant.map(course => (
-                    <span key={course} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 hover:shadow-[0_0_10px_rgba(236,72,153,0.3)] transition-all duration-200">
+                    <span key={course} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
                       {course}
                     </span>
                   ))}

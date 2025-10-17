@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, FileText, BookOpen } from 'lucide-react';
+import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, FileText, BookOpen, Menu, X } from 'lucide-react';
 
 const TerminalNav = () => {
   const location = useLocation();
   const [hovered, setHovered] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
@@ -17,7 +18,7 @@ const TerminalNav = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0E27]/95 backdrop-blur-sm border-b-2 border-pink-500 shadow-[0_0_20px_rgba(236,72,153,0.2)]">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0E27]/95 backdrop-blur-sm border-b-2 border-pink-500">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -26,8 +27,8 @@ const TerminalNav = () => {
             <span className="font-mono text-lg font-bold">$portfolio</span>
           </Link>
 
-          {/* Nav Items */}
-          <div className="flex items-center gap-1">
+          {/* Desktop Nav Items */}
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
@@ -37,7 +38,7 @@ const TerminalNav = () => {
                   to={item.path}
                   onMouseEnter={() => setHovered(item.path)}
                   onMouseLeave={() => setHovered(null)}
-                  className={`relative px-4 py-2 font-mono text-sm flex items-center gap-2 transition-all duration-200 ${
+                  className={`relative px-4 py-2 font-mono text-sm flex items-center gap-2 transition-colors ${
                     isActive 
                       ? 'text-teal-400' 
                       : 'text-pink-300 hover:text-pink-400'
@@ -55,7 +56,40 @@ const TerminalNav = () => {
               );
             })}
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 text-pink-400 hover:text-teal-400 transition-colors"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t-2 border-teal-500/30 bg-[#1A1B26] py-2">
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-3 font-mono text-sm transition-colors ${
+                    isActive 
+                      ? 'text-teal-400 bg-teal-500/10 border-l-4 border-teal-500' 
+                      : 'text-pink-300 hover:text-pink-400 hover:bg-pink-500/5'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </nav>
   );

@@ -37,7 +37,7 @@ const BlogPost = () => {
         </button>
 
         {/* Post Header */}
-        <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg p-8 mb-8 shadow-[0_0_30px_rgba(236,72,153,0.2)]">
+        <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg p-8 mb-8">
           <h1 className="text-4xl font-bold font-mono text-pink-400 mb-4">
             {post.title}
           </h1>
@@ -60,12 +60,12 @@ const BlogPost = () => {
           </div>
         </div>
 
-        {/* Post Content */}
-        <div className="bg-[#1A1B26] border-2 border-teal-500 rounded-lg p-8 shadow-[0_0_30px_rgba(20,184,166,0.2)]">
-          <div className="prose prose-invert max-w-none">
-            <div className="text-gray-300 whitespace-pre-wrap leading-relaxed">
+        {/* Post Content - Raw Markdown */}
+        <div className="bg-[#1A1B26] border-2 border-teal-500 rounded-lg p-8">
+          <div className="font-mono text-sm">
+            <pre className="text-gray-300 whitespace-pre-wrap leading-relaxed overflow-x-auto">
               {post.content}
-            </div>
+            </pre>
           </div>
         </div>
       </div>
