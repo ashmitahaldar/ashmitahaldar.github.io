@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Briefcase, MapPin, Calendar, Code2 } from 'lucide-react';
+import { Briefcase, MapPin, Calendar, Code2, Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
+import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Experience = () => {
   const [experience, setExperience] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Experience', 100);
+  const { displayedText: typedSubtitle } = useTypingEffect('cat ~/.work/timeline.log', 50, 1000);
 
   useEffect(() => {
     const fetchExperience = async () => {
@@ -26,18 +31,37 @@ const Experience = () => {
         <div className="text-pink-400 font-mono">Loading...</div>
       </div>
     );
+  } else if (experience.length === 0) {
+    return (
+      <PixelCard className="text-center py-20">
+          <Briefcase className="w-16 h-16 mx-auto mb-4 text-pink-400/50" />
+          <p className="text-xl text-pink-400/70">No experience records found.</p>
+      </PixelCard>
+    );
   }
 
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-            &gt; Experience_
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
+            <Terminal className="w-8 h-8 text-teal-400" />
+            <span>
+              {typedTitle}
+              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+            </span>
           </h1>
-          <p className="text-gray-400 font-mono">// My professional journey</p>
-        </div>
+          <p className="font-mono min-h-[24px]">
+            <span className="text-pink-300">$ </span>
+            <span className="text-teal-400">{typedSubtitle}</span>
+          </p>
+        </motion.div>
 
         {/* Timeline */}
         <div className="relative">
@@ -52,9 +76,7 @@ const Experience = () => {
                 <div className="absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full z-10"></div>
 
                 {/* Content Card */}
-                <div className={`bg-[#1A1B26] border-2 ${
-                  index % 2 === 0 ? 'border-pink-500' : 'border-teal-500'
-                } rounded-lg p-6 transition-all duration-300`}>
+                <PixelCard className="rounded-lg p-6">
                   {/* Header */}
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold font-mono text-pink-400 mb-2">
@@ -93,11 +115,20 @@ const Experience = () => {
                       </span>
                     ))}
                   </div>
-                </div>
+                </PixelCard>
               </div>
             ))}
           </div>
         </div>
+        {/* Command Tip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-12 text-center text-sm text-pink-400/50"
+        >
+          <p>ACHIEVEMENT UNLOCKED: Professional career journey documented!</p>
+        </motion.div>
       </div>
     </div>
   );

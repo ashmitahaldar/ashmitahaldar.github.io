@@ -24,7 +24,7 @@ const TerminalNav = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 text-pink-400 hover:text-teal-400 transition-colors">
             <Terminal className="w-6 h-6" />
-            <span className="font-mono text-lg font-bold">$portfolio</span>
+            <span className="font-mono text-lg font-bold">ashmita.haldar</span>
           </Link>
 
           {/* Desktop Nav Items */}

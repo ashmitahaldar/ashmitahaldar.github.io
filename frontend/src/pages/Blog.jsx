@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Calendar, Tag, ArrowRight } from 'lucide-react';
+import { Calendar, Tag, ArrowRight, Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
+import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState('All');
+  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Blog', 100);
+  const { displayedText: typedSubtitle } = useTypingEffect('tail -f ~/thoughts/blog.log', 50, 1000);
 
   useEffect(() => {
     const fetchBlogPosts = async () => {
@@ -49,12 +54,24 @@ const Blog = () => {
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-            &gt; Blog_
+        <motion.div 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
+            <Terminal className="w-8 h-8 text-teal-400" />
+            <span>
+              {typedTitle}
+              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+            </span>
           </h1>
-          <p className="text-gray-400 font-mono">// Thoughts, tutorials, and musings</p>
-        </div>
+          <p className="text-gray-400 font-mono min-h-[24px]">
+            <span className="text-pink-300">$ </span>
+            <span className="text-teal-400">{typedSubtitle}</span>
+          </p>
+        </motion.div>
 
         {/* Tag Filter */}
         <div className="mb-8">
@@ -87,13 +104,8 @@ const Blog = () => {
         ) : (
           <div className="space-y-6">
             {filteredPosts.map((post, index) => (
-              <Link
-                key={post.id}
-                to={`/blog/${post.id}`}
-                className={`block bg-[#1A1B26] border-2 ${
-                  index % 2 === 0 ? 'border-pink-500' : 'border-teal-500'
-                } rounded-lg p-6 transition-all duration-300 group hover:border-teal-400`}
-              >
+              <Link key={post.id} to={`/blog/${post.id}`} className="block group">
+                <PixelCard className="rounded-lg p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
                     <h2 className="text-2xl font-bold font-mono text-pink-400 mb-3 group-hover:text-teal-400 transition-colors">
@@ -126,18 +138,11 @@ const Blog = () => {
                     <ArrowRight className="w-6 h-6" />
                   </div>
                 </div>
+                </PixelCard>
               </Link>
             ))}
           </div>
         )}
-
-        {/* Add Post Note */}
-        <div className="mt-12 bg-[#1A1B26] border-2 border-pink-500/30 rounded-lg p-6 font-mono text-center">
-          <p className="text-gray-400">
-            <span className="text-teal-400">// </span>
-            Blog posts are stored in MongoDB. Use the API to add/edit posts dynamically.
-          </p>
-        </div>
       </div>
     </div>
   );

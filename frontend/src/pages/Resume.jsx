@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Github, Linkedin, Mail } from 'lucide-react';
+import { Download, Github, Linkedin, Mail, Terminal } from 'lucide-react';
+import { useTypingEffect } from '../hooks/useTypingEffect';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
 
 const Resume = () => {
@@ -8,6 +10,7 @@ const Resume = () => {
   const [experience, setExperience] = useState([]);
   const [education, setEducation] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Resume', 100);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,8 +52,12 @@ const Resume = () => {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-            &gt; Resume_
+          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
+            <Terminal className="w-8 h-8 text-teal-400" />
+            <span>
+              {typedTitle}
+              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+            </span>
           </h1>
           <button
             onClick={handleDownload}
@@ -62,7 +69,7 @@ const Resume = () => {
         </div>
 
         {/* Resume Content */}
-        <div className="bg-[#1A1B26] border-2 border-pink-500 rounded-lg">
+        <PixelCard className="rounded-lg">
           {/* Header Section */}
           <div className="border-b-2 border-teal-500/30 p-8 text-center">
             <h2 className="text-4xl font-bold font-mono text-pink-400 mb-2">{profileData?.name}</h2>
@@ -155,7 +162,7 @@ const Resume = () => {
               </div>
             </div>
           </div>
-        </div>
+        </PixelCard>
       </div>
     </div>
   );

@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode } from 'lucide-react';
+import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode, Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
+import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
+  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Projects', 100);
+  const { displayedText: typedSubtitle } = useTypingEffect("ls -la ~/projects/ | grep awesome", 50, 1000);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -42,25 +47,35 @@ const Projects = () => {
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-            &gt; Projects_
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
+            <Terminal className="w-8 h-8 text-teal-400" />
+            <span>
+              {typedTitle}
+              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+            </span>
           </h1>
-          <p className="text-gray-400 font-mono">// Things I've built</p>
-        </div>
+          <p className="text-gray-400 font-mono min-h-[24px]">
+            <span className="text-pink-300">$ </span>
+            <span className="text-teal-400">{typedSubtitle}</span>
+          </p>
+        </motion.div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => {
             const Icon = getProjectIcon(project.image);
             return (
-              <div
+              <PixelCard
                 key={project.id}
                 onMouseEnter={() => setHoveredProject(project.id)}
                 onMouseLeave={() => setHoveredProject(null)}
-                className={`bg-[#1A1B26] border-2 ${
-                  index % 2 === 0 ? 'border-pink-500' : 'border-teal-500'
-                } rounded-lg overflow-hidden transition-all duration-300`}
+                className="overflow-hidden"
               >
                 {/* Project Icon/Image */}
                 <div className={`h-48 flex items-center justify-center ${
@@ -117,7 +132,7 @@ const Projects = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </PixelCard>
             );
           })}
         </div>

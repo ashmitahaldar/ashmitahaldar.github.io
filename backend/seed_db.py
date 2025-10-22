@@ -1,5 +1,4 @@
-import asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
+from supabase import create_client, Client
 import os
 from dotenv import load_dotenv
 from pathlib import Path
@@ -7,35 +6,34 @@ from pathlib import Path
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+supabase_url = os.environ['SUPABASE_URL']
+supabase_key = os.environ['SUPABASE_KEY']
+supabase: Client = create_client(supabase_url, supabase_key)
 
-async def seed_database():
+def seed_database():
     print("Seeding database...")
-    
     # Clear existing data
-    await db.profile.delete_many({})
-    await db.skills.delete_many({})
-    await db.experience.delete_many({})
-    await db.education.delete_many({})
-    await db.projects.delete_many({})
-    await db.blog.delete_many({})
-    
+    # Clear tables with UUID id columns
+    for table in ["profile", "skills"]:
+        supabase.table(table).delete().not_.is_("id", None).execute()
+    # Clear tables with text id columns
+    for table in ["experience", "education", "projects", "blog"]:
+        supabase.table(table).delete().gte("id", "").execute()
+
     # Insert profile
     profile = {
-        "name": "Alex Chen",
-        "title": "Computer Science Student",
+        "name": "Ashmita Haldar",
+        "title": "Computer Science + Entrepreneurship @ NUS",
         "tagline": "// building the future, one line at a time",
-        "bio": "Passionate CS student who loves merging creativity with code. When I'm not debugging, you'll find me exploring pixel art, playing retro games, or experimenting with new tech.",
-        "email": "alex.chen@example.com",
-        "github": "github.com/alexchen",
-        "linkedin": "linkedin.com/in/alexchen",
-        "location": "San Francisco, CA"
+        "bio": "Passionate CS student who loves merging creativity with tech and impact.",
+        "email": "ashmita.haldar@u.nus.edu",
+        "github": "github.com/ashmitahaldar",
+        "linkedin": "linkedin.com/in/ashmita-haldar",
+        "location": "Singapore | India"
     }
-    await db.profile.insert_one(profile)
+    supabase.table("profile").insert(profile).execute()
     print("✓ Profile seeded")
-    
+
     # Insert skills
     skills = {
         "languages": ["Python", "JavaScript", "Java", "C++", "TypeScript", "SQL"],
@@ -43,9 +41,9 @@ async def seed_database():
         "tools": ["Git", "Docker", "MongoDB", "PostgreSQL", "VS Code"],
         "interests": ["AI/ML", "Web Development", "Game Development", "UI/UX Design"]
     }
-    await db.skills.insert_one(skills)
+    supabase.table("skills").insert(skills).execute()
     print("✓ Skills seeded")
-    
+
     # Insert experience
     experiences = [
         {
@@ -76,9 +74,10 @@ async def seed_database():
             "technologies": ["Python", "Java", "Git"]
         }
     ]
-    await db.experience.insert_many(experiences)
+    for exp in experiences:
+        supabase.table("experience").insert(exp).execute()
     print("✓ Experience seeded")
-    
+
     # Insert education
     education = [
         {
@@ -111,9 +110,10 @@ async def seed_database():
             ]
         }
     ]
-    await db.education.insert_many(education)
+    for edu in education:
+        supabase.table("education").insert(edu).execute()
     print("✓ Education seeded")
-    
+
     # Insert projects
     projects = [
         {
@@ -153,9 +153,10 @@ async def seed_database():
             "image": "code"
         }
     ]
-    await db.projects.insert_many(projects)
+    for proj in projects:
+        supabase.table("projects").insert(proj).execute()
     print("✓ Projects seeded")
-    
+
     # Insert blog posts
     blog_posts = [
         {
@@ -163,23 +164,7 @@ async def seed_database():
             "title": "Building My First Game Engine",
             "date": "2024-12-15",
             "excerpt": "A journey into low-level programming and game development. Lessons learned from building a 2D game engine from scratch.",
-            "content": """# Building My First Game Engine
-
-When I started learning game development, I was fascinated by how games actually work under the hood...
-
-## The Beginning
-
-I decided to build a simple 2D game engine using C++ and SDL2. The goal was to understand the fundamentals...
-
-## Key Learnings
-
-1. **Entity Component Systems** - Managing game objects efficiently
-2. **Render Pipeline** - Understanding how graphics are drawn
-3. **Physics Integration** - Implementing collision detection
-
-## Conclusion
-
-Building a game engine taught me more about programming than any tutorial could. Highly recommend it!""",
+            "content": """# Building My First Game Engine\n\nWhen I started learning game development, I was fascinated by how games actually work under the hood...\n\n## The Beginning\n\nI decided to build a simple 2D game engine using C++ and SDL2. The goal was to understand the fundamentals...\n\n## Key Learnings\n\n1. **Entity Component Systems** - Managing game objects efficiently\n2. **Render Pipeline** - Understanding how graphics are drawn\n3. **Physics Integration** - Implementing collision detection\n\n## Conclusion\n\nBuilding a game engine taught me more about programming than any tutorial could. Highly recommend it!""",
             "tags": ["Game Development", "C++", "Tutorial"]
         },
         {
@@ -187,22 +172,7 @@ Building a game engine taught me more about programming than any tutorial could.
             "title": "Why I Love Terminal UIs",
             "date": "2024-11-22",
             "excerpt": "Exploring the beauty of command-line interfaces and why they're making a comeback in modern applications.",
-            "content": """# Why I Love Terminal UIs
-
-There's something special about terminal interfaces. They're minimal, efficient, and timeless...
-
-## The Aesthetic
-
-Terminal UIs have a unique charm. The monospace fonts, the blinking cursor, the immediate feedback...
-
-## Modern Applications
-
-Many modern apps are bringing back the terminal aesthetic:
-- VS Code's integrated terminal
-- Discord's developer tools
-- Web-based terminal emulators
-
-The future is retro!""",
+            "content": """# Why I Love Terminal UIs\n\nThere's something special about terminal interfaces. They're minimal, efficient, and timeless...\n\n## The Aesthetic\n\nTerminal UIs have a unique charm. The monospace fonts, the blinking cursor, the immediate feedback...\n\n## Modern Applications\n\nMany modern apps are bringing back the terminal aesthetic:\n- VS Code's integrated terminal\n- Discord's developer tools\n- Web-based terminal emulators\n\nThe future is retro!""",
             "tags": ["UI/UX", "Design", "Opinion"]
         },
         {
@@ -210,29 +180,15 @@ The future is retro!""",
             "title": "My Journey into Machine Learning",
             "date": "2024-10-08",
             "excerpt": "From confusion to confidence: how I learned ML fundamentals and built my first neural network.",
-            "content": """# My Journey into Machine Learning
-
-Machine Learning seemed intimidating at first, but breaking it down made it approachable...
-
-## Starting Simple
-
-I began with linear regression and gradually worked my way up to neural networks...
-
-## Resources That Helped
-
-- Andrew Ng's ML course
-- Hands-on projects
-- Kaggle competitions
-
-The key is to start coding as soon as possible!""",
+            "content": """# My Journey into Machine Learning\n\nMachine Learning seemed intimidating at first, but breaking it down made it approachable...\n\n## Starting Simple\n\nI began with linear regression and gradually worked my way up to neural networks...\n\n## Resources That Helped\n\n- Andrew Ng's ML course\n- Hands-on projects\n- Kaggle competitions\n\nThe key is to start coding as soon as possible!""",
             "tags": ["Machine Learning", "AI", "Learning"]
         }
     ]
-    await db.blog.insert_many(blog_posts)
+    for post in blog_posts:
+        supabase.table("blog").insert(post).execute()
     print("✓ Blog posts seeded")
-    
+
     print("\n✅ Database seeded successfully!")
-    client.close()
 
 if __name__ == "__main__":
-    asyncio.run(seed_database())
+    seed_database()

@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Terminal from '../components/Terminal';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
+import { useTypingEffect } from '../hooks/useTypingEffect';
+import Spline from '@splinetool/react-spline';
 
 const Home = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [splineLoading, setSplineLoading] = useState(true);
+  
+  const { displayedText: typedName, isComplete: nameComplete } = useTypingEffect(
+    profileData?.name || '',
+    100,
+    1000
+  );
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -40,10 +51,10 @@ const Home = () => {
   return (
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Intro Card */}
-          <div className="bg-[#1A1B26] border-2 border-teal-500 rounded-lg p-8 transition-all duration-300">
+        {/* Top Section: Profile Card & Spline Side by Side */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {/* Profile Card */}
+          <PixelCard className="rounded-lg p-8 transition-all duration-300 h-full flex items-center justify-center">
             <div className="flex flex-col items-center text-center">
               {/* Pixelated Avatar */}
               <div className="w-40 h-40 mb-6 relative">
@@ -56,9 +67,15 @@ const Home = () => {
               </div>
 
               {/* Name & Title */}
-              <h1 className="text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-                {profileData.name}
-              </h1>
+              <motion.h1 
+                className="text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {typedName}
+                {!nameComplete && <span className="text-teal-400 animate-pulse">_</span>}
+              </motion.h1>
               <p className="text-teal-400 font-mono text-lg mb-2">{profileData.title}</p>
               <p className="text-pink-300 font-mono text-sm mb-6">{profileData.tagline}</p>
 
@@ -86,16 +103,29 @@ const Home = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </PixelCard>
 
-          {/* Terminal */}
-          <div>
-            <Terminal profileData={profileData} />
+          {/* Spline Model */}
+          <div className="flex items-center justify-center h-full min-h-[400px] relative">
+            {splineLoading && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-pink-400 font-mono">Loading...</div>
+              </div>
+            )}
+            <Spline
+              scene="https://prod.spline.design/PZ-RH4uPUyHnb9mI/scene.splinecode"
+              onLoad={() => setSplineLoading(false)}
+            />
           </div>
         </div>
 
+        {/* Terminal Below */}
+        <div className="mb-12">
+          <Terminal profileData={profileData} />
+        </div>
+
         {/* Usage Hint */}
-        <div className="bg-[#1A1B26] border-2 border-pink-500/30 rounded-lg p-6 font-mono text-sm">
+        <PixelCard className="rounded-lg p-6 font-mono text-sm">
           <div className="flex items-start gap-3">
             <span className="text-teal-400 text-2xl">💡</span>
             <div>
@@ -108,7 +138,7 @@ const Home = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </PixelCard>
       </div>
     </div>
   );

@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { GraduationCap, MapPin, Calendar, BookOpen } from 'lucide-react';
+import { GraduationCap, MapPin, Calendar, BookOpen, Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
+import PixelCard from '../components/PixelCard';
 import { api } from '../services/api';
+import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Education = () => {
   const [education, setEducation] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Education', 100);
+  const { displayedText: typedSubtitle } = useTypingEffect('cat ~/.education/achievements.log', 50, 1000);
 
   useEffect(() => {
     const fetchEducation = async () => {
@@ -32,19 +37,29 @@ const Education = () => {
     <div className="min-h-screen pt-20 pb-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent">
-            &gt; Education_
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
+            <Terminal className="w-8 h-8 text-teal-400" />
+            <span>
+              {typedTitle}
+              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+            </span>
           </h1>
-          <p className="text-gray-400 font-mono">// Academic background</p>
-        </div>
+          <p className="text-gray-400 font-mono min-h-[24px]">
+            <span className="text-pink-300">$ </span>
+            <span className="text-teal-400">{typedSubtitle}</span>
+          </p>
+        </motion.div>
 
         {/* Education Items */}
         <div className="space-y-8">
           {education.map((edu, index) => (
-            <div key={edu.id} className={`bg-[#1A1B26] border-2 ${
-              index % 2 === 0 ? 'border-teal-500' : 'border-pink-500'
-            } rounded-lg p-8 transition-all duration-300`}>
+            <PixelCard key={edu.id} className="rounded-lg p-8">
               {/* Icon & Degree */}
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg">
@@ -108,9 +123,18 @@ const Education = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </PixelCard>
           ))}
         </div>
+        {/* Command Tip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mt-12 text-center text-sm text-pink-400/50"
+        >
+          <p>LEVEL UP: Continuous learning achievement unlocked!</p>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail, Heart } from 'lucide-react';
-import { profileData } from '../data/mock';
+import { api } from '../services/api';
 
 const Footer = () => {
+  const [profileData, setProfileData] = useState(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.getProfile();
+        setProfileData(res.data);
+      } catch (err) {
+        console.error('Error fetching profile for footer:', err);
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <footer className="bg-[#0A0E27] border-t-2 border-pink-500 py-8 mt-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -10,14 +24,15 @@ const Footer = () => {
           {/* Copyright */}
           <div className="text-gray-400 font-mono text-sm">
             <div className="flex items-center gap-2">
-              © {new Date().getFullYear()} {profileData.name}
+              © {new Date().getFullYear()} {profileData?.name || ''}
               <span className="text-pink-400">•</span>
-              Made with <Heart className="w-4 h-4 text-pink-400 inline" /> and lots of ☕
+              Made with <Heart className="w-4 h-4 text-pink-400 inline" />
             </div>
           </div>
 
           {/* Social Links */}
           <div className="flex gap-4">
+            {profileData?.email && (
             <a
               href={`mailto:${profileData.email}`}
               className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"
@@ -25,6 +40,8 @@ const Footer = () => {
             >
               <Mail className="w-5 h-5 text-pink-400" />
             </a>
+            )}
+            {profileData?.github && (
             <a
               href={`https://${profileData.github}`}
               target="_blank"
@@ -34,6 +51,8 @@ const Footer = () => {
             >
               <Github className="w-5 h-5 text-teal-400" />
             </a>
+            )}
+            {profileData?.linkedin && (
             <a
               href={`https://${profileData.linkedin}`}
               target="_blank"
@@ -43,6 +62,7 @@ const Footer = () => {
             >
               <Linkedin className="w-5 h-5 text-pink-400" />
             </a>
+            )}
           </div>
         </div>
 
@@ -50,7 +70,7 @@ const Footer = () => {
         <div className="text-center mt-6">
           <p className="text-gray-500 font-mono text-xs">
             <span className="text-teal-400">// </span>
-            Powered by retro vibes and pixel dreams 👾
+            Website design inspired by command line interfaces and terminal aesthetics.
           </p>
         </div>
       </div>
