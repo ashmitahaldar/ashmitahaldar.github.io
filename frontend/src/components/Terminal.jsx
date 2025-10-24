@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { useSnakeGame } from '../hooks/useSnakeGame';
 
 const Terminal = ({ profileData }) => {
   const [input, setInput] = useState('');
@@ -16,6 +17,7 @@ const Terminal = ({ profileData }) => {
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [skills, setSkills] = useState(null);
+  const { gameState, startGame, changeDirection, endGame, renderGame } = useSnakeGame();
   const inputRef = useRef(null);
   const outputRef = useRef(null);
   const navigate = useNavigate();
@@ -49,6 +51,7 @@ const Terminal = ({ profileData }) => {
   projects       - View my projects
   skills         - Display my technical skills
   contact        - Get my contact information
+  snake          - Play Snake game!
   clear          - Clear the terminal
   echo <text>    - Echo back the text
 
@@ -150,6 +153,12 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
       return;
     }
 
+    if (command === 'snake') {
+      setOutput(prev => [...prev, { type: 'success', text: 'Starting Snake game... Use WASD or Arrow keys to play!' }, { type: 'info', text: '' }]);
+      setTimeout(() => startGame(), 100);
+      return;
+    }
+
     if (command === 'echo') {
       const echoText = args.join(' ');
       setOutput(prev => [...prev, { type: 'output', text: echoText || '' }, { type: 'info', text: '' }]);
@@ -185,6 +194,37 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
   };
 
   const handleKeyDown = (e) => {
+    // Handle Snake game controls
+    if (gameState && !gameState.gameOver) {
+      if (e.key === 'Escape') {
+        endGame();
+        setOutput(prev => [...prev, { type: 'info', text: 'Game exited.' }, { type: 'info', text: '' }]);
+        return;
+      }
+
+      const directionMap = {
+        'ArrowUp': 'UP', 'w': 'UP', 'W': 'UP',
+        'ArrowDown': 'DOWN', 's': 'DOWN', 'S': 'DOWN',
+        'ArrowLeft': 'LEFT', 'a': 'LEFT', 'A': 'LEFT',
+        'ArrowRight': 'RIGHT', 'd': 'RIGHT', 'D': 'RIGHT'
+      };
+
+      const newDirection = directionMap[e.key];
+      if (newDirection) {
+        e.preventDefault();
+        changeDirection(newDirection);
+        return;
+      }
+    }
+
+    // Exit game if game over
+    if (gameState && gameState.gameOver && e.key === 'Escape') {
+      const finalScore = gameState.score;
+      endGame();
+      setOutput(prev => [...prev, { type: 'info', text: `Final Score: ${finalScore}` }, { type: 'info', text: '' }]);
+      return;
+    }
+
     if (e.key === 'Enter') {
       handleCommand(input);
       setInput('');
@@ -238,29 +278,50 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
         ref={outputRef}
         className="p-4 h-[450px] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
         onClick={() => inputRef.current?.focus()}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
       >
+        {/* Snake Game */}
+        {gameState && (
+          <div className="text-green-400 whitespace-pre mb-4">
+            {renderGame()}
+          </div>
+        )}
+
         {/* Output */}
-        {output.map((line, index) => (
+        {!gameState && output.map((line, index) => (
           <div key={index} className={`${getOutputColor(line.type)} whitespace-pre-wrap mb-1`}>
             {line.text}
           </div>
         ))}
 
         {/* Input Line */}
-        <div className="flex items-center gap-2 text-teal-400">
-          <span>visitor@portfolio:~$</span>
+        {!gameState && (
+          <div className="flex items-center gap-2 text-teal-400">
+            <span>visitor@portfolio:~$</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="flex-1 bg-transparent outline-none text-pink-300 caret-pink-400"
+              spellCheck="false"
+            />
+            <span className="animate-pulse text-pink-400">▊</span>
+          </div>
+        )}
+
+        {/* Hidden input for game controls */}
+        {gameState && (
           <input
             ref={inputRef}
             type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            className="sr-only"
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none text-pink-300 caret-pink-400"
             autoFocus
-            spellCheck="false"
           />
-          <span className="animate-pulse text-pink-400">▊</span>
-        </div>
+        )}
       </div>
 
       {/* Scanline Effect */}
