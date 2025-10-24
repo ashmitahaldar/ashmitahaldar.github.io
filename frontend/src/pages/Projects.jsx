@@ -141,7 +141,7 @@ const Projects = () => {
         <div className="mt-12 bg-[#1A1B26] border-2 border-pink-500/30 rounded-lg p-6 font-mono text-center">
           <p className="text-gray-400">
             <span className="text-teal-400">// </span>
-            Projects are stored in MongoDB. Use the API to add/edit projects dynamically.
+            This page is a work in progress. More projects will be added soon!
           </p>
         </div>
       </div>

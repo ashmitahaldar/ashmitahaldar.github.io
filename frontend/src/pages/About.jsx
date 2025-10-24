@@ -72,10 +72,7 @@ const About = () => {
               Hi there! I'm {profileData?.name}, a computer science student with a passion for creating elegant solutions to complex problems. My journey into tech started with a curiosity about how video games work, which led me down the rabbit hole of programming.
             </p>
             <p>
-              When I'm not coding, you'll find me creating pixel art, playing retro games (shoutout to all the classic RPGs!), or experimenting with new frameworks and technologies. I love the intersection of creativity and logic that programming provides.
-            </p>
-            <p>
-              I believe in writing clean, maintainable code and always learning from the amazing developer community. My goal is to build software that not only works well but also brings joy to users.
+              This page is a work in progress!
             </p>
           </div>
   </PixelCard>
@@ -150,7 +147,7 @@ const About = () => {
             <div>
               <h3 className="text-teal-400 font-bold mb-2">Fun Fact:</h3>
               <p className="text-gray-300">
-                My favorite debugging method? Explaining the problem to my rubber duck collection. They're great listeners and never judge my code! 🦆
+                Still thinking about what to add here...
               </p>
             </div>
           </div>

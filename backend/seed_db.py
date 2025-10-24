@@ -24,8 +24,8 @@ def seed_database():
     profile = {
         "name": "Ashmita Haldar",
         "title": "Computer Science + Entrepreneurship @ NUS",
-        "tagline": "// building the future, one line at a time",
-        "bio": "Passionate CS student who loves merging creativity with tech and impact.",
+        "tagline": "// Exploring where tech, design, and entrepreneurship collide.",
+        "bio": "Passionate CS student and aspiring technopreneur. I love exploring how technology can tell stories, solve problems, and empower people in small but meaningful ways",
         "email": "ashmita.haldar@u.nus.edu",
         "github": "github.com/ashmitahaldar",
         "linkedin": "linkedin.com/in/ashmita-haldar",
@@ -36,10 +36,10 @@ def seed_database():
 
     # Insert skills
     skills = {
-        "languages": ["Python", "JavaScript", "Java", "C++", "TypeScript", "SQL"],
-        "frameworks": ["React", "Node.js", "Express", "FastAPI", "TailwindCSS"],
-        "tools": ["Git", "Docker", "MongoDB", "PostgreSQL", "VS Code"],
-        "interests": ["AI/ML", "Web Development", "Game Development", "UI/UX Design"]
+        "languages": ["Java", "Ruby", "Javascript", "Python", "C", "HTML", "CSS", "Dart", "SQL"],
+        "frameworks": ["React", "JavaFX", "Ruby on Rails", "Flutter", "FastAPI"],
+        "tools": ["Git", "Docker", "MongoDB", "PostgreSQL", "VS Code", "Amazon Web Services", "Kubernetes", "RSpec"],
+        "interests": ["Software Development", "Web Development", "Game Development", "UI/UX Design"]
     }
     supabase.table("skills").insert(skills).execute()
     print("✓ Skills seeded")
@@ -48,30 +48,12 @@ def seed_database():
     experiences = [
         {
             "id": "exp1",
-            "title": "Software Engineering Intern",
-            "company": "TechCorp",
-            "location": "San Francisco, CA",
-            "period": "Summer 2024",
-            "description": "Developed full-stack features for internal tools using React and Node.js. Optimized database queries resulting in 40% performance improvement.",
-            "technologies": ["React", "Node.js", "PostgreSQL", "Docker"]
-        },
-        {
-            "id": "exp2",
-            "title": "Web Developer",
-            "company": "University CS Lab",
-            "location": "Remote",
-            "period": "Jan 2024 - Present",
-            "description": "Building interactive educational platforms for computer science courses. Maintained and updated lab website serving 500+ students.",
-            "technologies": ["JavaScript", "Python", "Flask", "MongoDB"]
-        },
-        {
-            "id": "exp3",
-            "title": "Teaching Assistant",
-            "company": "University",
-            "location": "On Campus",
-            "period": "Sept 2023 - Dec 2023",
-            "description": "Assisted in teaching Introduction to Programming course. Held office hours, graded assignments, and mentored 30+ students.",
-            "technologies": ["Python", "Java", "Git"]
+            "title": "Web Development Intern",
+            "company": "Pixta Vietnam Ltd.",
+            "location": "Hanoi, Vietnam",
+            "period": "May 2025 – Aug 2025",
+            "description": "Accelerated multiple item downloads by ~80% by replacing a legacy multi-step download flow with a real-time ZIP streaming implementation, improving user experience and reducing server processing load. \n Corrected 950,000+ item tag mistranslations by identifying and fixing root cause in automated tag translation pipeline, improving search accuracy and metadata reliability. \n Resolved high-priority contributor upload limit blocker affecting 2 users by diagnosing backend logic flaw, applying targeted data fixes, and validating success post-deployment. \n Strengthened product reliability across major updates by writing unit tests using RSpec, manually verifying controllers and endpoints, and resolving production bugs reported by users. \n Delivered a technical seminar on Google BigQuery architecture, exploring integrations with cloud storage and applications in agentic AI, fostering knowledge sharing within the team.",
+            "technologies": ["Ruby on Rails", "Ruby", "Docker", "Amazon Web Services", "Google BigQuery", "RSpec", "Kubernetes"]
         }
     ]
     for exp in experiences:
@@ -85,28 +67,41 @@ def seed_database():
             "degree": "Bachelor of Science in Computer Science",
             "school": "University of California",
             "location": "San Francisco, CA",
-            "period": "2022 - 2026 (Expected)",
-            "gpa": "3.8/4.0",
-            "relevant": ["Data Structures", "Algorithms", "Web Development", "Database Systems", "Machine Learning", "Software Engineering"],
+            "period": "2024 - 2028 (Expected)",
+            "gpa": "4.25/5.00",
+            "relevant": ["Data Structures & Algorithms", "Software Engineering", "Entrepreneurship"],
             "description": [
-                "Dean's List for 4 consecutive semesters",
-                "Member of Women in Computer Science club",
-                "Led team project building a social networking app for students",
+                "Embarking on NUS Overseas College (NOC) Vietnam 3-months program to blend tech skills with entrepreneurial ventures",
+                "Member of Women in Tech - NUS Computing",
+                "Undergraduate Teaching Assistant for CS1101S - Programming Methodology",
                 "Participated in hackathons and coding competitions"
             ]
         },
         {
             "id": "edu2",
-            "degree": "High School Diploma",
-            "school": "San Francisco High School",
-            "location": "San Francisco, CA",
-            "period": "2018 - 2022",
-            "gpa": "4.0/4.0",
-            "relevant": ["AP Computer Science", "AP Calculus", "Physics"],
+            "degree": "International Baccalaureate (IB) Diploma",
+            "school": "Pathways World School, Gurgaon",
+            "location": "Gurugram, India",
+            "period": "2022 - 2024",
+            "gpa": "45/45 (IB Diploma)",
+            "relevant": ["IB Computer Science HL", "IB Mathematics Analysis and Approaches HL", "IB Physics HL"],
             "description": [
                 "Valedictorian of graduating class",
-                "Founded coding club with 50+ members",
-                "Won first place in regional science fair for AI project"
+                "Founded coding club with 20+ members"
+            ]
+        },
+        {
+            "id": "edu3",
+            "degree": "High School Diploma",
+            "school": "Taipei American School",
+            "location": "Taipei, Taiwan",
+            "period": "2020 - 2022",
+            "gpa": "4.43/4.8 (Weighted GPA)",
+            "relevant": ["AP Computer Science A"],
+            "description": [
+                "Completed AP Computer Science A with a score of 5",
+                "Member of Art Honor Society",
+                "Programming Head of JV FRC Robotics Team - Raid One"
             ]
         }
     ]
