@@ -52,7 +52,11 @@ def seed_database():
             "company": "Pixta Vietnam Ltd.",
             "location": "Hanoi, Vietnam",
             "period": "May 2025 – Aug 2025",
-            "description": "Accelerated multiple item downloads by ~80% by replacing a legacy multi-step download flow with a real-time ZIP streaming implementation, improving user experience and reducing server processing load. \n Corrected 950,000+ item tag mistranslations by identifying and fixing root cause in automated tag translation pipeline, improving search accuracy and metadata reliability. \n Resolved high-priority contributor upload limit blocker affecting 2 users by diagnosing backend logic flaw, applying targeted data fixes, and validating success post-deployment. \n Strengthened product reliability across major updates by writing unit tests using RSpec, manually verifying controllers and endpoints, and resolving production bugs reported by users. \n Delivered a technical seminar on Google BigQuery architecture, exploring integrations with cloud storage and applications in agentic AI, fostering knowledge sharing within the team.",
+            "description": "Accelerated multiple item downloads by ~80% by replacing a legacy multi-step download flow with a real-time ZIP streaming implementation, improving user experience and reducing server processing load."
+                + "Corrected 950,000+ item tag mistranslations by identifying and fixing root cause in automated tag translation pipeline, improving search accuracy and metadata reliability."
+                + "Resolved high-priority contributor upload limit blocker affecting 2 users by diagnosing backend logic flaw, applying targeted data fixes, and validating success post-deployment."
+                + "Strengthened product reliability across major updates by writing unit tests using RSpec, manually verifying controllers and endpoints, and resolving production bugs reported by users." 
+                + "Delivered a technical seminar on Google BigQuery architecture, exploring integrations with cloud storage and applications in agentic AI, fostering knowledge sharing within the team.",
             "technologies": ["Ruby on Rails", "Ruby", "Docker", "Amazon Web Services", "Google BigQuery", "RSpec", "Kubernetes"]
         }
     ]
@@ -64,9 +68,9 @@ def seed_database():
     education = [
         {
             "id": "edu1",
-            "degree": "Bachelor of Science in Computer Science",
-            "school": "University of California",
-            "location": "San Francisco, CA",
+            "degree": "Bachelor of Computing (Honours) in Computer Science with Minor in Entrepreneurship",
+            "school": "National University of Singapore",
+            "location": "Singapore",
             "period": "2024 - 2028 (Expected)",
             "gpa": "4.25/5.00",
             "relevant": ["Data Structures & Algorithms", "Software Engineering", "Entrepreneurship"],
