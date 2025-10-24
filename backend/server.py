@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 import uuid
 from datetime import datetime
-from backend.models import (
+from models import (
     Profile, Skills, Experience, ExperienceCreate,
     Education, EducationCreate, Project, ProjectCreate,
     BlogPost, BlogPostCreate
