@@ -3,9 +3,11 @@ import Terminal from '../components/Terminal';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+// import { api } from '../services/api';
+import { getProfile } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
+import { PortableText } from '@portabletext/react';
 
 const Home = () => {
   const [profileData, setProfileData] = useState(null);
@@ -21,8 +23,15 @@ const Home = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await api.getProfile();
-        setProfileData(response.data);
+        // const response = await api.getProfile();
+        // setProfileData(response.data);
+        const data = await getProfile();
+        if (data) {
+          console.log('✅ Profile data successfully retrieved:', data);
+        } else {
+          console.log('⚠️ Profile data retrieved, but it was empty (null/undefined).');
+        }
+        setProfileData(data);
       } catch (error) {
         console.error('Error fetching profile:', error);
       } finally {
@@ -81,7 +90,7 @@ const Home = () => {
 
               {/* Bio */}
               <p className="text-gray-300 mb-6 leading-relaxed">
-                {profileData.bio}
+                {profileData.bio && <PortableText value={profileData.bio} />}
               </p>
 
               {/* Location */}
