@@ -51,12 +51,12 @@
 }
 
 .projectCard {
-  @apply overflow-hidden;
+  @apply overflow-hidden flex flex-col h-full;
 }
 
 /* Project Image/Icon */
 .projectImage {
-  @apply h-48 flex items-center justify-center;
+  @apply w-full h-64 flex items-center justify-center overflow-hidden;
 }
 
 .projectImagePink {
@@ -68,7 +68,7 @@
 }
 
 .projectImageImg {
-  @apply w-24 h-24 object-contain rounded-lg shadow-lg;
+  @apply w-full h-full object-cover rounded-lg shadow-lg;
 }
 
 .projectIcon {
@@ -93,7 +93,7 @@
 
 /* Project Content */
 .projectContent {
-  @apply p-6;
+  @apply p-6 flex flex-col flex-1;
 }
 
 .projectTitle {

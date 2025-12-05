@@ -6,7 +6,6 @@ import PixelCard from '../components/PixelCard';
 import { getProfile } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
-import { PortableText } from '@portabletext/react';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -94,9 +93,9 @@ const Home = () => {
               <p className={styles.title}>{profileData.title}</p>
               <p className={styles.tagline}>{profileData.tagline}</p>
 
-              {/* Bio */}
+              {/* Summary */}
               <div className={styles.bio}>
-                {profileData.bio && <PortableText value={profileData.bio} />}
+                {profileData.summary && <p>{profileData.summary}</p>}
               </div>
 
               {/* Location */}

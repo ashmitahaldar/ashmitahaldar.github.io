@@ -37,7 +37,7 @@ const Resume = () => {
 
   const handleDownload = () => {
     // Placeholder for PDF download
-    alert('PDF download functionality to be added soon! - Add your resume PDF to /public/resume.pdf');
+    alert('PDF download functionality to be added soon!');
   };
 
   if (loading) {

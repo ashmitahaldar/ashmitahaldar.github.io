@@ -12,6 +12,7 @@ export const profileQuery = `*[_type == "profile"][0] {
   name,
   title,
   tagline,
+  summary,
   bio,
   email,
   github,

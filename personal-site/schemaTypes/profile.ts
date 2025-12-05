@@ -29,6 +29,13 @@ export default {
       description: 'A short, punchy summary'
     },
     {
+      name: 'summary',
+      title: 'Summary',
+      type: 'text',
+      description: 'A brief summary or introduction about yourself',
+      rows: 4, // Suggests the height of the textarea in the Studio
+    },
+    {
       name: 'bio',
       title: 'Biography',
       // We use the 'array' type with 'block' to create rich text (Portable Text)

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
 import { getProfile, getSkills } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import { PortableText } from '@portabletext/react';
 import styles from '../styles/About.module.css';
 
 const About = () => {
@@ -69,12 +70,11 @@ const About = () => {
             <h2 className={styles.sectionTitle}>My Story</h2>
           </div>
           <div className={styles.bioText}>
-            <p>
-              Hi there! I'm {profileData?.name}, a computer science student with a passion for creating elegant solutions to complex problems. My journey into tech started with a curiosity about how video games work, which led me down the rabbit hole of programming.
-            </p>
-            <p>
-              This page is a work in progress!
-            </p>
+            {profileData?.bio ? (
+              <PortableText value={profileData.bio} />
+            ) : (
+              <p>No bio available.</p>
+            )}
           </div>
   </PixelCard>
 
@@ -148,7 +148,7 @@ const About = () => {
             <div>
               <h3 className={styles.funFactTitle}>Fun Fact:</h3>
               <p className={styles.funFactText}>
-                Still thinking about what to add here...
+                I am trying to learn Mandarin Chinese in my spare time!
               </p>
             </div>
           </div>
