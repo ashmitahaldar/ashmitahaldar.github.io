@@ -1,0 +1,140 @@
+/* Layout */
+.container {
+  @apply min-h-screen pt-20 pb-12 px-4;
+}
+
+.content {
+  @apply max-w-5xl mx-auto;
+}
+
+/* Loading State */
+.loadingContainer {
+  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+}
+
+.loadingText {
+  @apply text-pink-400 font-mono;
+}
+
+/* Header */
+.header {
+  @apply text-center mb-12;
+}
+
+.title {
+  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2;
+}
+
+.titleIcon {
+  @apply w-8 h-8 text-teal-400;
+}
+
+.cursor {
+  @apply text-teal-400 animate-pulse;
+}
+
+.subtitle {
+  @apply text-gray-400 font-mono min-h-[24px];
+}
+
+.subtitlePrompt {
+  @apply text-pink-300;
+}
+
+.subtitleCommand {
+  @apply text-teal-400;
+}
+
+/* Education List */
+.educationList {
+  @apply space-y-8;
+}
+
+.educationCard {
+  @apply rounded-lg p-8;
+}
+
+/* Education Item Header */
+.educationHeader {
+  @apply flex items-start gap-4 mb-6;
+}
+
+.iconContainer {
+  @apply p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg;
+}
+
+.icon {
+  @apply w-8 h-8 text-pink-400;
+}
+
+.headerContent {
+  @apply flex-1;
+}
+
+.degree {
+  @apply text-2xl font-bold font-mono text-pink-400 mb-2;
+}
+
+.metadata {
+  @apply flex flex-wrap gap-4 text-sm;
+}
+
+.metadataItem {
+  @apply flex items-center gap-2 font-mono;
+}
+
+.metadataItemPrimary {
+  @apply text-teal-400;
+}
+
+.metadataItemSecondary {
+  @apply text-gray-400;
+}
+
+.metadataIcon {
+  @apply w-4 h-4;
+}
+
+/* GPA Badge */
+.gpaBadge {
+  @apply inline-block px-4 py-2 bg-[#0A0E27] border border-teal-500 rounded-lg text-teal-400 font-mono text-sm mb-4;
+}
+
+/* Highlights Section */
+.highlightsSection {
+  @apply mb-4;
+}
+
+.highlightsTitle {
+  @apply text-lg font-mono text-pink-400 mb-2 flex items-center gap-2;
+}
+
+.highlightsList {
+  @apply space-y-1 text-gray-300;
+}
+
+.highlightItem {
+  @apply font-mono text-sm flex items-start gap-2;
+}
+
+.highlightBullet {
+  @apply text-teal-400 mt-1;
+}
+
+/* Coursework Section */
+.courseworkTitle {
+  @apply text-lg font-mono text-teal-400 mb-3 flex items-center gap-2;
+}
+
+.courseworkTags {
+  @apply flex flex-wrap gap-2;
+}
+
+.courseworkTag {
+  @apply px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors;
+}
+
+/* Footer Message */
+.footerMessage {
+  @apply mt-12 text-center text-sm text-pink-400/50;
+}

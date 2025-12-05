@@ -228,6 +228,12 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     if (e.key === 'Enter') {
       handleCommand(input);
       setInput('');
+      // Scroll to bottom after command submission
+      setTimeout(() => {
+        if (outputRef.current) {
+          outputRef.current.scrollTop = outputRef.current.scrollHeight;
+        }
+      }, 0);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       if (history.length > 0) {
@@ -279,7 +285,6 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
         className="p-4 h-[450px] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
         onClick={() => inputRef.current?.focus()}
         tabIndex={0}
-        onKeyDown={handleKeyDown}
       >
         {/* Snake Game */}
         {gameState && (

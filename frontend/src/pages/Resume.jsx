@@ -3,6 +3,7 @@ import { Download, Github, Linkedin, Mail, Terminal } from 'lucide-react';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import PixelCard from '../components/PixelCard';
 import { getProfile, getSkills, getExperiences, getEducation } from '../services/sanityClient';
+import styles from '../styles/Resume.module.css';
 
 const Resume = () => {
   const [profileData, setProfileData] = useState(null);
@@ -36,75 +37,75 @@ const Resume = () => {
 
   const handleDownload = () => {
     // Placeholder for PDF download
-    alert('PDF download functionality - Add your resume PDF to /public/resume.pdf');
+    alert('PDF download functionality to be added soon! - Add your resume PDF to /public/resume.pdf');
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Loading...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent flex items-center justify-center gap-2">
-            <Terminal className="w-8 h-8 text-teal-400" />
+        <div className={styles.header}>
+          <h1 className={styles.title}>
+            <Terminal className={styles.titleIcon} />
             <span>
               {typedTitle}
-              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+              {!titleComplete && <span className={styles.cursor}>_</span>}
             </span>
           </h1>
           <button
             onClick={handleDownload}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-teal-600 text-white font-mono rounded-lg transition-all duration-300"
+            className={styles.downloadButton}
           >
-            <Download className="w-5 h-5" />
+            <Download className={styles.downloadIcon} />
             Download PDF
           </button>
         </div>
 
         {/* Resume Content */}
-        <PixelCard className="rounded-lg">
+        <PixelCard className={styles.resumeCard}>
           {/* Header Section */}
-          <div className="border-b-2 border-teal-500/30 p-8 text-center">
-            <h2 className="text-4xl font-bold font-mono text-pink-400 mb-2">{profileData?.name}</h2>
-            <p className="text-xl text-teal-400 font-mono mb-4">{profileData?.title}</p>
-            <div className="flex justify-center gap-6 text-sm">
-              <span className="text-gray-400 font-mono">{profileData?.email}</span>
-              <span className="text-gray-400 font-mono">{profileData?.location}</span>
+          <div className={styles.resumeHeader}>
+            <h2 className={styles.resumeName}>{profileData?.name}</h2>
+            <p className={styles.resumeTitle}>{profileData?.title}</p>
+            <div className={styles.resumeContactInfo}>
+              <span className={styles.contactText}>{profileData?.email}</span>
+              <span className={styles.contactText}>{profileData?.location}</span>
             </div>
-            <div className="flex justify-center gap-4 mt-4">
-              <a href={`https://${profileData?.github}`} target="_blank" rel="noopener noreferrer" className="text-teal-400 hover:text-teal-300 transition-colors">
-                <Github className="w-5 h-5" />
+            <div className={styles.resumeSocialLinks}>
+              <a href={`https://${profileData?.github}`} target="_blank" rel="noopener noreferrer" className={styles.socialLinkTeal}>
+                <Github className={styles.socialIcon} />
               </a>
-              <a href={`https://${profileData?.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:text-pink-300 transition-colors">
-                <Linkedin className="w-5 h-5" />
+              <a href={`https://${profileData?.linkedin}`} target="_blank" rel="noopener noreferrer" className={styles.socialLinkPink}>
+                <Linkedin className={styles.socialIcon} />
               </a>
-              <a href={`mailto:${profileData?.email}`} className="text-teal-400 hover:text-teal-300 transition-colors">
-                <Mail className="w-5 h-5" />
+              <a href={`mailto:${profileData?.email}`} className={styles.socialLinkTeal}>
+                <Mail className={styles.socialIcon} />
               </a>
             </div>
           </div>
 
           {/* Education Section */}
-          <div className="border-b-2 border-teal-500/30 p-8">
-            <h3 className="text-2xl font-bold font-mono text-teal-400 mb-4 flex items-center gap-2">
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>
               <span>&gt;&gt;</span> Education
             </h3>
             {education.map(edu => (
-              <div key={edu._id} className="mb-4 last:mb-0">
-                <div className="flex justify-between items-start mb-2">
+              <div key={edu._id} className={styles.educationItem}>
+                <div className={styles.educationHeader}>
                   <div>
-                    <h4 className="text-lg font-bold text-pink-400 font-mono">{edu.degree}</h4>
-                    <p className="text-gray-300">{edu.school}</p>
+                    <h4 className={styles.educationDegree}>{edu.degree}</h4>
+                    <p className={styles.educationSchool}>{edu.school}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-gray-400 font-mono text-sm">
+                  <div className={styles.educationDates}>
+                    <p className={styles.educationDate}>
                       {(() => {
                         const dr = edu.period || edu.dateRange;
                         if (!dr) return '';
@@ -117,7 +118,7 @@ const Resume = () => {
                         return '';
                       })()}
                     </p>
-                    <p className="text-teal-400 font-mono text-sm">GPA: {edu.gpa}</p>
+                    <p className={styles.educationGpa}>GPA: {edu.gpa}</p>
                   </div>
                 </div>
               </div>
@@ -125,18 +126,18 @@ const Resume = () => {
           </div>
 
           {/* Experience Section */}
-          <div className="border-b-2 border-teal-500/30 p-8">
-            <h3 className="text-2xl font-bold font-mono text-teal-400 mb-4 flex items-center gap-2">
+          <div className={styles.section}>
+            <h3 className={styles.sectionTitle}>
               <span>&gt;&gt;</span> Experience
             </h3>
             {experience.map(exp => (
-              <div key={exp._id} className="mb-6 last:mb-0">
-                <div className="flex justify-between items-start mb-2">
+              <div key={exp._id} className={styles.experienceItem}>
+                <div className={styles.experienceHeader}>
                   <div>
-                    <h4 className="text-lg font-bold text-pink-400 font-mono">{exp.title}</h4>
-                    <p className="text-gray-300">{exp.company} | {exp.location}</p>
+                    <h4 className={styles.experienceTitle}>{exp.title}</h4>
+                    <p className={styles.experienceCompany}>{exp.company} | {exp.location}</p>
                   </div>
-                  <p className="text-gray-400 font-mono text-sm">
+                  <p className={styles.experienceDate}>
                     {(() => {
                       const dr = exp.period || exp.dateRange;
                       if (!dr) return '';
@@ -150,9 +151,9 @@ const Resume = () => {
                     })()}
                   </p>
                 </div>
-                <div className="text-gray-300 mb-2">
+                <div className={styles.experienceDescription}>
                   {Array.isArray(exp.description) ? (
-                    <ul className="list-disc pl-5">
+                    <ul className={styles.experienceList}>
                       {exp.description.map((item, idx) => (
                         <li key={idx}>{typeof item === 'string' ? item : ''}</li>
                       ))}
@@ -161,9 +162,9 @@ const Resume = () => {
                     <span>{exp.description}</span>
                   )}
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className={styles.experienceTechTags}>
                   {exp.technologies && exp.technologies.map(tech => (
-                    <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs">
+                    <span key={tech} className={styles.techTag}>
                       {tech}
                     </span>
                   ))}
@@ -173,26 +174,26 @@ const Resume = () => {
           </div>
 
           {/* Skills Section */}
-          <div className="p-8">
-            <h3 className="text-2xl font-bold font-mono text-teal-400 mb-4 flex items-center gap-2">
+          <div className={styles.sectionLast}>
+            <h3 className={styles.sectionTitle}>
               <span>&gt;&gt;</span> Technical Skills
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className={styles.skillsGrid}>
               <div>
-                <h4 className="text-pink-400 font-mono mb-2">Languages:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills?.languages?.join(', ')}</p>
+                <h4 className={styles.skillCategory}>Languages:</h4>
+                <p className={styles.skillList}>{skills?.languages?.join(', ')}</p>
               </div>
               <div>
-                <h4 className="text-pink-400 font-mono mb-2">Frameworks:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills?.frameworks?.join(', ')}</p>
+                <h4 className={styles.skillCategory}>Frameworks:</h4>
+                <p className={styles.skillList}>{skills?.frameworks?.join(', ')}</p>
               </div>
               <div>
-                <h4 className="text-pink-400 font-mono mb-2">Tools:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills?.tools?.join(', ')}</p>
+                <h4 className={styles.skillCategory}>Tools:</h4>
+                <p className={styles.skillList}>{skills?.tools?.join(', ')}</p>
               </div>
               <div>
-                <h4 className="text-pink-400 font-mono mb-2">Interests:</h4>
-                <p className="text-gray-300 font-mono text-sm">{skills?.interests?.join(', ')}</p>
+                <h4 className={styles.skillCategory}>Interests:</h4>
+                <p className={styles.skillList}>{skills?.interests?.join(', ')}</p>
               </div>
             </div>
           </div>

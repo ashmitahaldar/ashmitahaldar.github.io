@@ -1,0 +1,156 @@
+/* Layout */
+.container {
+  @apply min-h-screen pt-20 pb-12 px-4;
+}
+
+.content {
+  @apply max-w-7xl mx-auto;
+}
+
+.topSection {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-8;
+}
+
+.terminalSection {
+  @apply mb-12;
+}
+
+/* Loading States */
+.loadingContainer {
+  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+}
+
+.loadingText {
+  @apply text-pink-400 font-mono;
+}
+
+/* Profile Card */
+.profileCard {
+  @apply rounded-lg p-8 transition-all duration-300 h-full flex items-center justify-center;
+}
+
+.profileContent {
+  @apply flex flex-col items-center text-center;
+}
+
+/* Avatar */
+.avatar {
+  @apply w-40 h-40 mb-6 relative;
+}
+
+.avatarGradientBorder {
+  @apply w-full h-full bg-gradient-to-br from-pink-500 to-teal-500 rounded-lg p-1;
+}
+
+.avatarInner {
+  @apply w-full h-full bg-[#0A0E27] rounded-lg flex items-center justify-center;
+}
+
+.avatarImage {
+  @apply w-full h-full object-cover rounded-lg;
+}
+
+.avatarEmoji {
+  @apply text-6xl;
+}
+
+.statusIndicator {
+  @apply absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-[#1A1B26] animate-pulse;
+}
+
+/* Profile Info */
+.name {
+  @apply text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
+}
+
+.cursor {
+  @apply text-teal-400 animate-pulse;
+}
+
+.title {
+  @apply text-teal-400 font-mono text-lg mb-2;
+}
+
+.tagline {
+  @apply text-pink-300 font-mono text-sm mb-6;
+}
+
+.bio {
+  @apply text-gray-300 mb-6 leading-relaxed;
+}
+
+/* Location */
+.location {
+  @apply flex items-center gap-2 text-gray-400 mb-6;
+}
+
+.locationIcon {
+  @apply w-4 h-4;
+}
+
+.locationText {
+  @apply font-mono text-sm;
+}
+
+/* Social Links */
+.socialLinks {
+  @apply flex gap-4;
+}
+
+.socialLink {
+  @apply p-3 bg-[#0A0E27] border-2 rounded-lg transition-all duration-200;
+}
+
+.socialLinkPink {
+  @apply border-pink-500 hover:bg-pink-500/10;
+}
+
+.socialLinkTeal {
+  @apply border-teal-500 hover:bg-teal-500/10;
+}
+
+.socialIcon {
+  @apply w-5 h-5;
+}
+
+.socialIconPink {
+  @apply text-pink-400;
+}
+
+.socialIconTeal {
+  @apply text-teal-400;
+}
+
+/* Spline Section */
+.splineContainer {
+  @apply flex items-center justify-center h-full min-h-[400px] relative;
+}
+
+.splineLoading {
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
+/* Terminal Tips */
+.tipsCard {
+  @apply rounded-lg p-6 font-mono text-sm;
+}
+
+.tipsContent {
+  @apply flex items-start gap-3;
+}
+
+.tipsIcon {
+  @apply text-teal-400 text-2xl;
+}
+
+.tipsTitle {
+  @apply text-pink-400 font-bold mb-2;
+}
+
+.tipsList {
+  @apply text-gray-300 space-y-1;
+}
+
+.tipsCode {
+  @apply text-teal-300;
+}

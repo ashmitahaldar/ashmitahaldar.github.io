@@ -7,6 +7,7 @@ import { getProfile } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
 import { PortableText } from '@portabletext/react';
+import styles from '../styles/Home.module.css';
 
 const Home = () => {
   const [profileData, setProfileData] = useState(null);
@@ -22,14 +23,12 @@ const Home = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // const response = await api.getProfile();
-        // setProfileData(response.data);
         const data = await getProfile();
-        if (data) {
-          console.log('✅ Profile data successfully retrieved:', data);
-        } else {
-          console.log('⚠️ Profile data retrieved, but it was empty (null/undefined).');
-        }
+        // if (data) {
+        //   console.log('✅ Profile data successfully retrieved:', data);
+        // } else {
+        //   console.log('⚠️ Profile data retrieved, but it was empty (null/undefined).');
+        // }
         setProfileData(data);
       } catch (error) {
         console.error('Error fetching profile:', error);
@@ -42,82 +41,90 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Loading...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   }
 
   if (!profileData) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Error loading profile</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Error loading profile</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Top Section: Profile Card & Spline Side by Side */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+        <div className={styles.topSection}>
           {/* Profile Card */}
-          <PixelCard className="rounded-lg p-8 transition-all duration-300 h-full flex items-center justify-center">
-            <div className="flex flex-col items-center text-center">
+          <PixelCard className={styles.profileCard}>
+            <div className={styles.profileContent}>
               {/* Pixelated Avatar */}
-              <div className="w-40 h-40 mb-6 relative">
-                <div className="w-full h-full bg-gradient-to-br from-pink-500 to-teal-500 rounded-lg p-1">
-                  <div className="w-full h-full bg-[#0A0E27] rounded-lg flex items-center justify-center">
-                    <div className="text-6xl">👾</div>
+              <div className={styles.avatar}>
+                <div className={styles.avatarGradientBorder}>
+                  <div className={styles.avatarInner}>
+                    {profileData.avatarUrl ? (
+                      <img
+                        src={profileData.avatarUrl}
+                        alt={`${profileData.name || 'Avatar'}`}
+                        className={styles.avatarImage}
+                      />
+                    ) : (
+                      <div className={styles.avatarEmoji}>👾</div>
+                    )}
                   </div>
                 </div>
-                <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-[#1A1B26] animate-pulse"></div>
+                <div className={styles.statusIndicator}></div>
               </div>
 
               {/* Name & Title */}
               <motion.h1 
-                className="text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent"
+                className={styles.name}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
                 {typedName}
-                {!nameComplete && <span className="text-teal-400 animate-pulse">_</span>}
+                {!nameComplete && <span className={styles.cursor}>_</span>}
               </motion.h1>
-              <p className="text-teal-400 font-mono text-lg mb-2">{profileData.title}</p>
-              <p className="text-pink-300 font-mono text-sm mb-6">{profileData.tagline}</p>
+              <p className={styles.title}>{profileData.title}</p>
+              <p className={styles.tagline}>{profileData.tagline}</p>
 
               {/* Bio */}
-              <div className="text-gray-300 mb-6 leading-relaxed">
+              <div className={styles.bio}>
                 {profileData.bio && <PortableText value={profileData.bio} />}
               </div>
 
               {/* Location */}
-              <div className="flex items-center gap-2 text-gray-400 mb-6">
-                <MapPin className="w-4 h-4" />
-                <span className="font-mono text-sm">{profileData.location}</span>
+              <div className={styles.location}>
+                <MapPin className={styles.locationIcon} />
+                <span className={styles.locationText}>{profileData.location}</span>
               </div>
 
               {/* Social Links */}
-              <div className="flex gap-4">
-                <a href={`mailto:${profileData.email}`} className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 transition-all duration-200">
-                  <Mail className="w-5 h-5 text-pink-400" />
+              <div className={styles.socialLinks}>
+                <a href={`mailto:${profileData.email}`} className={`${styles.socialLink} ${styles.socialLinkPink}`}>
+                  <Mail className={`${styles.socialIcon} ${styles.socialIconPink}`} />
                 </a>
-                <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-teal-500 rounded-lg hover:bg-teal-500/10 transition-all duration-200">
-                  <Github className="w-5 h-5 text-teal-400" />
+                <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkTeal}`}>
+                  <Github className={`${styles.socialIcon} ${styles.socialIconTeal}`} />
                 </a>
-                <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg hover:bg-pink-500/10 transition-all duration-200">
-                  <Linkedin className="w-5 h-5 text-pink-400" />
+                <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkPink}`}>
+                  <Linkedin className={`${styles.socialIcon} ${styles.socialIconPink}`} />
                 </a>
               </div>
             </div>
           </PixelCard>
 
           {/* Spline Model */}
-          <div className="flex items-center justify-center h-full min-h-[400px] relative">
+          <div className={styles.splineContainer}>
             {splineLoading && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-pink-400 font-mono">Loading...</div>
+              <div className={styles.splineLoading}>
+                <div className={styles.loadingText}>Loading...</div>
               </div>
             )}
             <Spline
@@ -128,20 +135,20 @@ const Home = () => {
         </div>
 
         {/* Terminal Below */}
-        <div className="mb-12">
+        <div className={styles.terminalSection}>
           <Terminal profileData={profileData} />
         </div>
 
         {/* Usage Hint */}
-        <PixelCard className="rounded-lg p-6 font-mono text-sm">
-          <div className="flex items-start gap-3">
-            <span className="text-teal-400 text-2xl">💡</span>
+        <PixelCard className={styles.tipsCard}>
+          <div className={styles.tipsContent}>
+            <span className={styles.tipsIcon}>💡</span>
             <div>
-              <h3 className="text-pink-400 font-bold mb-2">Terminal Tips:</h3>
-              <ul className="text-gray-300 space-y-1">
-                <li>• Type <code className="text-teal-300">help</code> to see all available commands</li>
-                <li>• Use <code className="text-teal-300">UP</code> and <code className="text-teal-300">DOWN</code> arrow keys to cycle through command history</li>
-                <li>• Try shortcuts like <code className="text-teal-300">/projects</code> or <code className="text-teal-300">/about</code> to navigate quickly</li>
+              <h3 className={styles.tipsTitle}>Terminal Tips:</h3>
+              <ul className={styles.tipsList}>
+                <li>• Type <code className={styles.tipsCode}>help</code> to see all available commands</li>
+                <li>• Use <code className={styles.tipsCode}>UP</code> and <code className={styles.tipsCode}>DOWN</code> arrow keys to cycle through command history</li>
+                <li>• Try shortcuts like <code className={styles.tipsCode}>/projects</code> or <code className={styles.tipsCode}>/about</code> to navigate quickly</li>
                 <li>• Some commands might have hidden surprises... 👀</li>
               </ul>
             </div>

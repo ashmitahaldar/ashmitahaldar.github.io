@@ -5,6 +5,7 @@ import PixelCard from '../components/PixelCard';
 import { getExperiences } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import styles from '../styles/Experience.module.css';
 
 const Experience = () => {
   const [experience, setExperience] = useState([]);
@@ -28,73 +29,73 @@ const Experience = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Loading...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   } else if (experience.length === 0) {
     return (
-      <PixelCard className="text-center py-20">
-          <Briefcase className="w-16 h-16 mx-auto mb-4 text-pink-400/50" />
-          <p className="text-xl text-pink-400/70">No experience records found.</p>
+      <PixelCard className={styles.emptyCard}>
+          <Briefcase className={styles.emptyIcon} />
+          <p className={styles.emptyText}>No experience records found.</p>
       </PixelCard>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Header */}
         <motion.div 
-          className="text-center mb-12"
+          className={styles.header}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
-            <Terminal className="w-8 h-8 text-teal-400" />
+          <h1 className={styles.title}>
+            <Terminal className={styles.titleIcon} />
             <span>
               {typedTitle}
-              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+              {!titleComplete && <span className={styles.cursor}>_</span>}
             </span>
           </h1>
-          <p className="font-mono min-h-[24px]">
-            <span className="text-pink-300">$ </span>
-            <span className="text-teal-400">{typedSubtitle}</span>
+          <p className={styles.subtitle}>
+            <span className={styles.subtitlePrompt}>$ </span>
+            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
           </p>
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative">
+        <div className={styles.timeline}>
           {/* Timeline Line */}
-          <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-500 via-teal-500 to-pink-500"></div>
+          <div className={styles.timelineLine}></div>
 
           {/* Experience Items */}
-          <div className="space-y-8">
+          <div className={styles.experienceList}>
             {experience.map((exp, index) => (
-              <div key={exp._id || index} className="relative pl-20">
+              <div key={exp._id || index} className={styles.experienceItem}>
                 {/* Timeline Dot */}
-                <div className="absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full z-10"></div>
+                <div className={styles.timelineDot}></div>
 
                 {/* Content Card */}
-                <PixelCard className="rounded-lg p-6">
+                <PixelCard className={styles.experienceCard}>
                   {/* Header */}
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold font-mono text-pink-400 mb-2">
+                  <div className={styles.experienceHeader}>
+                    <h3 className={styles.jobTitle}>
                       {exp.title}
                     </h3>
-                    <div className="flex flex-wrap gap-4 text-sm">
-                      <div className="flex items-center gap-2 text-teal-400">
-                        <Briefcase className="w-4 h-4" />
-                        <span className="font-mono">{exp.company}</span>
+                    <div className={styles.metadata}>
+                      <div className={`${styles.metadataItem} ${styles.metadataItemPrimary}`}>
+                        <Briefcase className={styles.metadataIcon} />
+                        <span>{exp.company}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400">
-                        <MapPin className="w-4 h-4" />
-                        <span className="font-mono">{exp.location}</span>
+                      <div className={`${styles.metadataItem} ${styles.metadataItemSecondary}`}>
+                        <MapPin className={styles.metadataIcon} />
+                        <span>{exp.location}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-gray-400">
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-mono">
+                      <div className={`${styles.metadataItem} ${styles.metadataItemSecondary}`}>
+                        <Calendar className={styles.metadataIcon} />
+                        <span>
                           {(() => {
                             // Handle both string and object for period/dateRange
                             const dr = exp.period || exp.dateRange;
@@ -115,21 +116,21 @@ const Experience = () => {
 
                   {/* Description */}
                   {Array.isArray(exp.description) ? (
-                    <div className="text-gray-300 mb-4 leading-relaxed">
+                    <div className={styles.description}>
                       <PortableText value={exp.description} />
                     </div>
                   ) : (
-                    <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                    <p className={styles.description}>{exp.description}</p>
                   )}
 
                   {/* Technologies */}
-                  <div className="flex items-center gap-2 mb-2">
-                    <Code2 className="w-4 h-4 text-teal-400" />
-                    <span className="text-sm font-mono text-teal-400">Tech Stack:</span>
+                  <div className={styles.techHeader}>
+                    <Code2 className={styles.techIcon} />
+                    <span className={styles.techLabel}>Tech Stack:</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className={styles.techTags}>
                     {exp.technologies.map(tech => (
-                      <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 transition-colors">
+                      <span key={tech} className={styles.techTag}>
                         {tech}
                       </span>
                     ))}
@@ -144,7 +145,7 @@ const Experience = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 text-center text-sm text-pink-400/50"
+          className={styles.footerMessage}
         >
           <p>ACHIEVEMENT UNLOCKED: Professional career journey documented!</p>
         </motion.div>

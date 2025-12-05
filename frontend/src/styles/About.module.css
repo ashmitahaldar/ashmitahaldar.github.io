@@ -1,0 +1,129 @@
+/* Layout */
+.container {
+  @apply min-h-screen pt-20 pb-12 px-4;
+}
+
+.content {
+  @apply max-w-5xl mx-auto;
+}
+
+/* Loading State */
+.loadingContainer {
+  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+}
+
+.loadingText {
+  @apply text-pink-400 font-mono;
+}
+
+/* Header */
+.header {
+  @apply text-center mb-12;
+}
+
+.title {
+  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2;
+}
+
+.titleIcon {
+  @apply w-8 h-8 text-teal-400;
+}
+
+.cursor {
+  @apply text-teal-400 animate-pulse;
+}
+
+.subtitle {
+  @apply text-gray-400 font-mono min-h-[24px];
+}
+
+.subtitlePrompt {
+  @apply text-pink-300;
+}
+
+.subtitleCommand {
+  @apply text-teal-400;
+}
+
+/* Bio Section */
+.bioCard {
+  @apply rounded-lg p-8 mb-8;
+}
+
+.sectionHeader {
+  @apply flex items-center gap-3 mb-4;
+}
+
+.sectionIcon {
+  @apply w-6 h-6 text-teal-400;
+}
+
+.sectionTitle {
+  @apply text-2xl font-bold font-mono text-pink-400;
+}
+
+.bioText {
+  @apply text-gray-300 leading-relaxed space-y-4;
+}
+
+/* Skills Grid */
+.skillsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-8;
+}
+
+.skillCard {
+  @apply rounded-lg p-6;
+}
+
+.skillHeader {
+  @apply flex items-center gap-3 mb-4;
+}
+
+.skillIconPink {
+  @apply w-5 h-5 text-pink-400;
+}
+
+.skillIconTeal {
+  @apply w-5 h-5 text-teal-400;
+}
+
+.skillTitlePink {
+  @apply text-xl font-bold font-mono text-pink-400;
+}
+
+.skillTitleTeal {
+  @apply text-xl font-bold font-mono text-teal-400;
+}
+
+.skillTags {
+  @apply flex flex-wrap gap-2;
+}
+
+.tagPink {
+  @apply px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors;
+}
+
+.tagTeal {
+  @apply px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors;
+}
+
+/* Fun Fact */
+.funFactCard {
+  @apply rounded-lg p-6 font-mono;
+}
+
+.funFactContent {
+  @apply flex items-start gap-3;
+}
+
+.funFactEmoji {
+  @apply text-3xl;
+}
+
+.funFactTitle {
+  @apply text-teal-400 font-bold mb-2;
+}
+
+.funFactText {
+  @apply text-gray-300;
+}

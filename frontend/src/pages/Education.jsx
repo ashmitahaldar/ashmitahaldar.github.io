@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
 import { getEducation } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import styles from '../styles/Education.module.css';
 
 const Education = () => {
   const [education, setEducation] = useState([]);
@@ -27,60 +28,60 @@ const Education = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Loading...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Header */}
         <motion.div 
-          className="text-center mb-12"
+          className={styles.header}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
-            <Terminal className="w-8 h-8 text-teal-400" />
+          <h1 className={styles.title}>
+            <Terminal className={styles.titleIcon} />
             <span>
               {typedTitle}
-              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+              {!titleComplete && <span className={styles.cursor}>_</span>}
             </span>
           </h1>
-          <p className="text-gray-400 font-mono min-h-[24px]">
-            <span className="text-pink-300">$ </span>
-            <span className="text-teal-400">{typedSubtitle}</span>
+          <p className={styles.subtitle}>
+            <span className={styles.subtitlePrompt}>$ </span>
+            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
           </p>
         </motion.div>
 
         {/* Education Items */}
-        <div className="space-y-8">
+        <div className={styles.educationList}>
           {education.map((edu, index) => (
-            <PixelCard key={edu._id || index} className="rounded-lg p-8">
+            <PixelCard key={edu._id || index} className={styles.educationCard}>
               {/* Icon & Degree */}
-              <div className="flex items-start gap-4 mb-6">
-                <div className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg">
-                  <GraduationCap className="w-8 h-8 text-pink-400" />
+              <div className={styles.educationHeader}>
+                <div className={styles.iconContainer}>
+                  <GraduationCap className={styles.icon} />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold font-mono text-pink-400 mb-2">
+                <div className={styles.headerContent}>
+                  <h3 className={styles.degree}>
                     {edu.degree}
                   </h3>
-                  <div className="flex flex-wrap gap-4 text-sm">
-                    <div className="flex items-center gap-2 text-teal-400">
-                      <BookOpen className="w-4 h-4" />
-                      <span className="font-mono">{edu.school}</span>
+                  <div className={styles.metadata}>
+                    <div className={`${styles.metadataItem} ${styles.metadataItemPrimary}`}>
+                      <BookOpen className={styles.metadataIcon} />
+                      <span>{edu.school}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-400">
-                      <MapPin className="w-4 h-4" />
-                      <span className="font-mono">{edu.location}</span>
+                    <div className={`${styles.metadataItem} ${styles.metadataItemSecondary}`}>
+                      <MapPin className={styles.metadataIcon} />
+                      <span>{edu.location}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      <span className="font-mono">
+                    <div className={`${styles.metadataItem} ${styles.metadataItemSecondary}`}>
+                      <Calendar className={styles.metadataIcon} />
+                      <span>
                         {(() => {
                           // Handle both string and object for period/dateRange
                           const dr = edu.period || edu.dateRange;
@@ -101,22 +102,22 @@ const Education = () => {
               </div>
 
               {/* GPA */}
-              <div className="mb-4">
-                <span className="inline-block px-4 py-2 bg-[#0A0E27] border border-teal-500 rounded-lg text-teal-400 font-mono text-sm">
+              <div>
+                <span className={styles.gpaBadge}>
                   GPA: {edu.gpa}
                 </span>
               </div>
 
               {/* Description/Highlights */}
               {edu.description && edu.description.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-lg font-mono text-pink-400 mb-2 flex items-center gap-2">
+                <div className={styles.highlightsSection}>
+                  <h4 className={styles.highlightsTitle}>
                     <span>•</span> Highlights:
                   </h4>
-                  <ul className="space-y-1 text-gray-300">
+                  <ul className={styles.highlightsList}>
                     {edu.description.map((item, idx) => (
-                      <li key={idx} className="font-mono text-sm flex items-start gap-2">
-                        <span className="text-teal-400 mt-1">▸</span>
+                      <li key={idx} className={styles.highlightItem}>
+                        <span className={styles.highlightBullet}>▸</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -126,12 +127,12 @@ const Education = () => {
 
               {/* Relevant Coursework */}
               <div>
-                <h4 className="text-lg font-mono text-teal-400 mb-3 flex items-center gap-2">
+                <h4 className={styles.courseworkTitle}>
                   <span>•</span> Relevant Coursework:
                 </h4>
-                <div className="flex flex-wrap gap-2">
+                <div className={styles.courseworkTags}>
                   {edu.relevant.map(course => (
-                    <span key={course} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
+                    <span key={course} className={styles.courseworkTag}>
                       {course}
                     </span>
                   ))}
@@ -145,7 +146,7 @@ const Education = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="mt-12 text-center text-sm text-pink-400/50"
+          className={styles.footerMessage}
         >
           <p>LEVEL UP: Continuous learning achievement unlocked!</p>
         </motion.div>

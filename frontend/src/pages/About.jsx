@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
 import { getProfile, getSkills } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import styles from '../styles/About.module.css';
 
 const About = () => {
   const [profileData, setProfileData] = useState(null);
@@ -32,42 +33,42 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-20 pb-12 px-4 flex items-center justify-center">
-        <div className="text-pink-400 font-mono">Loading...</div>
+      <div className={styles.loadingContainer}>
+        <div className={styles.loadingText}>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pt-20 pb-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className={styles.container}>
+      <div className={styles.content}>
         {/* Header */}
         <motion.div 
-          className="text-center mb-12"
+          className={styles.header}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2">
-            <Terminal className="w-8 h-8 text-teal-400" />
+          <h1 className={styles.title}>
+            <Terminal className={styles.titleIcon} />
             <span>
               {typedTitle}
-              {!titleComplete && <span className="text-teal-400 animate-pulse">_</span>}
+              {!titleComplete && <span className={styles.cursor}>_</span>}
             </span>
           </h1>
-          <p className="text-gray-400 font-mono min-h-[24px]">
-            <span className="text-pink-300">$ </span>
-            <span className="text-teal-400">{typedSubtitle}</span>
+          <p className={styles.subtitle}>
+            <span className={styles.subtitlePrompt}>$ </span>
+            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
           </p>
         </motion.div>
 
         {/* Bio Section */}
-  <PixelCard className="rounded-lg p-8 mb-8">
-          <div className="flex items-center gap-3 mb-4">
-            <Sparkles className="w-6 h-6 text-teal-400" />
-            <h2 className="text-2xl font-bold font-mono text-pink-400">My Story</h2>
+  <PixelCard className={styles.bioCard}>
+          <div className={styles.sectionHeader}>
+            <Sparkles className={styles.sectionIcon} />
+            <h2 className={styles.sectionTitle}>My Story</h2>
           </div>
-          <div className="text-gray-300 leading-relaxed space-y-4">
+          <div className={styles.bioText}>
             <p>
               Hi there! I'm {profileData?.name}, a computer science student with a passion for creating elegant solutions to complex problems. My journey into tech started with a curiosity about how video games work, which led me down the rabbit hole of programming.
             </p>
@@ -78,16 +79,16 @@ const About = () => {
   </PixelCard>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className={styles.skillsGrid}>
           {/* Languages */}
-          <PixelCard className="rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Code2 className="w-5 h-5 text-pink-400" />
-              <h3 className="text-xl font-bold font-mono text-teal-400">Languages</h3>
+          <PixelCard className={styles.skillCard}>
+            <div className={styles.skillHeader}>
+              <Code2 className={styles.skillIconPink} />
+              <h3 className={styles.skillTitleTeal}>Languages</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={styles.skillTags}>
               {skills?.languages?.map(lang => (
-                <span key={lang} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
+                <span key={lang} className={styles.tagPink}>
                   {lang}
                 </span>
               ))}
@@ -95,14 +96,14 @@ const About = () => {
           </PixelCard>
 
           {/* Frameworks */}
-          <PixelCard className="rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Wrench className="w-5 h-5 text-teal-400" />
-              <h3 className="text-xl font-bold font-mono text-pink-400">Frameworks</h3>
+          <PixelCard className={styles.skillCard}>
+            <div className={styles.skillHeader}>
+              <Wrench className={styles.skillIconTeal} />
+              <h3 className={styles.skillTitlePink}>Frameworks</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={styles.skillTags}>
               {skills?.frameworks?.map(framework => (
-                <span key={framework} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors">
+                <span key={framework} className={styles.tagTeal}>
                   {framework}
                 </span>
               ))}
@@ -110,14 +111,14 @@ const About = () => {
           </PixelCard>
 
           {/* Tools */}
-          <PixelCard className="rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Wrench className="w-5 h-5 text-pink-400" />
-              <h3 className="text-xl font-bold font-mono text-teal-400">Tools & Technologies</h3>
+          <PixelCard className={styles.skillCard}>
+            <div className={styles.skillHeader}>
+              <Wrench className={styles.skillIconPink} />
+              <h3 className={styles.skillTitleTeal}>Tools & Technologies</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={styles.skillTags}>
               {skills?.tools?.map(tool => (
-                <span key={tool} className="px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors">
+                <span key={tool} className={styles.tagPink}>
                   {tool}
                 </span>
               ))}
@@ -125,14 +126,14 @@ const About = () => {
           </PixelCard>
 
           {/* Interests */}
-          <PixelCard className="rounded-lg p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Heart className="w-5 h-5 text-teal-400" />
-              <h3 className="text-xl font-bold font-mono text-pink-400">Interests</h3>
+          <PixelCard className={styles.skillCard}>
+            <div className={styles.skillHeader}>
+              <Heart className={styles.skillIconTeal} />
+              <h3 className={styles.skillTitlePink}>Interests</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={styles.skillTags}>
               {skills?.interests?.map(interest => (
-                <span key={interest} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors">
+                <span key={interest} className={styles.tagTeal}>
                   {interest}
                 </span>
               ))}
@@ -141,12 +142,12 @@ const About = () => {
         </div>
 
         {/* Fun Fact */}
-  <PixelCard className="rounded-lg p-6 font-mono">
-          <div className="flex items-start gap-3">
-            <span className="text-3xl">🎮</span>
+  <PixelCard className={styles.funFactCard}>
+          <div className={styles.funFactContent}>
+            <span className={styles.funFactEmoji}>🎮</span>
             <div>
-              <h3 className="text-teal-400 font-bold mb-2">Fun Fact:</h3>
-              <p className="text-gray-300">
+              <h3 className={styles.funFactTitle}>Fun Fact:</h3>
+              <p className={styles.funFactText}>
                 Still thinking about what to add here...
               </p>
             </div>

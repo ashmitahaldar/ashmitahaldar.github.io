@@ -61,6 +61,15 @@ export default {
       type: 'string',
       description: 'e.g., Singapore, Remote'
     },
+    {
+      name: 'avatar',
+      title: 'Avatar Image',
+      type: 'image',
+      description: 'Square image works best (e.g., 512x512).',
+      options: {
+        hotspot: true,
+      },
+    },
   ],
   
   // Optional: Add a preview for the document list

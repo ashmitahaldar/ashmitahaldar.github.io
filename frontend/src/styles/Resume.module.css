@@ -1,0 +1,176 @@
+/* Layout */
+.container {
+  @apply min-h-screen pt-20 pb-12 px-4;
+}
+
+.content {
+  @apply max-w-5xl mx-auto;
+}
+
+/* Loading State */
+.loadingContainer {
+  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+}
+
+.loadingText {
+  @apply text-pink-400 font-mono;
+}
+
+/* Header */
+.header {
+  @apply text-center mb-8;
+}
+
+.title {
+  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent flex items-center justify-center gap-2;
+}
+
+.titleIcon {
+  @apply w-8 h-8 text-teal-400;
+}
+
+.cursor {
+  @apply text-teal-400 animate-pulse;
+}
+
+.downloadButton {
+  @apply inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-600 to-teal-600 text-white font-mono rounded-lg transition-all duration-300;
+}
+
+.downloadIcon {
+  @apply w-5 h-5;
+}
+
+/* Resume Card */
+.resumeCard {
+  @apply rounded-lg;
+}
+
+/* Header Section */
+.resumeHeader {
+  @apply border-b-2 border-teal-500/30 p-8 text-center;
+}
+
+.resumeName {
+  @apply text-4xl font-bold font-mono text-pink-400 mb-2;
+}
+
+.resumeTitle {
+  @apply text-xl text-teal-400 font-mono mb-4;
+}
+
+.resumeContactInfo {
+  @apply flex justify-center gap-6 text-sm;
+}
+
+.contactText {
+  @apply text-gray-400 font-mono;
+}
+
+.resumeSocialLinks {
+  @apply flex justify-center gap-4 mt-4;
+}
+
+.socialLinkTeal {
+  @apply text-teal-400 hover:text-teal-300 transition-colors;
+}
+
+.socialLinkPink {
+  @apply text-pink-400 hover:text-pink-300 transition-colors;
+}
+
+.socialIcon {
+  @apply w-5 h-5;
+}
+
+/* Section Common */
+.section {
+  @apply border-b-2 border-teal-500/30 p-8;
+}
+
+.sectionLast {
+  @apply p-8;
+}
+
+.sectionTitle {
+  @apply text-2xl font-bold font-mono text-teal-400 mb-4 flex items-center gap-2;
+}
+
+/* Education Section */
+.educationItem {
+  @apply mb-4 last:mb-0;
+}
+
+.educationHeader {
+  @apply flex justify-between items-start mb-2;
+}
+
+.educationDegree {
+  @apply text-lg font-bold text-pink-400 font-mono;
+}
+
+.educationSchool {
+  @apply text-gray-300;
+}
+
+.educationDates {
+  @apply text-right;
+}
+
+.educationDate {
+  @apply text-gray-400 font-mono text-sm;
+}
+
+.educationGpa {
+  @apply text-teal-400 font-mono text-sm;
+}
+
+/* Experience Section */
+.experienceItem {
+  @apply mb-6 last:mb-0;
+}
+
+.experienceHeader {
+  @apply flex justify-between items-start mb-2;
+}
+
+.experienceTitle {
+  @apply text-lg font-bold text-pink-400 font-mono;
+}
+
+.experienceCompany {
+  @apply text-gray-300;
+}
+
+.experienceDate {
+  @apply text-gray-400 font-mono text-sm;
+}
+
+.experienceDescription {
+  @apply text-gray-300 mb-2;
+}
+
+.experienceList {
+  @apply list-disc pl-5;
+}
+
+.experienceTechTags {
+  @apply flex flex-wrap gap-2;
+}
+
+.techTag {
+  @apply px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs;
+}
+
+/* Skills Section */
+.skillsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.skillCategory {
+  @apply text-pink-400 font-mono mb-2;
+}
+
+.skillList {
+  @apply text-gray-300 font-mono text-sm;
+}
