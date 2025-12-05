@@ -43,7 +43,7 @@ const Footer = () => {
             )}
             {profileData?.github && (
             <a
-              href={`https://${profileData.github}`}
+              href={`${profileData.github}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-[#1A1B26] border border-teal-500 rounded hover:bg-teal-500/10 transition-all duration-200"
@@ -54,7 +54,7 @@ const Footer = () => {
             )}
             {profileData?.linkedin && (
             <a
-              href={`https://${profileData.linkedin}`}
+              href={`${profileData.linkedin}`}
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"

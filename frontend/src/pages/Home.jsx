@@ -109,10 +109,10 @@ const Home = () => {
                 <a href={`mailto:${profileData.email}`} className={`${styles.socialLink} ${styles.socialLinkPink}`}>
                   <Mail className={`${styles.socialIcon} ${styles.socialIconPink}`} />
                 </a>
-                <a href={`https://${profileData.github}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkTeal}`}>
+                <a href={`${profileData.github}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkTeal}`}>
                   <Github className={`${styles.socialIcon} ${styles.socialIconTeal}`} />
                 </a>
-                <a href={`https://${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkPink}`}>
+                <a href={`${profileData.linkedin}`} target="_blank" rel="noopener noreferrer" className={`${styles.socialLink} ${styles.socialLinkPink}`}>
                   <Linkedin className={`${styles.socialIcon} ${styles.socialIconPink}`} />
                 </a>
               </div>
