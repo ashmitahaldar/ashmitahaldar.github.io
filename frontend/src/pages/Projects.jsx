@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getProjects } from '../services/sanityClient';
+import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Projects = () => {
@@ -15,10 +16,10 @@ const Projects = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await api.getProjects();
-        setProjects(response.data);
+        const data = await getProjects();
+        setProjects(data);
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error('Error fetching projects from Sanity:', error);
       } finally {
         setLoading(false);
       }
@@ -69,11 +70,12 @@ const Projects = () => {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {projects.map((project, index) => {
-            const Icon = getProjectIcon(project.image);
+            // Use _id for key, and imageUrl for image if available
+            const Icon = getProjectIcon(project.image || 'code');
             return (
               <PixelCard
-                key={project.id}
-                onMouseEnter={() => setHoveredProject(project.id)}
+                key={project._id}
+                onMouseEnter={() => setHoveredProject(project._id)}
                 onMouseLeave={() => setHoveredProject(null)}
                 className="overflow-hidden"
               >
@@ -83,9 +85,13 @@ const Projects = () => {
                     ? 'bg-gradient-to-br from-pink-900/30 to-pink-600/30' 
                     : 'bg-gradient-to-br from-teal-900/30 to-teal-600/30'
                 }`}>
-                  <Icon className={`w-24 h-24 ${
-                    index % 2 === 0 ? 'text-pink-400' : 'text-teal-400'
-                  } ${hoveredProject === project.id ? 'scale-110' : 'scale-100'} transition-transform duration-300`} />
+                  {project.imageUrl ? (
+                    <img src={project.imageUrl} alt={project.title} className="w-24 h-24 object-contain rounded-lg shadow-lg" />
+                  ) : (
+                    <Icon className={`w-24 h-24 ${
+                      index % 2 === 0 ? 'text-pink-400' : 'text-teal-400'
+                    } ${hoveredProject === project._id ? 'scale-110' : 'scale-100'} transition-transform duration-300`} />
+                  )}
                 </div>
 
                 {/* Content */}
@@ -93,14 +99,20 @@ const Projects = () => {
                   <h3 className="text-2xl font-bold font-mono text-pink-400 mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-gray-300 mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
+                  {Array.isArray(project.description) ? (
+                    <div className="text-gray-300 mb-4 leading-relaxed">
+                      <PortableText value={project.description} />
+                    </div>
+                  ) : (
+                    <p className="text-gray-300 mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+                  )}
 
                   {/* Technologies */}
                   <div className="mb-4">
                     <div className="flex flex-wrap gap-2">
-                      {project.technologies.map(tech => (
+                      {project.technologies && project.technologies.map(tech => (
                         <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs hover:border-teal-500 transition-colors">
                           {tech}
                         </span>
@@ -110,18 +122,20 @@ const Projects = () => {
 
                   {/* Links */}
                   <div className="flex gap-3">
-                    <a
-                      href={`https://${project.github}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-pink-500 rounded-lg text-pink-400 font-mono text-sm hover:bg-pink-500/10 transition-all duration-200"
-                    >
-                      <Github className="w-4 h-4" />
-                      Code
-                    </a>
+                    {project.github && (
+                      <a
+                        href={project.github.startsWith('http') ? project.github : `https://${project.github}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-pink-500 rounded-lg text-pink-400 font-mono text-sm hover:bg-pink-500/10 transition-all duration-200"
+                      >
+                        <Github className="w-4 h-4" />
+                        Code
+                      </a>
+                    )}
                     {project.demo && (
                       <a
-                        href={`https://${project.demo}`}
+                        href={project.demo.startsWith('http') ? project.demo : `https://${project.demo}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 bg-[#0A0E27] border-2 border-teal-500 rounded-lg text-teal-400 font-mono text-sm hover:bg-teal-500/10 transition-all duration-200"

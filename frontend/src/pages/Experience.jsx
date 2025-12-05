@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, Calendar, Code2, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getExperiences } from '../services/sanityClient';
+import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Experience = () => {
@@ -14,10 +15,10 @@ const Experience = () => {
   useEffect(() => {
     const fetchExperience = async () => {
       try {
-        const response = await api.getExperience();
-        setExperience(response.data);
+        const data = await getExperiences();
+        setExperience(data);
       } catch (error) {
-        console.error('Error fetching experience:', error);
+        console.error('Error fetching experience from Sanity:', error);
       } finally {
         setLoading(false);
       }
@@ -71,7 +72,7 @@ const Experience = () => {
           {/* Experience Items */}
           <div className="space-y-8">
             {experience.map((exp, index) => (
-              <div key={exp.id} className="relative pl-20">
+              <div key={exp._id || index} className="relative pl-20">
                 {/* Timeline Dot */}
                 <div className="absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full z-10"></div>
 
@@ -93,15 +94,33 @@ const Experience = () => {
                       </div>
                       <div className="flex items-center gap-2 text-gray-400">
                         <Calendar className="w-4 h-4" />
-                        <span className="font-mono">{exp.period}</span>
+                        <span className="font-mono">
+                          {(() => {
+                            // Handle both string and object for period/dateRange
+                            const dr = exp.period || exp.dateRange;
+                            if (!dr) return '';
+                            if (typeof dr === 'string') return dr;
+                            if (typeof dr === 'object') {
+                              // Sanity dateRange object: { _type, from, to, isCurrent }
+                              const from = dr.from ? new Date(dr.from).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '';
+                              const to = dr.isCurrent ? 'Present' : (dr.to ? new Date(dr.to).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '');
+                              return from && to ? `${from} - ${to}` : from || to || '';
+                            }
+                            return '';
+                          })()}
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-300 mb-4 leading-relaxed">
-                    {exp.description}
-                  </p>
+                  {Array.isArray(exp.description) ? (
+                    <div className="text-gray-300 mb-4 leading-relaxed">
+                      <PortableText value={exp.description} />
+                    </div>
+                  ) : (
+                    <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                  )}
 
                   {/* Technologies */}
                   <div className="flex items-center gap-2 mb-2">

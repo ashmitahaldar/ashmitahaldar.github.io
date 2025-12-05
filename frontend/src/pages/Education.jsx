@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GraduationCap, MapPin, Calendar, BookOpen, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getEducation } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Education = () => {
@@ -14,10 +14,10 @@ const Education = () => {
   useEffect(() => {
     const fetchEducation = async () => {
       try {
-        const response = await api.getEducation();
-        setEducation(response.data);
+        const data = await getEducation();
+        setEducation(data);
       } catch (error) {
-        console.error('Error fetching education:', error);
+        console.error('Error fetching education from Sanity:', error);
       } finally {
         setLoading(false);
       }
@@ -59,7 +59,7 @@ const Education = () => {
         {/* Education Items */}
         <div className="space-y-8">
           {education.map((edu, index) => (
-            <PixelCard key={edu.id} className="rounded-lg p-8">
+            <PixelCard key={edu._id || index} className="rounded-lg p-8">
               {/* Icon & Degree */}
               <div className="flex items-start gap-4 mb-6">
                 <div className="p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg">
@@ -80,7 +80,21 @@ const Education = () => {
                     </div>
                     <div className="flex items-center gap-2 text-gray-400">
                       <Calendar className="w-4 h-4" />
-                      <span className="font-mono">{edu.period}</span>
+                      <span className="font-mono">
+                        {(() => {
+                          // Handle both string and object for period/dateRange
+                          const dr = edu.period || edu.dateRange;
+                          if (!dr) return '';
+                          if (typeof dr === 'string') return dr;
+                          if (typeof dr === 'object') {
+                            // Sanity dateRange object: { _type, from, to, isCurrent }
+                            const from = dr.from ? new Date(dr.from).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '';
+                            const to = dr.isCurrent ? 'Present' : (dr.to ? new Date(dr.to).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '');
+                            return from && to ? `${from} - ${to}` : from || to || '';
+                          }
+                          return '';
+                        })()}
+                      </span>
                     </div>
                   </div>
                 </div>

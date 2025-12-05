@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { api } from '../services/api';
+import { getSkills } from '../services/sanityClient';
 import { useSnakeGame } from '../hooks/useSnakeGame';
 
 const Terminal = ({ profileData }) => {
@@ -32,10 +32,10 @@ const Terminal = ({ profileData }) => {
     // Fetch skills for terminal commands
     const fetchSkills = async () => {
       try {
-        const response = await api.getSkills();
-        setSkills(response.data);
+        const data = await getSkills();
+        setSkills(data);
       } catch (error) {
-        console.error('Error fetching skills:', error);
+        console.error('Error fetching skills from Sanity:', error);
       }
     };
     fetchSkills();
@@ -290,9 +290,9 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
 
         {/* Output */}
         {!gameState && output.map((line, index) => (
-          <div key={index} className={`${getOutputColor(line.type)} whitespace-pre-wrap mb-1`}>
+          <pre key={index} className={`${getOutputColor(line.type)} mb-1 font-mono text-sm`}>
             {line.text}
-          </div>
+          </pre>
         ))}
 
         {/* Input Line */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, Github, Linkedin, Mail, Terminal } from 'lucide-react';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getProfile, getSkills, getExperiences, getEducation } from '../services/sanityClient';
 
 const Resume = () => {
   const [profileData, setProfileData] = useState(null);
@@ -15,18 +15,18 @@ const Resume = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [profileRes, skillsRes, expRes, eduRes] = await Promise.all([
-          api.getProfile(),
-          api.getSkills(),
-          api.getExperience(),
-          api.getEducation()
+        const [profile, skills, exp, edu] = await Promise.all([
+          getProfile(),
+          getSkills(),
+          getExperiences(),
+          getEducation()
         ]);
-        setProfileData(profileRes.data);
-        setSkills(skillsRes.data);
-        setExperience(expRes.data);
-        setEducation(eduRes.data);
+        setProfileData(profile);
+        setSkills(skills);
+        setExperience(exp);
+        setEducation(edu);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data from Sanity:', error);
       } finally {
         setLoading(false);
       }
@@ -97,14 +97,26 @@ const Resume = () => {
               <span>&gt;&gt;</span> Education
             </h3>
             {education.map(edu => (
-              <div key={edu.id} className="mb-4 last:mb-0">
+              <div key={edu._id} className="mb-4 last:mb-0">
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h4 className="text-lg font-bold text-pink-400 font-mono">{edu.degree}</h4>
                     <p className="text-gray-300">{edu.school}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-gray-400 font-mono text-sm">{edu.period}</p>
+                    <p className="text-gray-400 font-mono text-sm">
+                      {(() => {
+                        const dr = edu.period || edu.dateRange;
+                        if (!dr) return '';
+                        if (typeof dr === 'string') return dr;
+                        if (typeof dr === 'object') {
+                          const from = dr.from ? new Date(dr.from).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '';
+                          const to = dr.isCurrent ? 'Present' : (dr.to ? new Date(dr.to).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '');
+                          return from && to ? `${from} - ${to}` : from || to || '';
+                        }
+                        return '';
+                      })()}
+                    </p>
                     <p className="text-teal-400 font-mono text-sm">GPA: {edu.gpa}</p>
                   </div>
                 </div>
@@ -118,17 +130,39 @@ const Resume = () => {
               <span>&gt;&gt;</span> Experience
             </h3>
             {experience.map(exp => (
-              <div key={exp.id} className="mb-6 last:mb-0">
+              <div key={exp._id} className="mb-6 last:mb-0">
                 <div className="flex justify-between items-start mb-2">
                   <div>
                     <h4 className="text-lg font-bold text-pink-400 font-mono">{exp.title}</h4>
                     <p className="text-gray-300">{exp.company} | {exp.location}</p>
                   </div>
-                  <p className="text-gray-400 font-mono text-sm">{exp.period}</p>
+                  <p className="text-gray-400 font-mono text-sm">
+                    {(() => {
+                      const dr = exp.period || exp.dateRange;
+                      if (!dr) return '';
+                      if (typeof dr === 'string') return dr;
+                      if (typeof dr === 'object') {
+                        const from = dr.from ? new Date(dr.from).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '';
+                        const to = dr.isCurrent ? 'Present' : (dr.to ? new Date(dr.to).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : '');
+                        return from && to ? `${from} - ${to}` : from || to || '';
+                      }
+                      return '';
+                    })()}
+                  </p>
                 </div>
-                <p className="text-gray-300 mb-2">{exp.description}</p>
+                <div className="text-gray-300 mb-2">
+                  {Array.isArray(exp.description) ? (
+                    <ul className="list-disc pl-5">
+                      {exp.description.map((item, idx) => (
+                        <li key={idx}>{typeof item === 'string' ? item : ''}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span>{exp.description}</span>
+                  )}
+                </div>
                 <div className="flex flex-wrap gap-2">
-                  {exp.technologies.map(tech => (
+                  {exp.technologies && exp.technologies.map(tech => (
                     <span key={tech} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs">
                       {tech}
                     </span>

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
+import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
-import { api } from '../services/api';
+import { getBlogPostBySlug } from '../services/sanityClient';
 
 const BlogPost = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,16 +22,17 @@ const BlogPost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await api.getBlogPost(id);
-        setPost(response.data);
+        const data = await getBlogPostBySlug(slug);
+        console.log('Fetched blog post:', data);
+        setPost(data);
       } catch (error) {
-        console.error('Error fetching blog post:', error);
+        console.error('Error fetching blog post from Sanity:', error);
       } finally {
         setLoading(false);
       }
     };
     fetchPost();
-  }, [id]);
+  }, [slug]);
 
   if (loading) {
     return (
@@ -85,45 +85,33 @@ const BlogPost = () => {
           <div className="flex items-center gap-4 mb-4 text-sm">
             <div className="flex items-center gap-2 text-gray-400">
               <Calendar className="w-4 h-4" />
-              <span className="font-mono">{post.date}</span>
+              <span className="font-mono">{new Date(post.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </div>
           </div>
 
           {/* Tags */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <Tag className="w-4 h-4 text-teal-400" />
-            {post.tags.map(tag => (
-              <span key={tag} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
+          {post.tags && Array.isArray(post.tags) && post.tags.length > 0 ? (
+            <div className="flex items-center gap-2 flex-wrap">
+              <Tag className="w-4 h-4 text-teal-400" />
+              {post.tags.map(tag => (
+                <span key={tag} className="px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-sm">No tags</p>
+          )}
   </PixelCard>
 
-        {/* Post Content - Formatted Markdown */}
+        {/* Post Content - Sanity Portable Text */}
         <PixelCard className="rounded-lg p-8">
-          <div className="prose prose-invert prose-pink max-w-none">
-            <ReactMarkdown 
-              remarkPlugins={[remarkGfm]}
-              components={{
-                h1: ({node, ...props}) => <h1 className="text-3xl font-bold text-pink-400 font-mono mb-4 mt-8" {...props} />,
-                h2: ({node, ...props}) => <h2 className="text-2xl font-bold text-pink-400 font-mono mb-3 mt-6" {...props} />,
-                h3: ({node, ...props}) => <h3 className="text-xl font-bold text-teal-400 font-mono mb-2 mt-4" {...props} />,
-                p: ({node, ...props}) => <p className="text-gray-300 mb-4 leading-relaxed" {...props} />,
-                ul: ({node, ...props}) => <ul className="list-disc list-inside text-gray-300 mb-4 space-y-2" {...props} />,
-                ol: ({node, ...props}) => <ol className="list-decimal list-inside text-gray-300 mb-4 space-y-2" {...props} />,
-                li: ({node, ...props}) => <li className="text-gray-300" {...props} />,
-                code: ({node, inline, ...props}) => 
-                  inline 
-                    ? <code className="bg-[#0A0E27] text-teal-300 px-2 py-1 rounded font-mono text-sm" {...props} />
-                    : <code className="block bg-[#0A0E27] text-teal-300 p-4 rounded font-mono text-sm overflow-x-auto mb-4" {...props} />,
-                a: ({node, ...props}) => <a className="text-teal-400 hover:text-teal-300 underline" {...props} />,
-                strong: ({node, ...props}) => <strong className="text-pink-400 font-bold" {...props} />,
-                blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-pink-500 pl-4 italic text-gray-400 my-4" {...props} />,
-              }}
-            >
-              {post.content}
-            </ReactMarkdown>
+          <div className="text-gray-300 leading-relaxed">
+            {Array.isArray(post.content) ? (
+              <PortableText value={post.content} />
+            ) : (
+              <p>{post.content}</p>
+            )}
           </div>
         </PixelCard>
       </div>

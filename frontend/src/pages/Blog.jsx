@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Tag, ArrowRight, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getBlogPosts } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const Blog = () => {
@@ -16,10 +16,10 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const response = await api.getBlogPosts();
-        setBlogPosts(response.data);
+        const data = await getBlogPosts();
+        setBlogPosts(data);
       } catch (error) {
-        console.error('Error fetching blog posts:', error);
+        console.error('Error fetching blog posts from Sanity:', error);
       } finally {
         setLoading(false);
       }
@@ -31,7 +31,9 @@ const Blog = () => {
   const allTags = useMemo(() => {
     const tags = new Set();
     blogPosts.forEach(post => {
-      post.tags.forEach(tag => tags.add(tag));
+      if (post.tags && Array.isArray(post.tags)) {
+        post.tags.forEach(tag => tags.add(tag));
+      }
     });
     return ['All', ...Array.from(tags)];
   }, [blogPosts]);
@@ -39,7 +41,7 @@ const Blog = () => {
   // Filter posts by selected tag
   const filteredPosts = useMemo(() => {
     if (selectedTag === 'All') return blogPosts;
-    return blogPosts.filter(post => post.tags.includes(selectedTag));
+    return blogPosts.filter(post => post.tags && Array.isArray(post.tags) && post.tags.includes(selectedTag));
   }, [selectedTag, blogPosts]);
 
   if (loading) {
@@ -104,7 +106,7 @@ const Blog = () => {
         ) : (
           <div className="space-y-6">
             {filteredPosts.map((post, index) => (
-              <Link key={post.id} to={`/blog/${post.id}`} className="block group">
+              <Link key={post._id} to={`/blog/${post.slug.current}`} className="block group">
                 <PixelCard className="rounded-lg p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1">
@@ -115,7 +117,7 @@ const Blog = () => {
                     <div className="flex items-center gap-4 mb-3 text-sm">
                       <div className="flex items-center gap-2 text-gray-400">
                         <Calendar className="w-4 h-4" />
-                        <span className="font-mono">{post.date}</span>
+                        <span className="font-mono">{new Date(post.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                       </div>
                     </div>
 
@@ -124,14 +126,16 @@ const Blog = () => {
                     </p>
 
                     {/* Tags */}
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Tag className="w-4 h-4 text-teal-400" />
-                      {post.tags.map(tag => (
-                        <span key={tag} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    {post.tags && post.tags.length > 0 && (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Tag className="w-4 h-4 text-teal-400" />
+                        {post.tags.map(tag => (
+                          <span key={tag} className="px-2 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-xs">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="text-pink-400 group-hover:text-teal-400 group-hover:translate-x-2 transition-all duration-200">

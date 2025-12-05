@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Code2, Wrench, Heart, Sparkles, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { api } from '../services/api';
+import { getProfile, getSkills } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 
 const About = () => {
@@ -15,14 +15,14 @@ const About = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [profileRes, skillsRes] = await Promise.all([
-          api.getProfile(),
-          api.getSkills()
+        const [profileSanity, skillsSanity] = await Promise.all([
+          getProfile(),
+          getSkills()
         ]);
-        setProfileData(profileRes.data);
-        setSkills(skillsRes.data);
+        setProfileData(profileSanity);
+        setSkills(skillsSanity);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data from Sanity:', error);
       } finally {
         setLoading(false);
       }

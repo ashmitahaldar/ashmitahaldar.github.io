@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail, Heart } from 'lucide-react';
-import { api } from '../services/api';
+import { getProfile } from '../services/sanityClient';
 
 const Footer = () => {
   const [profileData, setProfileData] = useState(null);
@@ -8,10 +8,10 @@ const Footer = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.getProfile();
-        setProfileData(res.data);
+        const data = await getProfile();
+        setProfileData(data);
       } catch (err) {
-        console.error('Error fetching profile for footer:', err);
+        console.error('Error fetching profile from Sanity:', err);
       }
     };
     fetchProfile();
@@ -66,13 +66,13 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Easter Egg */}
+        {/* Easter Egg
         <div className="text-center mt-6">
           <p className="text-gray-500 font-mono text-xs">
             <span className="text-teal-400">// </span>
             Website design inspired by command line interfaces and terminal aesthetics.
           </p>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

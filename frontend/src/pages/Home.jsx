@@ -3,7 +3,6 @@ import Terminal from '../components/Terminal';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-// import { api } from '../services/api';
 import { getProfile } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
@@ -89,9 +88,9 @@ const Home = () => {
               <p className="text-pink-300 font-mono text-sm mb-6">{profileData.tagline}</p>
 
               {/* Bio */}
-              <p className="text-gray-300 mb-6 leading-relaxed">
+              <div className="text-gray-300 mb-6 leading-relaxed">
                 {profileData.bio && <PortableText value={profileData.bio} />}
-              </p>
+              </div>
 
               {/* Location */}
               <div className="flex items-center gap-2 text-gray-400 mb-6">
