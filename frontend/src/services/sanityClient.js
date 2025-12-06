@@ -33,7 +33,7 @@ export const experiencesQuery = `*[_type == "experience"] | order(period.from de
 }`;
 
 // 2. Fetch all Projects
-export const projectsQuery = `*[_type == "project"] | order(_createdAt desc) {
+export const projectsQuery = `*[_type == "project"] | order(orderRank asc) {
   _id,
   title,
   description,

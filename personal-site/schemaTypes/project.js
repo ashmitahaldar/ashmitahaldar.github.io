@@ -30,5 +30,11 @@ export default {
         hotspot: true,
       },
     },
+    {
+      name: 'orderRank',
+      title: 'Order Rank',
+      type: 'string',
+      hidden: true, // hides it from the editor UI
+    },
   ],
 }
