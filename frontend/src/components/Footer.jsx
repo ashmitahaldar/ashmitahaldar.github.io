@@ -65,14 +65,6 @@ const Footer = () => {
             )}
           </div>
         </div>
-
-        {/* Easter Egg
-        <div className="text-center mt-6">
-          <p className="text-gray-500 font-mono text-xs">
-            <span className="text-teal-400">// </span>
-            Website design inspired by command line interfaces and terminal aesthetics.
-          </p>
-        </div> */}
       </div>
     </footer>
   );
