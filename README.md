@@ -209,9 +209,9 @@ This project is open source and available under the MIT License.
 
 ## 📧 Contact
 
-- **Email** – [Your Email]
+- **Email** – ashmita \[dot] haldar \[at] u \[dot] nus \[dot] edu
 - **GitHub** – [@ashmitahaldar](https://github.com/ashmitahaldar)
-- **LinkedIn** – [Your LinkedIn]
+- **LinkedIn** – [My LinkedIn profile](https://www.linkedin.com/in/ashmita-haldar/)
 
 ---
 
