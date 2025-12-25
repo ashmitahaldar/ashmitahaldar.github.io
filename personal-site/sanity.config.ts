@@ -28,12 +28,13 @@ export default defineConfig({
           S.documentTypeListItem('experience').title('Experience'),
           S.documentTypeListItem('education').title('Education'),
           S.documentTypeListItem('blogPost').title('Blog Posts'),
+          S.documentTypeListItem('profile').title('Personal Profile'),
 
           // Fallback: include any other types not explicitly listed
           S.divider(),
           ...S.documentTypeListItems().filter((item) => {
             const id = item.getId?.();
-            return id ? !['project'].includes(id) : true;
+            return id ? !['project', 'experience', 'education', 'blogPost', 'profile'].includes(id) : true;
           }),
         ]),
   }), 

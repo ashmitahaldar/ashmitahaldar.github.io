@@ -17,7 +17,6 @@ export default function PixelCard({ glow = false, hover = true, className = '', 
           border: '2px solid rgb(var(--accent))',
           background: 'rgba(0,0,0,0.6)',
           backdropFilter: 'blur(4px)'
-          // no glow
         }}
         {...rest}
       >
