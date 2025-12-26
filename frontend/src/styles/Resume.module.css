@@ -40,7 +40,21 @@
 .downloadIcon {
   @apply w-5 h-5;
 }
+.resumeCard {
+  @apply w-full;
+}
 
+.pdfContainer {
+  @apply w-full h-screen flex items-center justify-center;
+}
+
+.pdfViewer {
+  @apply w-full h-full border-0 rounded-lg;
+}
+
+.noResumeText {
+  @apply text-gray-300 text-center py-12;
+}
 /* Resume Card */
 .resumeCard {
   @apply rounded-lg;

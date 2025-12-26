@@ -29,12 +29,16 @@ export default defineConfig({
           S.documentTypeListItem('education').title('Education'),
           S.documentTypeListItem('blogPost').title('Blog Posts'),
           S.documentTypeListItem('profile').title('Personal Profile'),
+          
+          S.documentTypeListItem('resume')
+            .title('Resume PDF')
+            .child(S.document().schemaType('resume').documentId('resume')),
 
           // Fallback: include any other types not explicitly listed
           S.divider(),
           ...S.documentTypeListItems().filter((item) => {
             const id = item.getId?.();
-            return id ? !['project', 'experience', 'education', 'blogPost', 'profile'].includes(id) : true;
+            return id ? !['project', 'experience', 'education', 'blogPost', 'profile', 'resume'].includes(id) : true;
           }),
         ]),
   }), 

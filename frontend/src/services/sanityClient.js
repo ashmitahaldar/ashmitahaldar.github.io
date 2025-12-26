@@ -63,6 +63,14 @@ export const skillsQuery = `*[_type == "skills"][0] {
   interests
 }`;
 
+// 5. Fetch Resume PDF (singleton)
+export const resumeQuery = `*[_type == "resume"][0] {
+  title,
+  pdfFile,
+  lastUpdated,
+  "pdfUrl": pdfFile.asset->url
+}`;
+
 export async function getProfile() {
   return await sanityClient.fetch(profileQuery);
 }
@@ -92,6 +100,10 @@ export const blogPostsQuery = `*[_type == "blogPost"] | order(publishedAt desc) 
 
 export async function getSkills() {
   return await sanityClient.fetch(skillsQuery);
+}
+
+export async function getResume() {
+  return await sanityClient.fetch(resumeQuery);
 }
 
 export async function getBlogPosts() {

@@ -152,13 +152,13 @@ const Projects = () => {
           })}
         </div>
 
-        {/* Add Project Note */}
+        {/* Add Project Note
         <div className={styles.footerNote}>
           <p className={styles.footerNoteText}>
             <span className={styles.footerNoteComment}>// </span>
             This page is a work in progress. More projects will be added soon!
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
