@@ -6,6 +6,7 @@ import PixelCard from '../components/PixelCard';
 import { getProfile } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
+import SplineErrorBoundary from '../components/SplineErrorBoundary';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
@@ -121,15 +122,24 @@ const Home = () => {
 
           {/* Spline Model */}
           <div className={styles.splineContainer}>
-            {splineLoading && (
-              <div className={styles.splineLoading}>
-                <div className={styles.loadingText}>Loading...</div>
-              </div>
-            )}
-            <Spline
-              scene="https://prod.spline.design/PZ-RH4uPUyHnb9mI/scene.splinecode"
-              onLoad={() => setSplineLoading(false)}
-            />
+            <SplineErrorBoundary
+              fallback={
+                <div className={styles.splineError}>
+                  <div className={styles.errorEmoji}>🎨</div>
+                  <p className={styles.errorText}>3D scene unavailable</p>
+                </div>
+              }
+            >
+              {splineLoading && (
+                <div className={styles.splineLoading}>
+                  <div className={styles.loadingText}>Loading 3D Scene...</div>
+                </div>
+              )}
+              <Spline
+                scene="https://prod.spline.design/PZ-RH4uPUyHnb9mI/scene.splinecode"
+                onLoad={() => setSplineLoading(false)}
+              />
+            </SplineErrorBoundary>
           </div>
         </div>
 

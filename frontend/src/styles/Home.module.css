@@ -130,6 +130,18 @@
   @apply absolute inset-0 flex items-center justify-center;
 }
 
+.splineError {
+  @apply flex flex-col items-center justify-center h-full gap-3 text-gray-500;
+}
+
+.errorEmoji {
+  @apply text-4xl;
+}
+
+.errorText {
+  @apply text-sm font-mono opacity-70;
+}
+
 /* Terminal Tips */
 .tipsCard {
   @apply rounded-lg p-6 font-mono text-sm;
