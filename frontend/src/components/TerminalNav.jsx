@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, FileText, BookOpen, Menu, X } from 'lucide-react';
+import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X } from 'lucide-react';
 
 const TerminalNav = () => {
   const location = useLocation();
@@ -14,7 +14,6 @@ const TerminalNav = () => {
     { path: '/education', label: 'Education', icon: GraduationCap },
     { path: '/projects', label: 'Projects', icon: FolderGit2 },
     { path: '/blog', label: 'Blog', icon: BookOpen },
-    { path: '/resume', label: 'Resume', icon: FileText },
   ];
 
   return (

@@ -1,28 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Code2, Wrench, Heart, Sparkles, Terminal } from 'lucide-react';
+import { Code2, Wrench, Heart, Sparkles, Terminal, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { getProfile, getSkills } from '../services/sanityClient';
+import { getProfile, getSkills, getResume } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { PortableText } from '@portabletext/react';
+import ResumeModal from '../components/ResumeModal';
 import styles from '../styles/About.module.css';
 
 const About = () => {
   const [profileData, setProfileData] = useState(null);
   const [skills, setSkills] = useState(null);
+  const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('About Me', 100);
   const { displayedText: typedSubtitle } = useTypingEffect('cat ~/.profile/about.txt', 50, 1000);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [profileSanity, skillsSanity] = await Promise.all([
+        const [profileSanity, skillsSanity, resume] = await Promise.all([
           getProfile(),
-          getSkills()
+          getSkills(),
+          getResume()
         ]);
         setProfileData(profileSanity);
         setSkills(skillsSanity);
+        setResumeData(resume);
       } catch (error) {
         console.error('Error fetching data from Sanity:', error);
       } finally {
@@ -154,6 +159,24 @@ const About = () => {
           </div>
   </PixelCard>
       </div>
+
+        {/* View Resume Button */}
+        {resumeData?.pdfUrl && (
+          <button 
+            className={styles.viewResumeButton}
+            onClick={() => setIsResumeModalOpen(true)}
+          >
+            <FileText className={styles.resumeIcon} />
+            <span>View Resume</span>
+          </button>
+        )}
+
+      {/* Resume Modal */}
+      <ResumeModal 
+        isOpen={isResumeModalOpen}
+        onClose={() => setIsResumeModalOpen(false)}
+        resumeData={resumeData}
+      />
     </div>
   );
 };
