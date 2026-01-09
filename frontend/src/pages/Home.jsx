@@ -24,11 +24,6 @@ const Home = () => {
     const fetchProfile = async () => {
       try {
         const data = await getProfile();
-        // if (data) {
-        //   console.log('✅ Profile data successfully retrieved:', data);
-        // } else {
-        //   console.log('⚠️ Profile data retrieved, but it was empty (null/undefined).');
-        // }
         setProfileData(data);
       } catch (error) {
         console.error('Error fetching profile:', error);

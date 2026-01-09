@@ -10,7 +10,6 @@ import Education from './pages/Education';
 import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
-import Resume from './pages/Resume';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/resume" element={<Resume />} />
           </Routes>
         </div>
         <Footer />

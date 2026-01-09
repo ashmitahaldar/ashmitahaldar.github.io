@@ -211,7 +211,6 @@ Navigation Shortcuts:
   /experience    - Go to experience page
   /education     - Go to education page
   /blog          - Go to blog page
-  /resume        - Go to resume page
 
 Tips:
   - Use UP/DOWN arrows to cycle through command history
