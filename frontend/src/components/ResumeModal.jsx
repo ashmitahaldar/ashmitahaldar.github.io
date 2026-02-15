@@ -55,12 +55,18 @@ const ResumeModal = ({ isOpen, onClose, resumeData }) => {
         onClick={(e) => e.stopPropagation()}
         style={{ width: size.width, height: size.height }}
       >
-        {/* Header */}
-        <div className={styles.header}>
-          <span className={styles.headerTitle}>resume.pdf</span>
-          <button className={styles.closeButton} onClick={onClose} aria-label="Close">
-            <X size={20} />
-          </button>
+        <div className={styles.titlebar}>
+          <div className={styles.titlebarLeft}>
+            <span className={styles.systemDot} />
+            <span className={styles.headerTitle}>Resume Viewer</span>
+          </div>
+          <div className={styles.windowControls}>
+            <button type="button" className={styles.windowButton} aria-label="Minimize">_</button>
+            <button type="button" className={styles.windowButton} aria-label="Maximize">[]</button>
+            <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Close">
+              <X size={14} />
+            </button>
+          </div>
         </div>
 
         {/* Content */}
@@ -79,6 +85,7 @@ const ResumeModal = ({ isOpen, onClose, resumeData }) => {
               {/* Download Button */}
               <div className={styles.footer}>
                 <button
+                  type="button"
                   onClick={handleDownload}
                   className={styles.downloadButton}
                 >

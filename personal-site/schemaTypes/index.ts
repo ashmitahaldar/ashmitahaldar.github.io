@@ -5,6 +5,7 @@ import experience from './experience';
 import education from './education';
 import project from './project';
 import resume from './resume';
+import artPhoto from './artPhoto';
 
 import dateRange from './dateRange';
 
@@ -20,6 +21,7 @@ export const schemaTypes = [
 
   // Blog Content
   blogPost,
+  artPhoto,
 
   // Documents
   resume,

@@ -28,6 +28,7 @@ export default defineConfig({
           S.documentTypeListItem('experience').title('Experience'),
           S.documentTypeListItem('education').title('Education'),
           S.documentTypeListItem('blogPost').title('Blog Posts'),
+          S.documentTypeListItem('artPhoto').title('Photography & Art'),
           S.documentTypeListItem('profile').title('Personal Profile'),
           
           S.documentTypeListItem('resume')
@@ -38,7 +39,7 @@ export default defineConfig({
           S.divider(),
           ...S.documentTypeListItems().filter((item) => {
             const id = item.getId?.();
-            return id ? !['project', 'experience', 'education', 'blogPost', 'profile', 'resume'].includes(id) : true;
+            return id ? !['project', 'experience', 'education', 'blogPost', 'artPhoto', 'profile', 'resume'].includes(id) : true;
           }),
         ]),
   }), 

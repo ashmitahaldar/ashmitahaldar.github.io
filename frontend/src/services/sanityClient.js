@@ -98,6 +98,19 @@ export const blogPostsQuery = `*[_type == "blogPost"] | order(publishedAt desc) 
   tags
 }`;
 
+export const artPhotosQuery = `*[_type == "artPhoto"] | order(capturedAt desc) {
+  _id,
+  title,
+  category,
+  capturedAt,
+  location,
+  description,
+  artDescription,
+  tags,
+  altText,
+  "imageUrl": image.asset->url
+}`;
+
 export async function getSkills() {
   return await sanityClient.fetch(skillsQuery);
 }
@@ -108,6 +121,10 @@ export async function getResume() {
 
 export async function getBlogPosts() {
   return await sanityClient.fetch(blogPostsQuery);
+}
+
+export async function getArtPhotos() {
+  return await sanityClient.fetch(artPhotosQuery);
 }
 
 // Fetch a single blog post by slug
