@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
 import { getBlogPosts, getArtPhotos } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import ArtLightboxModal from '../components/ArtLightboxModal';
 import styles from '../styles/Blog.module.css';
 
 const Blog = () => {
@@ -14,6 +15,8 @@ const Blog = () => {
   const [selectedTag, setSelectedTag] = useState('All');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState('all');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
   const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Blog', 100);
   const { displayedText: typedSubtitle } = useTypingEffect('tail -f ~/thoughts/blog.log', 50, 1000);
 
@@ -64,6 +67,22 @@ const Blog = () => {
     if (selectedCategory === 'All') return artPhotos;
     return artPhotos.filter((item) => item.category === selectedCategory);
   }, [selectedCategory, artPhotos]);
+
+  const openLightboxById = (id) => {
+    const idx = filteredPhotos.findIndex((item) => item._id === id);
+    if (idx >= 0) {
+      setLightboxIndex(idx);
+      setLightboxOpen(true);
+    }
+  };
+
+  const goToPrevImage = () => {
+    setLightboxIndex((prev) => (prev === 0 ? filteredPhotos.length - 1 : prev - 1));
+  };
+
+  const goToNextImage = () => {
+    setLightboxIndex((prev) => (prev === filteredPhotos.length - 1 ? 0 : prev + 1));
+  };
 
   const isAllView = viewMode === 'all';
   const showPosts = viewMode === 'all' || viewMode === 'posts';
@@ -234,7 +253,11 @@ const Blog = () => {
               ) : (
                 <div className={styles.galleryGridCompact}>
                   {filteredPhotos.map((item) => (
-                    <PixelCard key={item._id} className={styles.galleryCard}>
+                    <PixelCard
+                      key={item._id}
+                      className={`${styles.galleryCard} ${styles.galleryCardInteractive}`}
+                      onClick={() => openLightboxById(item._id)}
+                    >
                       <div className={styles.galleryImageWrap}>
                         {item.imageUrl ? (
                           <img
@@ -391,11 +414,15 @@ const Blog = () => {
                   </div>
                 ) : (
                   <div className={styles.galleryGrid}>
-                    {filteredPhotos.map((item) => (
-                      <PixelCard key={item._id} className={styles.galleryCard}>
-                        <div className={styles.galleryImageWrap}>
-                          {item.imageUrl ? (
-                            <img
+                  {filteredPhotos.map((item) => (
+                    <PixelCard
+                      key={item._id}
+                      className={`${styles.galleryCard} ${styles.galleryCardInteractive}`}
+                      onClick={() => openLightboxById(item._id)}
+                    >
+                      <div className={styles.galleryImageWrap}>
+                        {item.imageUrl ? (
+                          <img
                               src={item.imageUrl}
                               alt={item.altText || item.title}
                               className={styles.galleryImage}
@@ -444,6 +471,14 @@ const Blog = () => {
           </>
         )}
       </div>
+      <ArtLightboxModal
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        items={filteredPhotos}
+        currentIndex={lightboxIndex}
+        onPrev={goToPrevImage}
+        onNext={goToNextImage}
+      />
     </div>
   );
 };

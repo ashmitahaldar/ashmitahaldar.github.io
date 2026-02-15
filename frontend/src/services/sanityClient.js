@@ -105,6 +105,7 @@ export const artPhotosQuery = `*[_type == "artPhoto"] | order(capturedAt desc) {
   capturedAt,
   location,
   description,
+  artDescription,
   tags,
   altText,
   "imageUrl": image.asset->url

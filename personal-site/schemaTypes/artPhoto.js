@@ -56,6 +56,13 @@ export default {
       rows: 3,
     },
     {
+      name: 'artDescription',
+      title: 'Art Description (Optional)',
+      type: 'text',
+      rows: 5,
+      description: 'Optional artistic note, concept, or process behind this work.',
+    },
+    {
       name: 'tags',
       title: 'Tags',
       type: 'array',

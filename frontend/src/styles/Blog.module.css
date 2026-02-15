@@ -197,7 +197,11 @@
 }
 
 .galleryCard {
-  @apply rounded-lg overflow-hidden h-full flex flex-col;
+  @apply h-full flex flex-col;
+}
+
+.galleryCardInteractive {
+  @apply cursor-zoom-in;
 }
 
 .galleryImageWrap {
