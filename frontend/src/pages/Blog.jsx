@@ -296,7 +296,6 @@ const Blog = () => {
                         )}
                       </div>
                       <div className={styles.galleryCardBody}>
-                        <h3 className={styles.galleryTitle}>{item.title}</h3>
                         <div className={styles.galleryMeta}>
                           <span className={styles.galleryBadge}>{item.category}</span>
                           {item.capturedAt && (
@@ -458,7 +457,6 @@ const Blog = () => {
                           )}
                         </div>
                         <div className={styles.galleryCardBody}>
-                          <h3 className={styles.galleryTitle}>{item.title}</h3>
                           <div className={styles.galleryMeta}>
                             <span className={styles.galleryBadge}>{item.category}</span>
                             {item.capturedAt && (
