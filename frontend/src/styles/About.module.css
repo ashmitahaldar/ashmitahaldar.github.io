@@ -22,7 +22,7 @@
 }
 
 .title {
-  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2;
+  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
 }
 
 .titleIcon {
@@ -59,7 +59,7 @@
 }
 
 .sectionTitle {
-  @apply text-2xl font-bold font-mono text-pink-400;
+  @apply text-xl font-bold font-mono text-pink-400;
 }
 
 .bioText {
@@ -115,11 +115,11 @@
 }
 
 .skillTitlePink {
-  @apply text-xl font-bold font-mono text-pink-400;
+  @apply text-lg font-bold font-mono text-pink-400;
 }
 
 .skillTitleTeal {
-  @apply text-xl font-bold font-mono text-teal-400;
+  @apply text-lg font-bold font-mono text-teal-400;
 }
 
 .skillTags {
@@ -144,7 +144,7 @@
 }
 
 .funFactEmoji {
-  @apply text-3xl;
+  @apply text-2xl;
 }
 
 .funFactTitle {

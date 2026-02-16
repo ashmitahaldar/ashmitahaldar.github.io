@@ -60,7 +60,7 @@
 
 /* Profile Info */
 .name {
-  @apply text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
+  @apply text-3xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
 }
 
 .cursor {
@@ -68,7 +68,7 @@
 }
 
 .title {
-  @apply text-teal-400 font-mono text-lg mb-2;
+  @apply text-teal-400 font-mono text-base mb-2;
 }
 
 .tagline {
@@ -135,7 +135,7 @@
 }
 
 .errorEmoji {
-  @apply text-4xl;
+  @apply text-3xl;
 }
 
 .errorText {
@@ -152,7 +152,7 @@
 }
 
 .tipsIcon {
-  @apply text-teal-400 text-2xl;
+  @apply text-teal-400 text-xl;
 }
 
 .tipsTitle {

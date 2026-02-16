@@ -22,7 +22,7 @@
 }
 
 .title {
-  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2;
+  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
 }
 
 .titleIcon {
@@ -72,7 +72,7 @@
 }
 
 .degree {
-  @apply text-2xl font-bold font-mono text-pink-400 mb-2;
+  @apply text-xl font-bold font-mono text-pink-400 mb-2;
 }
 
 .metadata {
@@ -106,7 +106,7 @@
 }
 
 .highlightsTitle {
-  @apply text-lg font-mono text-pink-400 mb-2 flex items-center gap-2;
+  @apply text-base font-mono text-pink-400 mb-2 flex items-center gap-2;
 }
 
 .highlightsList {
@@ -123,7 +123,7 @@
 
 /* Coursework Section */
 .courseworkTitle {
-  @apply text-lg font-mono text-teal-400 mb-3 flex items-center gap-2;
+  @apply text-base font-mono text-teal-400 mb-3 flex items-center gap-2;
 }
 
 .courseworkTags {
