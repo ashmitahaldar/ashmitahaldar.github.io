@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Code2, Wrench, Heart, Sparkles, Terminal, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
@@ -9,6 +10,7 @@ import ResumeModal from '../components/ResumeModal';
 import styles from '../styles/About.module.css';
 
 const About = () => {
+  const location = useLocation();
   const [profileData, setProfileData] = useState(null);
   const [skills, setSkills] = useState(null);
   const [resumeData, setResumeData] = useState(null);
@@ -36,6 +38,13 @@ const About = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('resume') === '1') {
+      setIsResumeModalOpen(true);
+    }
+  }, [location.search]);
 
   if (loading) {
     return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X } from 'lucide-react';
+import CommandPalette from './CommandPalette';
 
 const TerminalNav = () => {
   const location = useLocation();
@@ -56,18 +57,29 @@ const TerminalNav = () => {
             })}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-pink-400 hover:text-teal-400 transition-colors"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-1 font-mono text-[10px] text-teal-300/90 border border-teal-500/25 px-1.5 py-0.5 leading-none">
+              <span className="text-gray-400">shortcut</span>
+              <span className="text-pink-300">⌘/Ctrl + K</span>
+            </div>
+            <CommandPalette />
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 text-pink-400 hover:text-teal-400 transition-colors"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t-2 border-teal-500/30 bg-[#1A1B26] py-2">
+            <div className="px-4 py-2 font-mono text-xs text-teal-300">
+              Shortcut: <span className="text-pink-300">Cmd/Ctrl + K</span>
+            </div>
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
