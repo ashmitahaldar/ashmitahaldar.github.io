@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Github } from 'lucide-react';
 import PixelCard from './PixelCard';
-import { extractGitHubUsername, getGitHubContributions } from '../services/githubClient';
+import { extractGitHubUsername, getGitHubContributionSnapshot } from '../services/githubClient';
 import styles from './GitHubActivityCard.module.css';
 
 const CONTRIBUTION_DAYS = 364;
@@ -27,6 +27,7 @@ const createEmptyContributions = (days = CONTRIBUTION_DAYS) => {
 export default function GitHubActivityCard({ github }) {
   const [contributionDays, setContributionDays] = useState(() => createEmptyContributions(CONTRIBUTION_DAYS));
   const [dataSource, setDataSource] = useState('Loading...');
+  const [lastUpdated, setLastUpdated] = useState('');
   const weekColumns = Math.ceil(contributionDays.length / 7);
 
   useEffect(() => {
@@ -35,43 +36,42 @@ export default function GitHubActivityCard({ github }) {
       if (!username) {
         setContributionDays(createEmptyContributions(CONTRIBUTION_DAYS));
         setDataSource('GitHub not configured');
+        setLastUpdated('');
         return;
       }
 
       try {
-        const rows = await getGitHubContributions(username, CONTRIBUTION_DAYS);
+        const snapshot = await getGitHubContributionSnapshot(username, CONTRIBUTION_DAYS);
+        const rows = snapshot.rows || [];
+        const updatedText = snapshot.generatedAt
+          ? new Date(snapshot.generatedAt).toLocaleString(undefined, {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })
+          : '';
+        setLastUpdated(updatedText);
         if (rows.length > 0) {
           setContributionDays(rows);
-          setDataSource(`Live (GraphQL) • @${username}`);
+          setDataSource(`Synced • @${username}`);
           return;
         }
         setContributionDays(createEmptyContributions(CONTRIBUTION_DAYS));
-        setDataSource(`No activity • @${username}`);
+        setDataSource(`No synced activity • @${username}`);
       } catch (error) {
         console.error('GitHub activity load failed:', error);
         setContributionDays(createEmptyContributions(CONTRIBUTION_DAYS));
-        if (error?.code === 'MISSING_TOKEN') {
-          setDataSource('Set REACT_APP_GITHUB_TOKEN');
+        setLastUpdated('');
+        if (error?.code === 'SNAPSHOT_UNAVAILABLE') {
+          setDataSource('Run contribution sync');
           return;
         }
-        if (error?.message?.includes('Bad credentials')) {
-          setDataSource('Invalid GitHub token');
-          return;
-        }
-        if (error?.message?.includes('Resource not accessible by personal access token')) {
-          setDataSource('Token lacks required access');
-          return;
-        }
-        if (error?.code === 'USER_NOT_FOUND') {
-          setDataSource('GitHub user not found');
-          return;
-        }
-        if (error?.code === 'GRAPHQL_TIMEOUT') {
-          setDataSource('GitHub API timeout');
+        if (error?.code === 'SNAPSHOT_USERNAME_MISMATCH') {
+          setDataSource('Snapshot username mismatch');
           return;
         }
         if (error instanceof TypeError) {
-          setDataSource('Network/CORS blocked');
+          setDataSource('Snapshot fetch failed');
           return;
         }
         setDataSource(`Unable to load • @${username}`);
@@ -114,6 +114,7 @@ export default function GitHubActivityCard({ github }) {
         <h3 className={styles.headerTitle}>GitHub Activity</h3>
         <span className={styles.badge}>{dataSource}</span>
       </div>
+      {lastUpdated && <div className={styles.updatedAt}>Last updated: {lastUpdated}</div>}
 
       <div
         className={styles.heatmapViewport}

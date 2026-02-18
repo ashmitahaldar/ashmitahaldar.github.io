@@ -19,6 +19,10 @@
   @apply ml-auto border border-pink-500/40 bg-pink-500/10 px-2 py-0.5 font-mono text-[10px] text-pink-300;
 }
 
+.updatedAt {
+  @apply mb-2 font-mono text-[10px] text-gray-400;
+}
+
 .heatmapViewport {
   overflow-x: auto;
   padding-bottom: 2px;

@@ -1,0 +1,41 @@
+name: Sync GitHub Contributions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate contributions snapshot
+        env:
+          GITHUB_GRAPHQL_TOKEN: ${{ secrets.GITHUB_GRAPHQL_TOKEN }}
+          GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
+          GITHUB_CONTRIBUTION_DAYS: ${{ vars.GITHUB_CONTRIBUTION_DAYS }}
+        run: node scripts/sync-github-contributions.mjs
+
+      - name: Commit and push snapshot
+        run: |
+          if git diff --quiet -- frontend/public/github-contributions.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add frontend/public/github-contributions.json
+          git commit -m "chore: sync github contributions snapshot"
+          git push
