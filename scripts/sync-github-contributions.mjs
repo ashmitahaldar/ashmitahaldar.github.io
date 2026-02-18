@@ -39,7 +39,7 @@ function mustEnv(name) {
 }
 
 function parseDays() {
-  const raw = process.env.GITHUB_CONTRIBUTION_DAYS?.trim();
+  const raw = process.env.GH_CONTRIBUTION_DAYS?.trim();
   if (!raw) return DEFAULT_DAYS;
   const parsed = Number(raw);
   if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_DAYS;
@@ -133,8 +133,8 @@ async function fetchContributionCalendar({ token, username, from, to }) {
 }
 
 async function main() {
-  const token = mustEnv('GITHUB_GRAPHQL_TOKEN');
-  const username = mustEnv('GITHUB_USERNAME');
+  const token = mustEnv('GH_TOKEN');
+  const username = mustEnv('GH_USERNAME');
   const days = parseDays();
   const { from, to } = computeRange(days);
 

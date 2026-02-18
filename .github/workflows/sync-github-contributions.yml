@@ -22,9 +22,9 @@ jobs:
 
       - name: Generate contributions snapshot
         env:
-          GITHUB_GRAPHQL_TOKEN: ${{ secrets.GITHUB_GRAPHQL_TOKEN }}
-          GITHUB_USERNAME: ${{ vars.GITHUB_USERNAME }}
-          GITHUB_CONTRIBUTION_DAYS: ${{ vars.GITHUB_CONTRIBUTION_DAYS }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_USERNAME: ${{ vars.GH_USERNAME }}
+          GH_CONTRIBUTION_DAYS: ${{ vars.GH_CONTRIBUTION_DAYS }}
         run: node scripts/sync-github-contributions.mjs
 
       - name: Commit and push snapshot
