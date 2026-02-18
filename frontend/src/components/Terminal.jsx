@@ -76,6 +76,8 @@ Navigation Shortcuts:
   /experience    - Go to experience page
   /education     - Go to education page
   /logs          - Go to blog posts
+  /blog          - Go to blog posts
+  /resume        - Go to resume page
   /gallery       - Go to photography gallery
 
 Tips:
