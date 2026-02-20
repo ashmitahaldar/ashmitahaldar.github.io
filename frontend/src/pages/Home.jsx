@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Terminal from '../components/Terminal';
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { ArrowRight, Briefcase, FolderGit2, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
-import { getProfile } from '../services/sanityClient';
+import { getExperiences, getProfile, getProjects } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import Spline from '@splinetool/react-spline';
 import SplineErrorBoundary from '../components/SplineErrorBoundary';
+import GitHubActivityCard from '../components/GitHubActivityCard';
 import styles from '../styles/Home.module.css';
 
 const Home = () => {
   const [profileData, setProfileData] = useState(null);
+  const [projects, setProjects] = useState([]);
+  const [experiences, setExperiences] = useState([]);
+  const [projectsLoadError, setProjectsLoadError] = useState(false);
+  const [experiencesLoadError, setExperiencesLoadError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [splineLoading, setSplineLoading] = useState(true);
   
@@ -21,18 +27,47 @@ const Home = () => {
   );
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchHomeData = async () => {
       try {
-        const data = await getProfile();
-        setProfileData(data);
-      } catch (error) {
-        console.error('Error fetching profile:', error);
+        const [profileResult, projectResult, experienceResult] = await Promise.allSettled([
+          getProfile(),
+          getProjects(),
+          getExperiences(),
+        ]);
+
+        if (profileResult.status === 'fulfilled') {
+          setProfileData(profileResult.value);
+        } else {
+          console.error('Error fetching profile:', profileResult.reason);
+          setProfileData(null);
+        }
+
+        if (projectResult.status === 'fulfilled') {
+          setProjects(projectResult.value || []);
+          setProjectsLoadError(false);
+        } else {
+          console.error('Error fetching projects:', projectResult.reason);
+          setProjects([]);
+          setProjectsLoadError(true);
+        }
+
+        if (experienceResult.status === 'fulfilled') {
+          setExperiences(experienceResult.value || []);
+          setExperiencesLoadError(false);
+        } else {
+          console.error('Error fetching experiences:', experienceResult.reason);
+          setExperiences([]);
+          setExperiencesLoadError(true);
+        }
       } finally {
         setLoading(false);
       }
     };
-    fetchProfile();
+    fetchHomeData();
   }, []);
+
+  const featuredProjects = useMemo(() => projects.slice(0, 3), [projects]);
+  const recentExperience = useMemo(() => experiences.slice(0, 2), [experiences]);
 
   if (loading) {
     return (
@@ -136,6 +171,62 @@ const Home = () => {
               />
             </SplineErrorBoundary>
           </div>
+        </div>
+
+        <GitHubActivityCard github={profileData.github} />
+
+        <div className={styles.highlightsGrid}>
+          <PixelCard className={styles.highlightCard}>
+            <div className={styles.highlightHeader}>
+              <Briefcase className={styles.highlightIcon} />
+              <h3 className={styles.highlightTitle}>Most Recent Experience</h3>
+            </div>
+            <div className={styles.highlightList}>
+              {experiencesLoadError && (
+                <p className={styles.highlightEmpty}>Experience highlights unavailable right now.</p>
+              )}
+              {!experiencesLoadError && recentExperience.length === 0 && (
+                <p className={styles.highlightEmpty}>No experience records yet.</p>
+              )}
+              {recentExperience.map((exp) => (
+                <div key={exp._id} className={styles.highlightRow}>
+                  <div className={styles.highlightRowTitle}>{exp.title}</div>
+                  <div className={styles.highlightRowMeta}>{exp.company}</div>
+                </div>
+              ))}
+            </div>
+            <Link to="/experience" className={styles.highlightLink}>
+              View full timeline
+              <ArrowRight className={styles.highlightArrow} />
+            </Link>
+          </PixelCard>
+
+          <PixelCard className={styles.highlightCard}>
+            <div className={styles.highlightHeader}>
+              <FolderGit2 className={styles.highlightIcon} />
+              <h3 className={styles.highlightTitle}>Featured Projects</h3>
+            </div>
+            <div className={styles.highlightList}>
+              {projectsLoadError && (
+                <p className={styles.highlightEmpty}>Project highlights unavailable right now.</p>
+              )}
+              {!projectsLoadError && featuredProjects.length === 0 && (
+                <p className={styles.highlightEmpty}>No project records yet.</p>
+              )}
+              {featuredProjects.map((project) => (
+                <div key={project._id} className={styles.highlightRow}>
+                  <div className={styles.highlightRowTitle}>{project.title}</div>
+                  <div className={styles.highlightRowMeta}>
+                    {(project.technologies || []).slice(0, 3).join(' • ') || 'No stack listed'}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <Link to="/projects" className={styles.highlightLink}>
+              Explore all projects
+              <ArrowRight className={styles.highlightArrow} />
+            </Link>
+          </PixelCard>
         </div>
 
         {/* Terminal Below */}

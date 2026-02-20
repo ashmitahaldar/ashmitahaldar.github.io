@@ -41,6 +41,20 @@ const Terminal = ({ profileData }) => {
     fetchSkills();
   }, []);
 
+  useEffect(() => {
+    const handleFocusTerminal = () => {
+      setTimeout(() => {
+        inputRef.current?.focus();
+        if (outputRef.current) {
+          outputRef.current.scrollTop = outputRef.current.scrollHeight;
+        }
+      }, 0);
+    };
+
+    window.addEventListener('ashmayo:focus-terminal', handleFocusTerminal);
+    return () => window.removeEventListener('ashmayo:focus-terminal', handleFocusTerminal);
+  }, []);
+
   const getTerminalOutput = (command) => {
     switch(command) {
       case 'help':
@@ -61,7 +75,10 @@ Navigation Shortcuts:
   /projects      - Go to projects page
   /experience    - Go to experience page
   /education     - Go to education page
-  /blog          - Go to blog page
+  /logs          - Go to blog posts
+  /blog          - Go to blog posts
+  /resume        - Go to resume page
+  /gallery       - Go to photography gallery
 
 Tips:
   - Use UP/DOWN arrows to cycle through command history
@@ -133,10 +150,13 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     // Navigation shortcuts
     if (trimmedCmd.startsWith('/')) {
       const route = trimmedCmd.toLowerCase();
-      if (['/home', '/about', '/projects', '/experience', '/education', '/blog', '/resume'].includes(route)) {
+      if (['/home', '/about', '/projects', '/experience', '/education', '/blog', '/logs', '/gallery', '/resume'].includes(route)) {
         setOutput(prev => [...prev, { type: 'success', text: `Navigating to ${route}...` }, { type: 'info', text: '' }]);
         setTimeout(() => {
           if (route === '/home') navigate('/');
+          else if (route === '/logs') navigate('/blog?view=posts');
+          else if (route === '/gallery') navigate('/blog?view=gallery');
+          else if (route === '/resume') navigate('/about?resume=1');
           else navigate(route);
         }, 500);
         return;

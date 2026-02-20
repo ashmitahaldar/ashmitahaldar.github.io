@@ -15,6 +15,54 @@
   @apply mb-12;
 }
 
+.highlightsGrid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-8;
+}
+
+.highlightCard {
+  @apply rounded-lg p-5;
+}
+
+.highlightHeader {
+  @apply flex items-center gap-2 mb-3;
+}
+
+.highlightIcon {
+  @apply w-4 h-4 text-teal-400;
+}
+
+.highlightTitle {
+  @apply font-mono text-sm font-bold text-pink-400;
+}
+
+.highlightList {
+  @apply space-y-2 mb-3;
+}
+
+.highlightRow {
+  @apply border border-teal-500/25 bg-[#0A0E27] px-3 py-2;
+}
+
+.highlightRowTitle {
+  @apply font-mono text-sm text-teal-200;
+}
+
+.highlightRowMeta {
+  @apply font-mono text-[11px] text-gray-400;
+}
+
+.highlightEmpty {
+  @apply font-mono text-xs text-gray-400;
+}
+
+.highlightLink {
+  @apply inline-flex items-center gap-1 font-mono text-xs text-pink-300 hover:text-teal-300 transition-colors;
+}
+
+.highlightArrow {
+  @apply w-3.5 h-3.5;
+}
+
 /* Loading States */
 .loadingContainer {
   @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
@@ -60,7 +108,7 @@
 
 /* Profile Info */
 .name {
-  @apply text-4xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
+  @apply text-3xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
 }
 
 .cursor {
@@ -68,7 +116,7 @@
 }
 
 .title {
-  @apply text-teal-400 font-mono text-lg mb-2;
+  @apply text-teal-400 font-mono text-base mb-2;
 }
 
 .tagline {
@@ -135,7 +183,7 @@
 }
 
 .errorEmoji {
-  @apply text-4xl;
+  @apply text-3xl;
 }
 
 .errorText {
@@ -152,7 +200,7 @@
 }
 
 .tipsIcon {
-  @apply text-teal-400 text-2xl;
+  @apply text-teal-400 text-xl;
 }
 
 .tipsTitle {

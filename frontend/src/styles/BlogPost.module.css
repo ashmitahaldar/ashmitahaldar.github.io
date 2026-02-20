@@ -26,7 +26,7 @@
 }
 
 .notFoundTitle {
-  @apply text-4xl font-bold font-mono text-pink-400 mb-4;
+  @apply text-3xl font-bold font-mono text-pink-400 mb-4;
 }
 
 .notFoundButton {
@@ -48,7 +48,7 @@
 }
 
 .postTitle {
-  @apply text-4xl font-bold font-mono text-pink-400 mb-4;
+  @apply text-3xl font-bold font-mono text-pink-400 mb-4;
 }
 
 .cursor {

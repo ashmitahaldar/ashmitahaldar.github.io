@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Calendar, Tag, ArrowRight, Terminal, Camera, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PixelCard from '../components/PixelCard';
@@ -9,6 +9,8 @@ import ArtLightboxModal from '../components/ArtLightboxModal';
 import styles from '../styles/Blog.module.css';
 
 const Blog = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [blogPosts, setBlogPosts] = useState([]);
   const [artPhotos, setArtPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,28 @@ const Blog = () => {
     };
     fetchContent();
   }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const mode = params.get('view');
+    if (mode === 'posts' || mode === 'gallery' || mode === 'all') {
+      setViewMode(mode);
+      return;
+    }
+    setViewMode('all');
+  }, [location.search]);
+
+  const handleViewModeChange = (mode) => {
+    setViewMode(mode);
+    const params = new URLSearchParams(location.search);
+    if (mode === 'all') {
+      params.delete('view');
+    } else {
+      params.set('view', mode);
+    }
+    const query = params.toString();
+    navigate(`/blog${query ? `?${query}` : ''}`, { replace: true });
+  };
 
   // Get all unique tags
   const allTags = useMemo(() => {
@@ -122,19 +146,19 @@ const Blog = () => {
         {/* Mode Toggle */}
         <div className={styles.modeToggle}>
           <button
-            onClick={() => setViewMode('all')}
+            onClick={() => handleViewModeChange('all')}
             className={`${styles.modeButton} ${viewMode === 'all' ? styles.modeButtonActive : styles.modeButtonInactive}`}
           >
             All
           </button>
           <button
-            onClick={() => setViewMode('posts')}
+            onClick={() => handleViewModeChange('posts')}
             className={`${styles.modeButton} ${viewMode === 'posts' ? styles.modeButtonActive : styles.modeButtonInactive}`}
           >
             Blog Posts
           </button>
           <button
-            onClick={() => setViewMode('gallery')}
+            onClick={() => handleViewModeChange('gallery')}
             className={`${styles.modeButton} ${viewMode === 'gallery' ? styles.modeButtonActive : styles.modeButtonInactive}`}
           >
             Photography & Art
@@ -272,7 +296,6 @@ const Blog = () => {
                         )}
                       </div>
                       <div className={styles.galleryCardBody}>
-                        <h3 className={styles.galleryTitle}>{item.title}</h3>
                         <div className={styles.galleryMeta}>
                           <span className={styles.galleryBadge}>{item.category}</span>
                           {item.capturedAt && (
@@ -434,7 +457,6 @@ const Blog = () => {
                           )}
                         </div>
                         <div className={styles.galleryCardBody}>
-                          <h3 className={styles.galleryTitle}>{item.title}</h3>
                           <div className={styles.galleryMeta}>
                             <span className={styles.galleryBadge}>{item.category}</span>
                             {item.capturedAt && (

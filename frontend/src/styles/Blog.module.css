@@ -22,7 +22,7 @@
 }
 
 .title {
-  @apply text-5xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[60px] flex items-center justify-center gap-2;
+  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
 }
 
 .titleIcon {
@@ -72,7 +72,7 @@
 }
 
 .sectionHeadingText {
-  @apply font-mono text-xl font-bold text-pink-400;
+  @apply font-mono text-lg font-bold text-pink-400;
 }
 
 /* Side-by-side All View */
@@ -143,7 +143,7 @@
 }
 
 .postTitle {
-  @apply text-2xl font-bold font-mono text-pink-400 mb-3 group-hover:text-teal-400 transition-colors;
+  @apply text-xl font-bold font-mono text-pink-400 mb-3 group-hover:text-teal-400 transition-colors;
 }
 
 .postMeta {
@@ -225,7 +225,7 @@
 }
 
 .galleryTitle {
-  @apply text-xl font-bold font-mono text-pink-400 mb-2;
+  @apply text-lg font-bold font-mono text-pink-400 mb-2;
 }
 
 .galleryMeta {
