@@ -139,6 +139,9 @@ export default function GitHubActivityCard({ github }) {
               className={`${styles.heatCell} ${styles[`heatLevel${day.level}`]}`}
               data-tooltip={`${day.isoDate} • ${day.count} contributions`}
               title={`${day.isoDate} • ${day.count} contributions`}
+              role="img"
+              tabIndex={0}
+              aria-label={`${day.isoDate} • ${day.count} contributions`}
             />
           ))}
         </div>
