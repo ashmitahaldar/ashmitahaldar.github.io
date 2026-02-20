@@ -102,13 +102,13 @@ const CommandPalette = () => {
 
   const navCommands = useMemo(
     () => [
-      { id: 'nav-home', label: 'Go: Home', path: '/home', icon: Home, action: () => navigate('/') },
+      { id: 'nav-home', label: 'Go: Home', path: '/', icon: Home, action: () => navigate('/') },
       { id: 'nav-about', label: 'Go: About', path: '/about', icon: User, action: () => navigate('/about') },
-      { id: 'nav-exp', label: 'Go: Experience', path: '/work/experience', icon: Briefcase, action: () => navigate('/experience') },
-      { id: 'nav-edu', label: 'Go: Education', path: '/work/education', icon: GraduationCap, action: () => navigate('/education') },
-      { id: 'nav-projects', label: 'Go: Projects', path: '/work/projects', icon: FolderGit2, action: () => navigate('/projects') },
-      { id: 'nav-logs', label: 'Go: Logs (Blog Posts)', path: '/blog?view=posts', icon: BookOpen, action: () => navigate('/blog?view=posts') },
-      { id: 'nav-gallery', label: 'Go: Gallery', path: '/blog?view=gallery', icon: Camera, action: () => navigate('/blog?view=gallery') },
+      { id: 'nav-exp', label: 'Go: Experience', path: '/experience', icon: Briefcase, action: () => navigate('/experience') },
+      { id: 'nav-edu', label: 'Go: Education', path: '/education', icon: GraduationCap, action: () => navigate('/education') },
+      { id: 'nav-projects', label: 'Go: Projects', path: '/projects', icon: FolderGit2, action: () => navigate('/projects') },
+      { id: 'nav-logs', label: 'Go: Logs (Blog Posts)', path: '/blog', icon: BookOpen, action: () => navigate('/blog?view=posts') },
+      { id: 'nav-gallery', label: 'Go: Gallery', path: '/blog', icon: Camera, action: () => navigate('/blog?view=gallery') },
     ],
     [navigate],
   );
