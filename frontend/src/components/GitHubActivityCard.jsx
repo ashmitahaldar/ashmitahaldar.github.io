@@ -7,13 +7,14 @@ import styles from './GitHubActivityCard.module.css';
 const CONTRIBUTION_DAYS = 364;
 
 const createEmptyContributions = (days = CONTRIBUTION_DAYS) => {
-  const end = new Date();
+  const now = new Date();
+  const end = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   const start = new Date(end);
-  start.setDate(end.getDate() - (days - 1));
+  start.setUTCDate(start.getUTCDate() - (days - 1));
 
   return Array.from({ length: days }, (_, index) => {
     const date = new Date(start);
-    date.setDate(start.getDate() + index);
+    date.setUTCDate(start.getUTCDate() + index);
 
     return {
       key: `${date.toISOString()}-${index}`,
@@ -87,8 +88,8 @@ export default function GitHubActivityCard({ github }) {
       let lastColumn = -10;
 
       contributionDays.forEach((entry, index) => {
-        const date = new Date(entry.isoDate);
-        const isMonthStart = date.getDate() === 1 || index === 0;
+        const date = new Date(`${entry.isoDate}T00:00:00Z`);
+        const isMonthStart = date.getUTCDate() === 1 || index === 0;
         if (!isMonthStart) return;
 
         const column = Math.floor(index / 7) + 1;
@@ -96,7 +97,7 @@ export default function GitHubActivityCard({ github }) {
 
         markers.push({
           key: `${entry.key}-m`,
-          label: date.toLocaleDateString(undefined, { month: 'short' }),
+          label: date.toLocaleDateString(undefined, { month: 'short', timeZone: 'UTC' }),
           column,
         });
         lastColumn = column;

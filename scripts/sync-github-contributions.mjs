@@ -90,7 +90,7 @@ function normalizeRows(weeks, fromIso, toIso) {
     const isoDate = cursor.toISOString().slice(0, 10);
     const value = byDate.get(isoDate) || { count: 0, level: 0 };
     rows.push({ isoDate, count: value.count, level: value.level });
-    cursor.setDate(cursor.getDate() + 1);
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
 
   return rows;

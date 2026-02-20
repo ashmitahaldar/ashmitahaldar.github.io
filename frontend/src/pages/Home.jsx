@@ -15,6 +15,8 @@ const Home = () => {
   const [profileData, setProfileData] = useState(null);
   const [projects, setProjects] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [projectsLoadError, setProjectsLoadError] = useState(false);
+  const [experiencesLoadError, setExperiencesLoadError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [splineLoading, setSplineLoading] = useState(true);
   
@@ -27,16 +29,36 @@ const Home = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const [profile, projectData, experienceData] = await Promise.all([
+        const [profileResult, projectResult, experienceResult] = await Promise.allSettled([
           getProfile(),
           getProjects(),
           getExperiences(),
         ]);
-        setProfileData(profile);
-        setProjects(projectData || []);
-        setExperiences(experienceData || []);
-      } catch (error) {
-        console.error('Error fetching home data:', error);
+
+        if (profileResult.status === 'fulfilled') {
+          setProfileData(profileResult.value);
+        } else {
+          console.error('Error fetching profile:', profileResult.reason);
+          setProfileData(null);
+        }
+
+        if (projectResult.status === 'fulfilled') {
+          setProjects(projectResult.value || []);
+          setProjectsLoadError(false);
+        } else {
+          console.error('Error fetching projects:', projectResult.reason);
+          setProjects([]);
+          setProjectsLoadError(true);
+        }
+
+        if (experienceResult.status === 'fulfilled') {
+          setExperiences(experienceResult.value || []);
+          setExperiencesLoadError(false);
+        } else {
+          console.error('Error fetching experiences:', experienceResult.reason);
+          setExperiences([]);
+          setExperiencesLoadError(true);
+        }
       } finally {
         setLoading(false);
       }
@@ -160,7 +182,10 @@ const Home = () => {
               <h3 className={styles.highlightTitle}>Most Recent Experience</h3>
             </div>
             <div className={styles.highlightList}>
-              {recentExperience.length === 0 && (
+              {experiencesLoadError && (
+                <p className={styles.highlightEmpty}>Experience highlights unavailable right now.</p>
+              )}
+              {!experiencesLoadError && recentExperience.length === 0 && (
                 <p className={styles.highlightEmpty}>No experience records yet.</p>
               )}
               {recentExperience.map((exp) => (
@@ -182,7 +207,10 @@ const Home = () => {
               <h3 className={styles.highlightTitle}>Featured Projects</h3>
             </div>
             <div className={styles.highlightList}>
-              {featuredProjects.length === 0 && (
+              {projectsLoadError && (
+                <p className={styles.highlightEmpty}>Project highlights unavailable right now.</p>
+              )}
+              {!projectsLoadError && featuredProjects.length === 0 && (
                 <p className={styles.highlightEmpty}>No project records yet.</p>
               )}
               {featuredProjects.map((project) => (

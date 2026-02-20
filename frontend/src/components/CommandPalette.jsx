@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   FileText,
@@ -85,14 +85,14 @@ const CommandPalette = () => {
     });
   };
 
-  const focusTerminal = () => {
+  const focusTerminal = useCallback(() => {
     if (location.pathname !== '/') {
       navigate('/');
       setTimeout(() => window.dispatchEvent(new CustomEvent('ashmayo:focus-terminal')), 150);
       return;
     }
     window.dispatchEvent(new CustomEvent('ashmayo:focus-terminal'));
-  };
+  }, [location.pathname, navigate]);
 
   const runCommand = (command) => {
     setOpen(false);
@@ -126,7 +126,7 @@ const CommandPalette = () => {
       { id: 'action-focus-terminal', label: 'Focus Terminal', icon: TerminalSquare, action: focusTerminal },
       { id: 'action-home-terminal', label: 'Open Home Terminal', icon: CommandIcon, action: () => navigate('/') },
     ],
-    [navigate, location.pathname],
+    [navigate, location.pathname, focusTerminal],
   );
 
   const socialCommands = useMemo(() => {

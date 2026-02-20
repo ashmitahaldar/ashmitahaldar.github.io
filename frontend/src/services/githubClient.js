@@ -48,7 +48,7 @@ function normalizeContributionRows(rows) {
                 : 4;
 
       return {
-        key: `${isoDate}-${count}-${index}`,
+        key: isoDate,
         isoDate,
         count,
         level,
