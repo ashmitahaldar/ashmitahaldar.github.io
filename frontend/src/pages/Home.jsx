@@ -148,15 +148,10 @@ function Hero({ profileData }) {
                   ? <img src={profileData.avatarUrl} alt={profileData.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   : <span style={{ fontSize: 40 }}>👾</span>}
               </div>
-              <div className={styles.statusDot} />
             </div>
             <div className={styles.nameBlock}>
               <span className={styles.hello}>// hello, i'm</span>
               <h1 className={styles.name}>{profileData.name}</h1>
-              <span className={styles.openStatus}>
-                <span className={styles.greenDot} />
-                Open to internships
-              </span>
             </div>
           </div>
 
@@ -221,8 +216,9 @@ function Hero({ profileData }) {
 
 // ── // now ───────────────────────────────────────────────────
 
-function NowSection() {
-  const { items, updated } = HOME_CONTENT.now;
+function NowSection({ nowItems, nowUpdated }) {
+  const items   = (nowItems   && nowItems.length)   ? nowItems   : HOME_CONTENT.now.items;
+  const updated = nowUpdated || HOME_CONTENT.now.updated;
   return (
     <>
       <SectionHeader cmd="now" arg="--current" comment={`updated ${updated}`} count={items.length} />
@@ -434,8 +430,8 @@ function BlogSection({ posts }) {
 
 // ── fun facts ────────────────────────────────────────────────
 
-function FunFactsSection() {
-  const facts = HOME_CONTENT.funFacts;
+function FunFactsSection({ funFacts: sanityFacts }) {
+  const facts = (sanityFacts && sanityFacts.length) ? sanityFacts : HOME_CONTENT.funFacts;
   return (
     <>
       <SectionHeader cmd="whoami" arg="--verbose" count={facts.length} />
@@ -503,7 +499,7 @@ export default function Home() {
 
       <Hero profileData={profileData} />
 
-      <Reveal><NowSection /></Reveal>
+      <Reveal><NowSection nowItems={profileData?.nowItems} nowUpdated={profileData?.nowUpdated} /></Reveal>
 
       <Reveal><ProjectsSection projects={projects} /></Reveal>
 
@@ -513,7 +509,7 @@ export default function Home() {
 
       <Reveal><BlogSection posts={posts} /></Reveal>
 
-      <Reveal><FunFactsSection /></Reveal>
+      <Reveal><FunFactsSection funFacts={profileData?.funFacts} /></Reveal>
 
       <Reveal>
         <SectionHeader cmd="git" arg="contributions --year" comment="synced from github" />

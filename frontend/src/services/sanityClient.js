@@ -18,7 +18,10 @@ export const profileQuery = `*[_type == "profile"][0] {
   github,
   linkedin,
   location,
-  "avatarUrl": avatar.asset->url
+  "avatarUrl": avatar.asset->url,
+  nowUpdated,
+  nowItems,
+  funFacts
 }`;
 
 // 1. Fetch all Experiences, ordered by period
