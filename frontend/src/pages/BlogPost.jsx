@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getBlogPostBySlug } from '../services/sanityClient';
@@ -72,7 +72,7 @@ const BlogPost = () => {
         </button>
 
         {/* Post Header */}
-        <PixelCard className={styles.headerCard}>
+        <CornerCard tone="pink" className={styles.headerCard}>
           <motion.h1 
             className={styles.postTitle}
             initial={{ opacity: 0, y: -20 }}
@@ -103,10 +103,10 @@ const BlogPost = () => {
           ) : (
             <p className={styles.noTags}>No tags</p>
           )}
-  </PixelCard>
+  </CornerCard>
 
         {/* Post Content - Sanity Portable Text */}
-        <PixelCard className={styles.contentCard}>
+        <CornerCard tone="cyan" className={styles.contentCard}>
           <div className={styles.postContent}>
             {Array.isArray(post.content) ? (
               <PortableText value={post.content} />
@@ -114,7 +114,7 @@ const BlogPost = () => {
               <p>{post.content}</p>
             )}
           </div>
-        </PixelCard>
+        </CornerCard>
       </div>
     </div>
   );

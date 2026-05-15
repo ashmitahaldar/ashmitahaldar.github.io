@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import { getProjects } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
@@ -74,8 +74,9 @@ const Projects = () => {
             // Use _id for key, and imageUrl for image if available
             const Icon = getProjectIcon(project.image || 'code');
             return (
-              <PixelCard
+              <CornerCard
                 key={project._id}
+                tone={index % 2 === 0 ? 'pink' : 'cyan'}
                 onMouseEnter={() => setHoveredProject(project._id)}
                 onMouseLeave={() => setHoveredProject(null)}
                 className={styles.projectCard}
@@ -147,7 +148,7 @@ const Projects = () => {
                     )}
                   </div>
                 </div>
-              </PixelCard>
+              </CornerCard>
             );
           })}
         </div>

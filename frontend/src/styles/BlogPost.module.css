@@ -1,98 +1,221 @@
-/* Layout */
+/* BlogPost page */
+
 .container {
-  @apply min-h-screen pt-20 pb-12 px-4;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 88px clamp(16px, 4vw, 56px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
 .content {
-  @apply max-w-4xl mx-auto;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-/* Loading State */
 .loadingContainer {
-  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
 .loadingText {
-  @apply text-pink-400 font-mono;
+  color: var(--pink);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
-/* Not Found */
-.notFoundContainer {
-  @apply min-h-screen pt-20 pb-12 px-4;
-}
+/* ── Not found ────────────────────────────────────────────── */
+
+.notFoundContainer { }
 
 .notFoundContent {
-  @apply max-w-4xl mx-auto text-center;
+  text-align: center;
 }
 
 .notFoundTitle {
-  @apply text-3xl font-bold font-mono text-pink-400 mb-4;
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
+  margin-bottom: 16px;
 }
 
 .notFoundButton {
-  @apply text-teal-400 hover:text-teal-300 font-mono;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
 }
 
-/* Back Button */
+.notFoundButton:hover { color: var(--cyan-soft); }
+
+/* ── Back button ──────────────────────────────────────────── */
+
 .backButton {
-  @apply flex items-center gap-2 text-teal-400 hover:text-teal-300 font-mono mb-8 transition-colors;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 13px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s;
+  padding: 0;
 }
 
-.backIcon {
-  @apply w-4 h-4;
-}
+.backButton:hover { color: var(--cyan-soft); }
 
-/* Post Header Card */
+.backIcon { width: 14px; height: 14px; }
+
+/* ── Post header card ─────────────────────────────────────── */
+
 .headerCard {
-  @apply rounded-lg p-8 mb-8;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .postTitle {
-  @apply text-3xl font-bold font-mono text-pink-400 mb-4;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
+  margin: 0;
+  line-height: 1.3;
 }
 
 .cursor {
-  @apply text-teal-400 animate-pulse;
+  color: var(--cyan);
+  animation: pulse 1s ease-in-out infinite;
 }
 
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
+
 .postMeta {
-  @apply flex items-center gap-4 mb-4 text-sm;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
 }
 
 .postDate {
-  @apply flex items-center gap-2 text-gray-400;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-family: var(--mono);
 }
 
-.calendarIcon {
-  @apply w-4 h-4;
-}
+.calendarIcon { width: 13px; height: 13px; }
 
-.postDateText {
-  @apply font-mono;
-}
+.postDateText { font-family: var(--mono); }
 
-/* Tags */
+/* ── Tags ─────────────────────────────────────────────────── */
+
 .tagsContainer {
-  @apply flex items-center gap-2 flex-wrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .tagIcon {
-  @apply w-4 h-4 text-teal-400;
+  width: 14px;
+  height: 14px;
+  color: var(--cyan);
 }
 
 .tag {
-  @apply px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm;
+  padding: 3px 10px;
+  background: var(--card);
+  border: 1px solid var(--cyan-dim);
+  border-radius: 3px;
+  color: var(--cyan-soft);
+  font-family: var(--mono);
+  font-size: 12px;
 }
 
 .noTags {
-  @apply text-gray-500 text-sm;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 12px;
 }
 
-/* Content Card */
+/* ── Content card ─────────────────────────────────────────── */
+
 .contentCard {
-  @apply rounded-lg p-8;
+  display: flex;
+  flex-direction: column;
 }
 
 .postContent {
-  @apply text-gray-300 leading-relaxed;
+  color: var(--text-mute);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.postContent h1, .postContent h2, .postContent h3 {
+  color: var(--text);
+  font-family: var(--mono);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.postContent h2 { color: var(--pink); font-size: 1.25rem; }
+.postContent h3 { color: var(--cyan); font-size: 1.1rem; }
+
+.postContent p { margin: 0 0 1em; }
+.postContent a { color: var(--cyan); text-decoration: underline; }
+.postContent a:hover { color: var(--cyan-soft); }
+
+.postContent code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  color: var(--pink-soft);
+  background: var(--card);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.postContent pre {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.postContent pre code {
+  background: none;
+  padding: 0;
+  color: var(--text-mute);
+}
+
+.postContent ul, .postContent ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em;
+}
+
+.postContent li { margin-bottom: 4px; }
+
+.postContent blockquote {
+  border-left: 3px solid var(--pink);
+  padding-left: 16px;
+  color: var(--text-dim);
+  font-style: italic;
+  margin: 1em 0;
 }

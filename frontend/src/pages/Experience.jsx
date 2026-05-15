@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Briefcase, MapPin, Calendar, Code2, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import { getExperiences } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
 import { useTypingEffect } from '../hooks/useTypingEffect';
@@ -35,10 +35,10 @@ const Experience = () => {
     );
   } else if (experience.length === 0) {
     return (
-      <PixelCard className={styles.emptyCard}>
+      <CornerCard tone="pink" className={styles.emptyCard}>
           <Briefcase className={styles.emptyIcon} />
           <p className={styles.emptyText}>No experience records found.</p>
-      </PixelCard>
+      </CornerCard>
     );
   }
 
@@ -78,7 +78,7 @@ const Experience = () => {
                 <div className={styles.timelineDot}></div>
 
                 {/* Content Card */}
-                <PixelCard className={styles.experienceCard}>
+                <CornerCard tone={index % 2 === 0 ? 'pink' : 'cyan'} className={styles.experienceCard}>
                   {/* Header */}
                   <div className={styles.experienceHeader}>
                     <h3 className={styles.jobTitle}>
@@ -130,12 +130,10 @@ const Experience = () => {
                   </div>
                   <div className={styles.techTags}>
                     {exp.technologies.map(tech => (
-                      <span key={tech} className={styles.techTag}>
-                        {tech}
-                      </span>
+                      <span key={tech} className={styles.techTag}>{tech}</span>
                     ))}
                   </div>
-                </PixelCard>
+                </CornerCard>
               </div>
             ))}
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GraduationCap, MapPin, Calendar, BookOpen, Terminal } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import { getEducation } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import styles from '../styles/Education.module.css';
@@ -60,7 +60,7 @@ const Education = () => {
         {/* Education Items */}
         <div className={styles.educationList}>
           {education.map((edu, index) => (
-            <PixelCard key={edu._id || index} className={styles.educationCard}>
+            <CornerCard key={edu._id || index} tone={index % 2 === 0 ? 'cyan' : 'pink'} className={styles.educationCard}>
               {/* Icon & Degree */}
               <div className={styles.educationHeader}>
                 <div className={styles.iconContainer}>
@@ -138,7 +138,7 @@ const Education = () => {
                   ))}
                 </div>
               </div>
-            </PixelCard>
+            </CornerCard>
           ))}
         </div>
         {/* Command Tip */}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Code2, Wrench, Heart, Sparkles, Terminal, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import { getProfile, getSkills, getResume } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { PortableText } from '@portabletext/react';
@@ -78,7 +78,7 @@ const About = () => {
         </motion.div>
 
         {/* Bio Section */}
-  <PixelCard className={styles.bioCard}>
+  <CornerCard tone="pink" className={styles.bioCard}>
           <div className={styles.sectionHeader}>
             <Sparkles className={styles.sectionIcon} />
             <h2 className={styles.sectionTitle}>My Story</h2>
@@ -90,73 +90,65 @@ const About = () => {
               <p>No bio available.</p>
             )}
           </div>
-  </PixelCard>
+  </CornerCard>
 
         {/* Skills Grid */}
         <div className={styles.skillsGrid}>
           {/* Languages */}
-          <PixelCard className={styles.skillCard}>
+          <CornerCard tone="cyan" className={styles.skillCard}>
             <div className={styles.skillHeader}>
               <Code2 className={styles.skillIconPink} />
               <h3 className={styles.skillTitleTeal}>Languages</h3>
             </div>
             <div className={styles.skillTags}>
               {skills?.languages?.map(lang => (
-                <span key={lang} className={styles.tagPink}>
-                  {lang}
-                </span>
+                <span key={lang} className="ds-tag">{lang}</span>
               ))}
             </div>
-          </PixelCard>
+          </CornerCard>
 
           {/* Frameworks */}
-          <PixelCard className={styles.skillCard}>
+          <CornerCard tone="pink" className={styles.skillCard}>
             <div className={styles.skillHeader}>
               <Wrench className={styles.skillIconTeal} />
               <h3 className={styles.skillTitlePink}>Frameworks</h3>
             </div>
             <div className={styles.skillTags}>
               {skills?.frameworks?.map(framework => (
-                <span key={framework} className={styles.tagTeal}>
-                  {framework}
-                </span>
+                <span key={framework} className="ds-tag cyan">{framework}</span>
               ))}
             </div>
-          </PixelCard>
+          </CornerCard>
 
           {/* Tools */}
-          <PixelCard className={styles.skillCard}>
+          <CornerCard tone="cyan" className={styles.skillCard}>
             <div className={styles.skillHeader}>
               <Wrench className={styles.skillIconPink} />
               <h3 className={styles.skillTitleTeal}>Tools & Technologies</h3>
             </div>
             <div className={styles.skillTags}>
               {skills?.tools?.map(tool => (
-                <span key={tool} className={styles.tagPink}>
-                  {tool}
-                </span>
+                <span key={tool} className="ds-tag">{tool}</span>
               ))}
             </div>
-          </PixelCard>
+          </CornerCard>
 
           {/* Interests */}
-          <PixelCard className={styles.skillCard}>
+          <CornerCard tone="pink" className={styles.skillCard}>
             <div className={styles.skillHeader}>
               <Heart className={styles.skillIconTeal} />
               <h3 className={styles.skillTitlePink}>Interests</h3>
             </div>
             <div className={styles.skillTags}>
               {skills?.interests?.map(interest => (
-                <span key={interest} className={styles.tagTeal}>
-                  {interest}
-                </span>
+                <span key={interest} className="ds-tag cyan">{interest}</span>
               ))}
             </div>
-          </PixelCard>
+          </CornerCard>
         </div>
 
         {/* Fun Fact */}
-  <PixelCard className={styles.funFactCard}>
+  <CornerCard tone="cyan" className={styles.funFactCard}>
           <div className={styles.funFactContent}>
             <span className={styles.funFactEmoji}>🎮</span>
             <div>
@@ -166,7 +158,7 @@ const About = () => {
               </p>
             </div>
           </div>
-  </PixelCard>
+  </CornerCard>
       </div>
 
         {/* View Resume Button */}

@@ -1,144 +1,243 @@
-/* Layout */
+/* Experience page */
+
 .container {
-  @apply min-h-screen pt-20 pb-12 px-4;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 88px clamp(16px, 4vw, 56px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
 .content {
-  @apply max-w-5xl mx-auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
-/* Loading State */
 .loadingContainer {
-  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
 .loadingText {
-  @apply text-pink-400 font-mono;
+  color: var(--pink);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
-/* Empty State */
+/* ── Empty state ──────────────────────────────────────────── */
+
 .emptyCard {
-  @apply text-center py-20;
+  text-align: center;
+  padding: 60px 20px;
 }
 
 .emptyIcon {
-  @apply w-16 h-16 mx-auto mb-4 text-pink-400/50;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  color: var(--pink-dim);
 }
 
 .emptyText {
-  @apply text-lg text-pink-400/70;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
-/* Header */
+/* ── Header ───────────────────────────────────────────────── */
+
 .header {
-  @apply text-center mb-12;
+  text-align: center;
 }
 
 .title {
-  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  font-family: var(--mono);
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .titleIcon {
-  @apply w-8 h-8 text-teal-400;
+  width: 28px;
+  height: 28px;
+  color: var(--cyan);
+  -webkit-text-fill-color: initial;
+  flex-shrink: 0;
 }
 
 .cursor {
-  @apply text-teal-400 animate-pulse;
+  color: var(--cyan);
+  -webkit-text-fill-color: var(--cyan);
+  animation: pulse 1s ease-in-out infinite;
 }
+
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
 
 .subtitle {
-  @apply font-mono min-h-[24px];
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 24px;
 }
 
-.subtitlePrompt {
-  @apply text-pink-300;
-}
+.subtitlePrompt { color: var(--pink); }
+.subtitleCommand { color: var(--cyan); }
 
-.subtitleCommand {
-  @apply text-teal-400;
-}
+/* ── Timeline ─────────────────────────────────────────────── */
 
-/* Timeline */
 .timeline {
-  @apply relative;
+  position: relative;
 }
 
 .timelineLine {
-  @apply absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-pink-500 via-teal-500 to-pink-500;
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--pink), var(--cyan), var(--pink));
+  opacity: 0.4;
 }
 
 .experienceList {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
 .experienceItem {
-  @apply relative pl-20;
+  position: relative;
+  padding-left: 76px;
 }
 
 .timelineDot {
-  @apply absolute left-5 top-6 w-6 h-6 bg-[#0A0E27] border-4 border-teal-400 rounded-full z-10;
+  position: absolute;
+  left: 20px;
+  top: 24px;
+  width: 22px;
+  height: 22px;
+  background: var(--bg);
+  border: 3px solid var(--cyan);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 12px var(--cyan-dim);
 }
 
-/* Experience Card */
+/* ── Experience card ──────────────────────────────────────── */
+
 .experienceCard {
-  @apply rounded-lg p-6;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .experienceHeader {
-  @apply mb-4;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .jobTitle {
-  @apply text-xl font-bold font-mono text-pink-400 mb-2;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
+  margin: 0;
 }
 
 .metadata {
-  @apply flex flex-wrap gap-4 text-sm;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
 }
 
 .metadataItem {
-  @apply flex items-center gap-2 font-mono;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
 }
 
-.metadataItemPrimary {
-  @apply text-teal-400;
-}
-
-.metadataItemSecondary {
-  @apply text-gray-400;
-}
+.metadataItemPrimary { color: var(--cyan); }
+.metadataItemSecondary { color: var(--text-dim); }
 
 .metadataIcon {
-  @apply w-4 h-4;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
-/* Description */
 .description {
-  @apply text-gray-300 mb-4 leading-relaxed;
+  color: var(--text-mute);
+  font-size: 13px;
+  line-height: 1.65;
 }
 
-/* Technologies */
+.description p { margin: 0 0 10px; }
+.description p:last-child { margin-bottom: 0; }
+
+/* ── Tech stack ───────────────────────────────────────────── */
+
 .techHeader {
-  @apply flex items-center gap-2 mb-2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .techIcon {
-  @apply w-4 h-4 text-teal-400;
+  width: 14px;
+  height: 14px;
+  color: var(--cyan);
 }
 
 .techLabel {
-  @apply text-sm font-mono text-teal-400;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--cyan);
 }
 
 .techTags {
-  @apply flex flex-wrap gap-2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .techTag {
-  @apply px-2 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-xs hover:border-pink-500 transition-colors;
+  padding: 3px 10px;
+  background: var(--card);
+  border: 1px solid var(--pink-dim);
+  border-radius: 3px;
+  color: var(--pink-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+  transition: border-color 0.15s;
 }
 
-/* Footer Message */
+.techTag:hover { border-color: var(--pink); }
+
+/* ── Footer ───────────────────────────────────────────────── */
+
 .footerMessage {
-  @apply mt-12 text-center text-sm text-pink-400/50;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-faint);
 }

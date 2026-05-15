@@ -1,151 +1,236 @@
-/* Layout */
+/* About page */
+
 .container {
-  @apply min-h-screen pt-20 pb-12 px-4;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 88px clamp(16px, 4vw, 56px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
-.content {
-  @apply max-w-5xl mx-auto;
-}
-
-/* Loading State */
 .loadingContainer {
-  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
 .loadingText {
-  @apply text-pink-400 font-mono;
+  color: var(--pink);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
-/* Header */
+/* ── Header ───────────────────────────────────────────────── */
+
 .header {
-  @apply text-center mb-12;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .title {
-  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  font-family: var(--mono);
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .titleIcon {
-  @apply w-8 h-8 text-teal-400;
+  width: 28px;
+  height: 28px;
+  color: var(--cyan);
+  -webkit-text-fill-color: initial;
+  flex-shrink: 0;
 }
 
 .cursor {
-  @apply text-teal-400 animate-pulse;
+  color: var(--cyan);
+  -webkit-text-fill-color: var(--cyan);
+  animation: pulse 1s ease-in-out infinite;
 }
 
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
+
 .subtitle {
-  @apply text-gray-400 font-mono min-h-[24px];
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 24px;
 }
 
 .subtitlePrompt {
-  @apply text-pink-300;
+  color: var(--pink);
 }
 
 .subtitleCommand {
-  @apply text-teal-400;
+  color: var(--cyan);
 }
 
-/* Bio Section */
+/* ── Bio card ─────────────────────────────────────────────── */
+
 .bioCard {
-  @apply rounded-lg p-8 mb-8;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .sectionHeader {
-  @apply flex items-center gap-3 mb-4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
 }
 
 .sectionIcon {
-  @apply w-6 h-6 text-teal-400;
+  width: 18px;
+  height: 18px;
+  color: var(--cyan);
 }
 
 .sectionTitle {
-  @apply text-xl font-bold font-mono text-pink-400;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
 }
 
 .bioText {
-  @apply text-gray-300 leading-relaxed space-y-4;
+  color: var(--text-mute);
+  line-height: 1.7;
+  font-size: 14px;
 }
 
-/* View Resume Button */
-.viewResumeButton {
-  @apply w-full max-w-md mx-auto mb-8 py-3 px-6 font-mono font-bold text-xs uppercase tracking-wider
-         bg-[#0A0E27] text-teal-300
-         border-2 border-teal-500/60 cursor-pointer
-         transition-all duration-200 ease-in-out
-         flex items-center justify-center gap-2;
-}
+.bioText p { margin: 0 0 12px; }
+.bioText p:last-child { margin-bottom: 0; }
 
-.viewResumeButton:hover {
-  @apply border-pink-500 text-pink-300 bg-pink-500/10;
-  transform: translateY(-1px);
-}
+/* ── Skills grid ──────────────────────────────────────────── */
 
-.viewResumeButton:active {
-  transform: translateY(0);
-}
-
-.resumeIcon {
-  @apply w-5 h-5;
-}
-
-/* Skills Grid */
 .skillsGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-8;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--gap-stack);
 }
 
 .skillCard {
-  @apply rounded-lg p-6;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .skillHeader {
-  @apply flex items-center gap-3 mb-4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .skillIconPink {
-  @apply w-5 h-5 text-pink-400;
+  width: 18px;
+  height: 18px;
+  color: var(--pink);
 }
 
 .skillIconTeal {
-  @apply w-5 h-5 text-teal-400;
+  width: 18px;
+  height: 18px;
+  color: var(--cyan);
 }
 
 .skillTitlePink {
-  @apply text-lg font-bold font-mono text-pink-400;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
 }
 
 .skillTitleTeal {
-  @apply text-lg font-bold font-mono text-teal-400;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--cyan);
 }
 
 .skillTags {
-  @apply flex flex-wrap gap-2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.tagPink {
-  @apply px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors;
-}
+/* ── Fun fact ─────────────────────────────────────────────── */
 
-.tagTeal {
-  @apply px-3 py-1 bg-[#0A0E27] border border-teal-500/50 rounded text-teal-300 font-mono text-sm hover:border-teal-500 transition-colors;
-}
-
-/* Fun Fact */
 .funFactCard {
-  @apply rounded-lg p-6 font-mono;
+  display: flex;
+  flex-direction: column;
 }
 
 .funFactContent {
-  @apply flex items-start gap-3;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
 }
 
 .funFactEmoji {
-  @apply text-2xl;
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 .funFactTitle {
-  @apply text-teal-400 font-bold mb-2;
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 .funFactText {
-  @apply text-gray-300;
+  color: var(--text-mute);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── Resume button ────────────────────────────────────────── */
+
+.viewResumeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  background: var(--card);
+  border: 2px solid var(--cyan-dim);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.viewResumeButton:hover {
+  border-color: var(--pink);
+  color: var(--pink);
+  background: rgba(255, 61, 140, 0.06);
+  transform: translateY(-1px);
+}
+
+.resumeIcon {
+  width: 18px;
+  height: 18px;
 }
