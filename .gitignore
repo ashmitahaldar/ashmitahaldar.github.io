@@ -81,3 +81,5 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+design_handoff_portfolio_home/

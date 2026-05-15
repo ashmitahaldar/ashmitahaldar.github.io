@@ -13,7 +13,7 @@ import BlogPost from './pages/BlogPost';
 
 function App() {
   return (
-    <div className="App min-h-screen bg-[#0A0E27] text-white">
+    <div className="App min-h-screen text-white">
       <BrowserRouter>
           <TerminalNav />
           <div className="min-h-screen">

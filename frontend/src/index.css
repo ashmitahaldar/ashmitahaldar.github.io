@@ -105,3 +105,187 @@ code {
     transition-duration: 200ms;
     transition-timing-function: ease-in-out;
 }
+
+/* ═══════════════════════════════════════════════════════
+   DESIGN SYSTEM TOKENS — ashmita.haldar portfolio
+   Lifted from design_handoff_portfolio_home/styles.css
+   ═══════════════════════════════════════════════════════ */
+
+:root {
+  /* surfaces */
+  --bg:     #08081a;
+  --bg-2:   #0b0b22;
+  --card:   #050510;
+  --card-2: #0a0a18;
+  --card-3: #10101e;
+
+  /* ink */
+  --text:       #e8e9fa;
+  --text-mute:  #9a9cb8;
+  --text-dim:   #5e6080;
+  --text-faint: #3b3d57;
+
+  /* accents */
+  --pink:      #ff3d8c;
+  --pink-soft: #ff7ab3;
+  --pink-dim:  rgba(255, 61, 140, 0.35);
+  --pink-glow: rgba(255, 61, 140, 0.15);
+
+  --cyan:      #2dd4bf;
+  --cyan-soft: #5eead4;
+  --cyan-dim:  rgba(45, 212, 191, 0.35);
+  --cyan-glow: rgba(45, 212, 191, 0.12);
+
+  --green:     #34d399;
+  --green-dim: rgba(52, 211, 153, 0.35);
+
+  --yellow: #fbbf24;
+  --violet: #a78bfa;
+
+  /* spacing */
+  --pad-card:    28px;
+  --pad-section: 64px;
+  --gap-stack:   20px;
+  --maxw:        1240px;
+
+  /* type */
+  --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+
+/* body gradient — fixed so it stays behind all scrolling content */
+body {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 61, 140, 0.08), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 30%, rgba(45, 212, 191, 0.05), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  color: var(--text);
+}
+
+/* selection */
+::selection { background: var(--pink); color: var(--bg); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 61, 140, 0.2);
+  border: 2px solid var(--bg);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--pink-dim); }
+
+/* ── corner-bracketed card ── */
+.cc {
+  position: relative;
+  background: var(--card);
+  border-radius: 4px;
+  padding: var(--pad-card);
+}
+.cc::before, .cc::after,
+.cc > .cc-corners::before, .cc > .cc-corners::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+/* TL: pink */
+.cc::before      { top: -1px; left: -1px;  border-top: 2px solid var(--pink); border-left: 2px solid var(--pink); }
+/* TR: cyan */
+.cc::after       { top: -1px; right: -1px; border-top: 2px solid var(--cyan); border-right: 2px solid var(--cyan); }
+/* BL: cyan */
+.cc > .cc-corners::before { bottom: -1px; left: -1px;  border-bottom: 2px solid var(--cyan); border-left: 2px solid var(--cyan); }
+/* BR: pink */
+.cc > .cc-corners::after  { bottom: -1px; right: -1px; border-bottom: 2px solid var(--pink); border-right: 2px solid var(--pink); }
+
+/* tone variants: all corners become one color */
+.cc-pink::before, .cc-pink > .cc-corners::after  { border-color: var(--pink); }
+.cc-pink::after,  .cc-pink > .cc-corners::before { border-color: var(--pink); }
+.cc-cyan::before, .cc-cyan > .cc-corners::after  { border-color: var(--cyan); }
+.cc-cyan::after,  .cc-cyan > .cc-corners::before { border-color: var(--cyan); }
+
+/* ── section header  $ cmd arg // comment ─── [02] ── */
+.sh          { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; font-family: var(--mono); }
+.sh-prompt   { color: var(--cyan); }
+.sh-cmd      { color: var(--text); font-weight: 600; }
+.sh-arg      { color: var(--pink); }
+.sh-comment  { color: var(--text-dim); font-size: 12px; }
+.sh-rule     { flex: 1; height: 1px; background: linear-gradient(90deg, var(--pink-dim), transparent); }
+.sh-count    { color: var(--text-dim); font-size: 12px; padding: 2px 8px; border: 1px solid var(--pink-dim); border-radius: 4px; flex-shrink: 0; }
+
+/* ── blinking caret ── */
+.blink {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: currentColor;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink-caret 1s steps(2, start) infinite;
+}
+@keyframes blink-caret { to { visibility: hidden; } }
+
+/* ── scroll-reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.7s cubic-bezier(.2,.7,.2,1), transform 0.7s cubic-bezier(.2,.7,.2,1) !important;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── tag pill ── */
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--pink-dim);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--pink-soft);
+  background: var(--pink-glow);
+  transition: transform 0.18s !important;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.ds-tag.cyan { border-color: var(--cyan-dim); color: var(--cyan-soft); background: var(--cyan-glow); }
+.ds-tag:hover { transform: translateY(-1px); }
+
+/* ── icon button ── */
+.ds-icon-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--pink-dim);
+  border-radius: 6px;
+  color: var(--pink);
+  transition: all 0.18s !important;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+}
+.ds-icon-btn:hover { border-color: var(--pink); background: var(--pink-glow); transform: translateY(-2px); }
+.ds-icon-btn.cyan  { border-color: var(--cyan-dim); color: var(--cyan); }
+.ds-icon-btn.cyan:hover { border-color: var(--cyan); background: var(--cyan-glow); }
+
+/* ── btn-link ── */
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cyan);
+  font-size: 13px;
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.18s, gap 0.18s !important;
+  text-decoration: none;
+  font-family: var(--mono);
+  background: transparent;
+}
+.btn-link:hover { border-color: var(--cyan-dim); gap: 12px; color: var(--cyan); }
