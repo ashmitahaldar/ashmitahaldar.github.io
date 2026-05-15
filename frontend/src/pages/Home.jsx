@@ -529,14 +529,6 @@ export default function Home() {
         </CornerCard>
       </Reveal>
 
-      <div className={styles.pageFooterLine}>
-        <span>
-          <span style={{ color: 'var(--pink)' }}>$</span> echo &quot;thanks for scrolling.&quot;
-          <span className="blink" />
-        </span>
-        <span>v2026.05 · built with too much coffee</span>
-      </div>
-
     </div>
   );
 }

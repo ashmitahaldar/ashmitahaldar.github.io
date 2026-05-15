@@ -9,6 +9,12 @@
   gap: var(--pad-section);
 }
 
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
 .loadingContainer {
   min-height: 100vh;
   display: flex;

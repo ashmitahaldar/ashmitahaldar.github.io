@@ -113,17 +113,17 @@ code {
 
 :root {
   /* surfaces */
-  --bg:     #08081a;
-  --bg-2:   #0b0b22;
-  --card:   #050510;
-  --card-2: #0a0a18;
-  --card-3: #10101e;
+  --bg:     #0A0E27;
+  --bg-2:   #0d1230;
+  --card:   #080b1e;
+  --card-2: #0a0e27;
+  --card-3: #111529;
 
   /* ink */
   --text:       #e8e9fa;
-  --text-mute:  #9a9cb8;
-  --text-dim:   #5e6080;
-  --text-faint: #3b3d57;
+  --text-mute:  #cdd0e8;
+  --text-dim:   #8587a8;
+  --text-faint: #5a5c7a;
 
   /* accents */
   --pink:      #ff3d8c;
@@ -152,13 +152,8 @@ code {
   --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
-/* body gradient — fixed so it stays behind all scrolling content */
 body {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 61, 140, 0.08), transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 30%, rgba(45, 212, 191, 0.05), transparent 60%),
-    var(--bg);
-  background-attachment: fixed;
+  background: #0A0E27;
   color: var(--text);
 }
 
