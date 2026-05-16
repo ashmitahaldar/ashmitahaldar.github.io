@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import Terminal from './Terminal';
 import { getProfile } from '../services/sanityClient';
@@ -19,50 +20,37 @@ export default function TerminalOverlay() {
   }, []);
 
   useEffect(() => {
-    const handleKey = (e) => {
-      if (e.key === 'Escape') setOpen(false);
-    };
     if (open) {
-      document.addEventListener('keydown', handleKey);
       setTimeout(() => window.dispatchEvent(new Event('ashmayo:focus-terminal')), 80);
     }
-    return () => document.removeEventListener('keydown', handleKey);
   }, [open]);
 
-  if (!open) return null;
-
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Portfolio terminal"
-      className={styles.backdrop}
-      onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
-    >
-      <div className={styles.window}>
-        {/* Title bar */}
-        <div className={styles.titleBar}>
-          <div className={styles.dots}>
-            <button
-              onClick={() => setOpen(false)}
-              className={`${styles.dot} ${styles.dotRed}`}
-              aria-label="Close terminal"
-            />
-            <div className={`${styles.dot} ${styles.dotYellow}`} />
-            <div className={`${styles.dot} ${styles.dotGreen}`} />
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Portal>
+        <Dialog.Overlay className={styles.backdrop} />
+        <Dialog.Content className={styles.window}>
+          <div className={styles.titleBar}>
+            <div className={styles.dots}>
+              <Dialog.Close asChild>
+                <button className={`${styles.dot} ${styles.dotRed}`} aria-label="Close terminal" />
+              </Dialog.Close>
+              <div className={`${styles.dot} ${styles.dotYellow}`} />
+              <div className={`${styles.dot} ${styles.dotGreen}`} />
+            </div>
+            <Dialog.Title asChild>
+              <span className={styles.title}>portfolio-terminal</span>
+            </Dialog.Title>
+            <Dialog.Close asChild>
+              <button className={styles.closeBtn} aria-label="Close terminal">
+                <X style={{ width: 14, height: 14 }} />
+              </button>
+            </Dialog.Close>
           </div>
-          <span className={styles.title}>portfolio-terminal</span>
-          <button
-            onClick={() => setOpen(false)}
-            aria-label="Close terminal"
-            className={styles.closeBtn}
-          >
-            <X style={{ width: 14, height: 14 }} />
-          </button>
-        </div>
 
-        <Terminal profileData={profileData} />
-      </div>
-    </div>
+          <Terminal profileData={profileData} />
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }

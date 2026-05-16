@@ -1,6 +1,5 @@
 // Static content — fallback for when Sanity fields aren't populated.
-// now.items are intentionally omitted here; the section is hidden when
-// Sanity data is absent (see Home.jsx NowSection).
+// NowSection uses now.items when Sanity nowItems is empty (see Home.jsx).
 
 export const HOME_CONTENT = {
   // ── // now section ────────────────────────────────────────

@@ -5,21 +5,23 @@
   background: rgba(8, 8, 26, 0.82);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(16px, 4vw, 48px);
   animation: fadeIn 0.12s ease;
 }
 
 .window {
-  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 201;
+  width: calc(100% - clamp(32px, 8vw, 96px));
   max-width: 860px;
   border: 1px solid rgba(255, 61, 140, 0.35);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 0 1px rgba(255, 61, 140, 0.08), 0 32px 80px rgba(0, 0, 0, 0.7);
   animation: slideUp 0.14s ease;
+  outline: none;
 }
 
 .titleBar {

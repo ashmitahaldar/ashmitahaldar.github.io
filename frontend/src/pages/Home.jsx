@@ -31,12 +31,9 @@ function formatPeriod(period) {
 
 function formatBlogDate(publishedAt) {
   if (!publishedAt) return '';
-  try {
-    const d = new Date(publishedAt);
-    return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
-  } catch {
-    return '';
-  }
+  const d = new Date(publishedAt);
+  if (Number.isNaN(d.getTime())) return '';
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 }
 
 // Map flat Sanity skills doc → grouped array used by SkillsSection.
@@ -157,7 +154,7 @@ function Hero({ profileData }) {
           <HeroTypewriter role={profileData.title || ''} tagline={profileData.tagline || ''} />
 
           {(profileData.summary || profileData.bio) && (
-            <p className={styles.bio}>{profileData.summary || profileData.bio}</p>
+            <p className={styles.bio}>{profileData.summary || ptToText(profileData.bio)}</p>
           )}
 
           {profileData.location && (
