@@ -518,13 +518,15 @@ export default function Home() {
 
       <Reveal>
         <SectionHeader cmd="sh" arg="--interactive" comment="type help for commands" />
-        <CornerCard tone="cyan" style={{ padding: 0, overflow: 'hidden' }}>
-          {profileData && <Terminal profileData={profileData} />}
-          <div className={styles.terminalTip}>
-            <span style={{ color: 'var(--pink)' }}>tip:</span>{' '}
-            type <code style={{ color: 'var(--cyan)' }}>help</code> · use{' '}
-            <code style={{ color: 'var(--cyan)' }}>↑↓</code> for history · try{' '}
-            <code style={{ color: 'var(--cyan)' }}>/projects</code>
+        <CornerCard tone="cyan" style={{ padding: 0 }}>
+          <div style={{ overflow: 'hidden' }}>
+            {profileData && <Terminal profileData={profileData} />}
+            <div className={styles.terminalTip}>
+              <span style={{ color: 'var(--pink)' }}>tip:</span>{' '}
+              type <code style={{ color: 'var(--cyan)' }}>help</code> · use{' '}
+              <code style={{ color: 'var(--cyan)' }}>↑↓</code> for history · try{' '}
+              <code style={{ color: 'var(--cyan)' }}>/projects</code>
+            </div>
           </div>
         </CornerCard>
       </Reveal>

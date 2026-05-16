@@ -134,6 +134,7 @@ export default function GitHubActivityCard({ github }) {
                 title={`${day.isoDate} · ${day.count} contributions`}
                 role="img"
                 aria-label={`${day.isoDate} · ${day.count} contributions`}
+                tabIndex={0}
               />
             ))}
           </div>

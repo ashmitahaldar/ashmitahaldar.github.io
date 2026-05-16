@@ -28,7 +28,7 @@ export default function Footer() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>{'>_'}</span>
               <span style={{ color: 'var(--pink)', fontWeight: 600, fontSize: 15 }}>
-                {profile?.name ? profile.name.toLowerCase().replace(' ', '.') : 'ashmita.haldar'}
+                {profile?.name ? profile.name.trim().toLowerCase().replace(/\s+/g, '.') : 'ashmita.haldar'}
               </span>
               <span style={{ color: 'var(--text-faint)' }}>·</span>
               <span style={{ color: 'var(--text-dim)', fontSize: 12 }}>© {year}</span>

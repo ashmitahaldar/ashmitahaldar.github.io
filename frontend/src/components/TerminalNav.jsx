@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X } from 'lucide-react';
 import CommandPalette from './CommandPalette';
+import { getProfile } from '../services/sanityClient';
 
 const navItems = [
   { path: '/',           label: 'Home',       Icon: Home },
@@ -15,6 +16,13 @@ const navItems = [
 export default function TerminalNav() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [brandName, setBrandName] = useState('ashmita.haldar');
+
+  useEffect(() => {
+    getProfile().then((p) => {
+      if (p?.name) setBrandName(p.name.trim().toLowerCase().replace(/\s+/g, '.'));
+    }).catch(() => {});
+  }, []);
 
   return (
     <>
@@ -47,7 +55,7 @@ export default function TerminalNav() {
               }}
             >
               <span style={{ color: 'var(--cyan)' }}>{'>_'}</span>
-              <span style={{ color: 'var(--pink)' }}>ashmita.haldar</span>
+              <span style={{ color: 'var(--pink)' }}>{brandName}</span>
             </Link>
 
             {/* Desktop links */}
@@ -107,6 +115,9 @@ export default function TerminalNav() {
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="md:hidden"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav"
                 style={{
                   padding: 8, background: 'transparent', border: 'none', cursor: 'pointer',
                   color: 'var(--pink)',
@@ -121,6 +132,7 @@ export default function TerminalNav() {
         {/* Mobile dropdown */}
         {mobileOpen && (
           <div
+            id="mobile-nav"
             className="md:hidden"
             style={{
               borderTop: '1px solid rgba(45,212,191,0.15)',

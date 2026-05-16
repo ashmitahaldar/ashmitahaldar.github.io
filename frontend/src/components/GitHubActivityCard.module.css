@@ -31,7 +31,14 @@
   position: relative;
 }
 
-.heatCell:hover::after {
+.heatCell:focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.heatCell:hover::after,
+.heatCell:focus::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: calc(100% + 8px);

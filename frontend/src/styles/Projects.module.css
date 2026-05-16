@@ -88,11 +88,9 @@
 }
 
 .projectCard {
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  cursor: pointer;
 }
 
 .projectCard:hover {
@@ -109,7 +107,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden;  /* clips images/icons only, not the CornerCard corners */
   border-radius: 4px;
   margin-bottom: 4px;
 }
