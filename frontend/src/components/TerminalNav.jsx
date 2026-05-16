@@ -94,22 +94,6 @@ export default function TerminalNav() {
 
             {/* Right: shortcut badge + command palette + mobile toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div className="hidden md:flex" style={{
-                alignItems: 'center', gap: 8,
-                padding: '6px 10px',
-                border: '1px solid rgba(255, 61, 140, 0.18)',
-                borderRadius: 6,
-                color: 'var(--text-dim)', fontSize: '11.5px',
-                fontFamily: 'var(--mono)',
-              }}>
-                <span>shortcut</span>
-                <kbd style={{
-                  font: 'inherit', padding: '2px 6px', borderRadius: 4,
-                  background: 'rgba(255, 61, 140, 0.1)',
-                  color: 'var(--pink-soft)',
-                }}>⌘K</kbd>
-              </div>
-
               <CommandPalette />
 
               <button
@@ -140,13 +124,6 @@ export default function TerminalNav() {
               padding: '8px 0',
             }}
           >
-            <div style={{
-              padding: '8px 20px',
-              fontFamily: 'var(--mono)', fontSize: 11,
-              color: 'var(--text-dim)',
-            }}>
-              shortcut: <span style={{ color: 'var(--pink-soft)' }}>⌘K</span>
-            </div>
             {navItems.map(({ path, label, Icon }) => {
               const isActive = location.pathname === path;
               return (
