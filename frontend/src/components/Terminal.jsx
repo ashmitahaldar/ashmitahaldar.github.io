@@ -286,22 +286,11 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
   };
 
   return (
-    <div className="w-full h-full bg-[#0A0E27] border-4 border-pink-500 rounded-lg overflow-hidden">
-      {/* Terminal Header */}
-      <div className="bg-gradient-to-r from-pink-600 to-teal-600 px-4 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-        </div>
-        <span className="text-white text-sm font-mono">portfolio-terminal</span>
-        <div className="w-16"></div>
-      </div>
-
+    <div style={{ background: '#0A0E27' }}>
       {/* Terminal Body */}
-      <div 
+      <div
         ref={outputRef}
-        className="p-4 h-[450px] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
+        className="p-4 h-[480px] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
         onClick={() => inputRef.current?.focus()}
         tabIndex={0}
       >

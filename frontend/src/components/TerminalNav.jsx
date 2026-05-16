@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X } from 'lucide-react';
+import { Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X, TerminalSquare } from 'lucide-react';
 import CommandPalette from './CommandPalette';
 import { getProfile } from '../services/sanityClient';
+import styles from './TerminalNav.module.css';
 
 const navItems = [
   { path: '/',           label: 'Home',       Icon: Home },
@@ -94,6 +95,15 @@ export default function TerminalNav() {
 
             {/* Right: shortcut badge + command palette + mobile toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                onClick={() => window.dispatchEvent(new Event('ashmayo:open-terminal'))}
+                aria-label="Open terminal"
+                title="Open terminal"
+                className={styles.terminalBtn}
+              >
+                <TerminalSquare style={{ width: 16, height: 16 }} />
+              </button>
+
               <CommandPalette />
 
               <button

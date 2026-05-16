@@ -4,7 +4,6 @@ import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import SplineErrorBoundary from '../components/SplineErrorBoundary';
 import GitHubActivityCard from '../components/GitHubActivityCard';
-import Terminal from '../components/Terminal';
 import CornerCard from '../components/CornerCard';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
@@ -514,21 +513,6 @@ export default function Home() {
       <Reveal>
         <SectionHeader cmd="git" arg="contributions --year" comment="synced from github" />
         {profileData && <GitHubActivityCard github={profileData.github} />}
-      </Reveal>
-
-      <Reveal>
-        <SectionHeader cmd="sh" arg="--interactive" comment="type help for commands" />
-        <CornerCard tone="cyan" style={{ padding: 0 }}>
-          <div style={{ overflow: 'hidden' }}>
-            {profileData && <Terminal profileData={profileData} />}
-            <div className={styles.terminalTip}>
-              <span style={{ color: 'var(--pink)' }}>tip:</span>{' '}
-              type <code style={{ color: 'var(--cyan)' }}>help</code> · use{' '}
-              <code style={{ color: 'var(--cyan)' }}>↑↓</code> for history · try{' '}
-              <code style={{ color: 'var(--cyan)' }}>/projects</code>
-            </div>
-          </div>
-        </CornerCard>
       </Reveal>
 
     </div>
