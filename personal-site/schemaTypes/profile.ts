@@ -38,12 +38,27 @@ export default {
     {
       name: 'bio',
       title: 'Biography',
-      // We use the 'array' type with 'block' to create rich text (Portable Text)
-      // This allows for formatting like paragraphs, bold, lists, etc.
       type: 'array',
       of: [
-        { type: 'block' }
-      ]
+        { type: 'block' },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Describe the image for accessibility',
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'email',

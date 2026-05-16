@@ -29,7 +29,23 @@ export default {
       type: 'array', // The body of the post, using Portable Text
       of: [
         { type: 'block' },
-        { type: 'image' }, // Allows embedding images within the body
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Describe the image for accessibility',
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+        },
       ],
     },
     {

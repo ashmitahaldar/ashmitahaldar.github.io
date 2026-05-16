@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
 import { getProfile, getSkills, getResume } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
-import { PortableText } from '@portabletext/react';
+import PortableText from '../components/PortableText';
 import ResumeModal from '../components/ResumeModal';
 import styles from '../styles/About.module.css';
 
