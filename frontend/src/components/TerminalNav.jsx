@@ -1,109 +1,164 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Terminal, Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X } from 'lucide-react';
+import { Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X, TerminalSquare } from 'lucide-react';
 import CommandPalette from './CommandPalette';
+import { getProfile } from '../services/sanityClient';
+import styles from './TerminalNav.module.css';
 
-const TerminalNav = () => {
+const navItems = [
+  { path: '/',           label: 'Home',       Icon: Home },
+  { path: '/about',      label: 'About',      Icon: User },
+  { path: '/experience', label: 'Experience', Icon: Briefcase },
+  { path: '/education',  label: 'Education',  Icon: GraduationCap },
+  { path: '/projects',   label: 'Projects',   Icon: FolderGit2 },
+  { path: '/blog',       label: 'Blog',       Icon: BookOpen },
+];
+
+export default function TerminalNav() {
   const location = useLocation();
-  const [hovered, setHovered] = useState(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [brandName, setBrandName] = useState('ashmita.haldar');
 
-  const navItems = [
-    { path: '/', label: 'Home', icon: Home },
-    { path: '/about', label: 'About', icon: User },
-    { path: '/experience', label: 'Experience', icon: Briefcase },
-    { path: '/education', label: 'Education', icon: GraduationCap },
-    { path: '/projects', label: 'Projects', icon: FolderGit2 },
-    { path: '/blog', label: 'Blog', icon: BookOpen },
-  ];
+  useEffect(() => {
+    getProfile().then((p) => {
+      if (p?.name) setBrandName(p.name.trim().toLowerCase().replace(/\s+/g, '.'));
+    }).catch(() => {});
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0A0E27]/95 backdrop-blur-sm border-b-2 border-pink-500">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 text-pink-400 hover:text-teal-400 transition-colors">
-            <Terminal className="w-6 h-6" />
-            <span className="font-mono text-lg font-bold">ashmita.haldar</span>
-          </Link>
+    <>
+      {/* 4px accent bar */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 51,
+        height: 4,
+        background: 'linear-gradient(90deg, transparent 0%, var(--pink) 8%, var(--pink) 92%, transparent 100%)',
+        boxShadow: '0 0 24px var(--pink-glow)',
+      }} />
 
-          {/* Desktop Nav Items */}
-          <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onMouseEnter={() => setHovered(item.path)}
-                  onMouseLeave={() => setHovered(null)}
-                  className={`relative px-4 py-2 font-mono text-sm flex items-center gap-2 transition-colors ${
-                    isActive 
-                      ? 'text-teal-400' 
-                      : 'text-pink-300 hover:text-pink-400'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-pink-500 to-teal-500 animate-pulse"></span>
-                  )}
-                  {hovered === item.path && !isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-pink-500/50"></span>
-                  )}
-                </Link>
-              );
-            })}
-          </div>
+      {/* Nav */}
+      <nav style={{
+        position: 'fixed', top: 4, left: 0, right: 0, zIndex: 50,
+        background: 'rgba(8, 8, 26, 0.88)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(255, 61, 140, 0.08)',
+      }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '0 clamp(16px, 4vw, 48px)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
 
-          <div className="flex items-center gap-2">
-            <div className="hidden md:flex items-center gap-1 font-mono text-[10px] text-teal-300/90 border border-teal-500/25 px-1.5 py-0.5 leading-none">
-              <span className="text-gray-400">shortcut</span>
-              <span className="text-pink-300">⌘/Ctrl + K</span>
-            </div>
-            <CommandPalette />
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-pink-400 hover:text-teal-400 transition-colors"
+            {/* Brand */}
+            <Link
+              to="/"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                fontFamily: 'var(--mono)', fontWeight: 600, fontSize: 15,
+                letterSpacing: '-0.01em', textDecoration: 'none',
+              }}
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+              <span style={{ color: 'var(--cyan)' }}>{'>_'}</span>
+              <span style={{ color: 'var(--pink)' }}>{brandName}</span>
+            </Link>
+
+            {/* Desktop links */}
+            <div className="hidden md:flex" style={{ alignItems: 'center', gap: 'clamp(10px, 2vw, 28px)' }}>
+              {navItems.map(({ path, label, Icon }) => {
+                const isActive = location.pathname === path;
+                return (
+                  <Link
+                    key={path}
+                    to={path}
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 7,
+                      fontFamily: 'var(--mono)', fontSize: 13.5,
+                      color: isActive ? 'var(--cyan)' : 'var(--text-mute)',
+                      textDecoration: 'none', padding: '6px 4px',
+                      position: 'relative',
+                      transition: 'color 0.18s',
+                    }}
+                    onMouseEnter={e => { if (!isActive) e.currentTarget.style.color = 'var(--text)'; }}
+                    onMouseLeave={e => { if (!isActive) e.currentTarget.style.color = 'var(--text-mute)'; }}
+                  >
+                    <Icon style={{ width: 14, height: 14, opacity: 0.9 }} />
+                    <span>{label}</span>
+                    {isActive && (
+                      <span style={{
+                        position: 'absolute', inset: 'auto 4px -10px 4px',
+                        height: 2, background: 'var(--cyan)',
+                        boxShadow: '0 0 12px var(--cyan-dim)',
+                        borderRadius: 1,
+                      }} />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Right: shortcut badge + command palette + mobile toggle */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                onClick={() => window.dispatchEvent(new Event('ashmayo:open-terminal'))}
+                aria-label="Open terminal"
+                title="Open terminal"
+                className={styles.terminalBtn}
+              >
+                <TerminalSquare style={{ width: 16, height: 16 }} />
+              </button>
+
+              <CommandPalette />
+
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="md:hidden"
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-nav"
+                style={{
+                  padding: 8, background: 'transparent', border: 'none', cursor: 'pointer',
+                  color: 'var(--pink)',
+                }}
+              >
+                {mobileOpen ? <X style={{ width: 22, height: 22 }} /> : <Menu style={{ width: 22, height: 22 }} />}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t-2 border-teal-500/30 bg-[#1A1B26] py-2">
-            <div className="px-4 py-2 font-mono text-xs text-teal-300">
-              Shortcut: <span className="text-pink-300">Cmd/Ctrl + K</span>
-            </div>
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
+        {/* Mobile dropdown */}
+        {mobileOpen && (
+          <div
+            id="mobile-nav"
+            className="md:hidden"
+            style={{
+              borderTop: '1px solid rgba(45,212,191,0.15)',
+              background: 'var(--card-2)',
+              padding: '8px 0',
+            }}
+          >
+            {navItems.map(({ path, label, Icon }) => {
+              const isActive = location.pathname === path;
               return (
                 <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 font-mono text-sm transition-colors ${
-                    isActive 
-                      ? 'text-teal-400 bg-teal-500/10 border-l-4 border-teal-500' 
-                      : 'text-pink-300 hover:text-pink-400 hover:bg-pink-500/5'
-                  }`}
+                  key={path}
+                  to={path}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '12px 20px',
+                    fontFamily: 'var(--mono)', fontSize: 13.5,
+                    color: isActive ? 'var(--cyan)' : 'var(--text-mute)',
+                    textDecoration: 'none',
+                    borderLeft: isActive ? '3px solid var(--cyan)' : '3px solid transparent',
+                    background: isActive ? 'rgba(45,212,191,0.06)' : 'transparent',
+                  }}
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
+                  <Icon style={{ width: 15, height: 15 }} />
+                  <span>{label}</span>
                 </Link>
               );
             })}
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
-};
-
-export default TerminalNav;
+}

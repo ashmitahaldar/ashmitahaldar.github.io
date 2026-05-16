@@ -1,73 +1,67 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { getProfile } from '../services/sanityClient';
 
-const Footer = () => {
-  const [profileData, setProfileData] = useState(null);
+export default function Footer() {
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        setProfileData(data);
-      } catch (err) {
-        console.error('Error fetching profile from Sanity:', err);
-      }
-    };
-    fetchProfile();
+    getProfile().then(setProfile).catch(() => {});
   }, []);
 
-  return (
-    <footer className="bg-[#0A0E27] border-t-2 border-pink-500 py-8 mt-12">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* Copyright */}
-          <div className="text-gray-400 font-mono text-sm">
-            <div className="flex items-center gap-2">
-              © {new Date().getFullYear()} {profileData?.name || ''}
-              <span className="text-pink-400">•</span>
-              Made with <Heart className="w-4 h-4 text-pink-400 inline" />
-            </div>
-          </div>
+  const year = new Date().getFullYear();
 
-          {/* Social Links */}
-          <div className="flex gap-4">
-            {profileData?.email && (
-            <a
-              href={`mailto:${profileData.email}`}
-              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"
-              aria-label="Email"
-            >
-              <Mail className="w-5 h-5 text-pink-400" />
-            </a>
-            )}
-            {profileData?.github && (
-            <a
-              href={`${profileData.github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 bg-[#1A1B26] border border-teal-500 rounded hover:bg-teal-500/10 transition-all duration-200"
-              aria-label="GitHub"
-            >
-              <Github className="w-5 h-5 text-teal-400" />
-            </a>
-            )}
-            {profileData?.linkedin && (
-            <a
-              href={`${profileData.linkedin}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 bg-[#1A1B26] border border-pink-500 rounded hover:bg-pink-500/10 transition-all duration-200"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-5 h-5 text-pink-400" />
-            </a>
+  const socials = profile ? [
+    { href: profile.email    ? `mailto:${profile.email}` : null, Icon: Mail,     accent: 'pink',  label: 'Email' },
+    { href: profile.github   || null,                            Icon: Github,   accent: 'cyan',  label: 'GitHub' },
+    { href: profile.linkedin || null,                            Icon: Linkedin, accent: 'pink',  label: 'LinkedIn' },
+  ].filter((s) => s.href) : [];
+
+  return (
+    <footer style={{ fontFamily: 'var(--mono)' }}>
+      {/* Top border — matches nav's bottom border */}
+      <div style={{ borderTop: '1px solid rgba(255, 61, 140, 0.08)', background: 'rgba(8, 8, 26, 0.92)' }}>
+        <div style={{ maxWidth: 1240, margin: '0 auto', padding: '20px clamp(16px, 4vw, 48px)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+
+            {/* Brand + copyright */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ color: 'var(--cyan)', fontWeight: 600 }}>{'>_'}</span>
+              <span style={{ color: 'var(--pink)', fontWeight: 600, fontSize: 15 }}>
+                {profile?.name ? profile.name.trim().toLowerCase().replace(/\s+/g, '.') : 'ashmita.haldar'}
+              </span>
+              <span style={{ color: 'var(--text-faint)' }}>·</span>
+              <span style={{ color: 'var(--text-dim)', fontSize: 12 }}>© {year}</span>
+            </div>
+
+            {/* Social icon buttons */}
+            {socials.length > 0 && (
+              <div style={{ display: 'flex', gap: 8 }}>
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target={s.label !== 'Email' ? '_blank' : undefined}
+                    rel="noopener noreferrer"
+                    aria-label={s.label}
+                    className={`ds-icon-btn${s.accent === 'cyan' ? ' cyan' : ''}`}
+                    style={{ width: 36, height: 36 }}
+                  >
+                    <s.Icon style={{ width: 16, height: 16 }} />
+                  </a>
+                ))}
+              </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* 4px accent bar — mirrors the nav's top bar */}
+      <div style={{
+        height: 4,
+        background: 'linear-gradient(90deg, transparent 0%, var(--pink) 8%, var(--pink) 92%, transparent 100%)',
+        boxShadow: '0 0 24px var(--pink-glow)',
+      }} />
     </footer>
   );
-};
-
-export default Footer;
+}

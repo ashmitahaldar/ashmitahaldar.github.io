@@ -38,12 +38,27 @@ export default {
     {
       name: 'bio',
       title: 'Biography',
-      // We use the 'array' type with 'block' to create rich text (Portable Text)
-      // This allows for formatting like paragraphs, bold, lists, etc.
       type: 'array',
       of: [
-        { type: 'block' }
-      ]
+        { type: 'block' },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'alt',
+              title: 'Alt text',
+              type: 'string',
+              description: 'Describe the image for accessibility',
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+        },
+      ],
     },
     {
       name: 'email',
@@ -76,6 +91,94 @@ export default {
       options: {
         hotspot: true,
       },
+    },
+
+    // ── // now section ──────────────────────────────────────
+    {
+      name: 'nowUpdated',
+      title: 'Now — Last Updated',
+      type: 'string',
+      description: 'Displayed as "updated <value>", e.g. "May 2026"',
+    },
+    {
+      name: 'nowItems',
+      title: 'Now — Items',
+      type: 'array',
+      description: 'What you\'re currently doing. Icon must be one of: build | read | learn | listen | travel',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'icon',
+              title: 'Icon',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Build',   value: 'build'  },
+                  { title: 'Read',    value: 'read'   },
+                  { title: 'Learn',   value: 'learn'  },
+                  { title: 'Listen',  value: 'listen' },
+                  { title: 'Travel',  value: 'travel' },
+                ],
+                layout: 'radio',
+              },
+              validation: (Rule: any) => Rule.required().valid('build', 'read', 'learn', 'listen', 'travel'),
+            },
+            {
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              description: 'e.g. "building", "reading", "learning"',
+            },
+            {
+              name: 'text',
+              title: 'Text',
+              type: 'string',
+              description: 'The current value, e.g. "a side project in Rust"',
+            },
+          ],
+          preview: {
+            select: { title: 'label', subtitle: 'text' },
+          },
+        },
+      ],
+    },
+
+    // ── fun facts ───────────────────────────────────────────
+    {
+      name: 'funFacts',
+      title: 'Fun Facts',
+      type: 'array',
+      description: 'Key/value pairs shown in the fun facts section on the home page',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'k',
+              title: 'Key',
+              type: 'string',
+              description: 'e.g. "coffee", "IDE theme"',
+            },
+            {
+              name: 'v',
+              title: 'Value',
+              type: 'string',
+              description: 'e.g. "oat flat white"',
+            },
+            {
+              name: 'note',
+              title: 'Note (optional)',
+              type: 'string',
+              description: 'Small italicised aside, e.g. "two, no more"',
+            },
+          ],
+          preview: {
+            select: { title: 'k', subtitle: 'v' },
+          },
+        },
+      ],
     },
   ],
   

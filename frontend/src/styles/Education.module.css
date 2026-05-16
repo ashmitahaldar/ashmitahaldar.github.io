@@ -1,140 +1,241 @@
-/* Layout */
+/* Education page */
+
 .container {
-  @apply min-h-screen pt-20 pb-12 px-4;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 88px clamp(16px, 4vw, 56px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
 .content {
-  @apply max-w-5xl mx-auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
-/* Loading State */
 .loadingContainer {
-  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
 .loadingText {
-  @apply text-pink-400 font-mono;
+  color: var(--pink);
+  font-family: var(--mono);
+  font-size: 14px;
 }
 
-/* Header */
+/* ── Header ───────────────────────────────────────────────── */
+
 .header {
-  @apply text-center mb-12;
+  text-align: center;
 }
 
 .title {
-  @apply text-4xl font-bold font-mono mb-4 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent min-h-[52px] flex items-center justify-center gap-2;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  font-family: var(--mono);
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, var(--pink), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .titleIcon {
-  @apply w-8 h-8 text-teal-400;
+  width: 28px;
+  height: 28px;
+  color: var(--cyan);
+  -webkit-text-fill-color: initial;
+  flex-shrink: 0;
 }
 
 .cursor {
-  @apply text-teal-400 animate-pulse;
+  color: var(--cyan);
+  -webkit-text-fill-color: var(--cyan);
+  animation: pulse 1s ease-in-out infinite;
 }
+
+@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
 
 .subtitle {
-  @apply text-gray-400 font-mono min-h-[24px];
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 24px;
 }
 
-.subtitlePrompt {
-  @apply text-pink-300;
-}
+.subtitlePrompt { color: var(--pink); }
+.subtitleCommand { color: var(--cyan); }
 
-.subtitleCommand {
-  @apply text-teal-400;
-}
+/* ── Education list ───────────────────────────────────────── */
 
-/* Education List */
 .educationList {
-  @apply space-y-8;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-stack);
 }
 
 .educationCard {
-  @apply rounded-lg p-8;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* Education Item Header */
+/* ── Card header ──────────────────────────────────────────── */
+
 .educationHeader {
-  @apply flex items-start gap-4 mb-6;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .iconContainer {
-  @apply p-3 bg-[#0A0E27] border-2 border-pink-500 rounded-lg;
+  padding: 10px;
+  background: var(--card);
+  border: 2px solid var(--pink-dim);
+  flex-shrink: 0;
 }
 
 .icon {
-  @apply w-8 h-8 text-pink-400;
+  width: 28px;
+  height: 28px;
+  color: var(--pink);
 }
 
 .headerContent {
-  @apply flex-1;
+  flex: 1;
 }
 
 .degree {
-  @apply text-xl font-bold font-mono text-pink-400 mb-2;
+  font-size: 17px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--pink);
+  margin: 0 0 8px;
 }
 
 .metadata {
-  @apply flex flex-wrap gap-4 text-sm;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
 }
 
 .metadataItem {
-  @apply flex items-center gap-2 font-mono;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
 }
 
-.metadataItemPrimary {
-  @apply text-teal-400;
-}
-
-.metadataItemSecondary {
-  @apply text-gray-400;
-}
+.metadataItemPrimary { color: var(--cyan); }
+.metadataItemSecondary { color: var(--text-dim); }
 
 .metadataIcon {
-  @apply w-4 h-4;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
-/* GPA Badge */
+/* ── GPA badge ────────────────────────────────────────────── */
+
 .gpaBadge {
-  @apply inline-block px-4 py-2 bg-[#0A0E27] border border-teal-500 rounded-lg text-teal-400 font-mono text-sm mb-4;
+  display: inline-block;
+  padding: 5px 14px;
+  background: var(--card);
+  border: 1px solid var(--cyan-dim);
+  border-radius: 3px;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
-/* Highlights Section */
-.highlightsSection {
-  @apply mb-4;
-}
+/* ── Highlights ───────────────────────────────────────────── */
+
+.highlightsSection { }
 
 .highlightsTitle {
-  @apply text-base font-mono text-pink-400 mb-2 flex items-center gap-2;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--pink);
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .highlightsList {
-  @apply space-y-1 text-gray-300;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .highlightItem {
-  @apply font-mono text-sm flex items-start gap-2;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-mute);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .highlightBullet {
-  @apply text-teal-400 mt-1;
+  color: var(--cyan);
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-/* Coursework Section */
+/* ── Coursework ───────────────────────────────────────────── */
+
 .courseworkTitle {
-  @apply text-base font-mono text-teal-400 mb-3 flex items-center gap-2;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--cyan);
+  margin: 0 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .courseworkTags {
-  @apply flex flex-wrap gap-2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .courseworkTag {
-  @apply px-3 py-1 bg-[#0A0E27] border border-pink-500/50 rounded text-pink-300 font-mono text-sm hover:border-pink-500 transition-colors;
+  padding: 4px 12px;
+  background: var(--card);
+  border: 1px solid var(--pink-dim);
+  border-radius: 3px;
+  color: var(--pink-soft);
+  font-family: var(--mono);
+  font-size: 12px;
+  transition: border-color 0.15s;
 }
 
-/* Footer Message */
+.courseworkTag:hover { border-color: var(--pink); }
+
+/* ── Footer ───────────────────────────────────────────────── */
+
 .footerMessage {
-  @apply mt-12 text-center text-sm text-pink-400/50;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-faint);
 }

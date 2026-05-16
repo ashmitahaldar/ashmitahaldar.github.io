@@ -1,4 +1,5 @@
 import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 export const sanityClient = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID  || '2azshrlg', 
@@ -6,6 +7,11 @@ export const sanityClient = createClient({
   apiVersion: '2024-01-01', 
   useCdn: true, 
 });
+
+const builder = imageUrlBuilder(sanityClient);
+export function urlFor(source) {
+  return builder.image(source);
+}
 
 // [0] ensures we only get the first document found (since we only have one profile)
 export const profileQuery = `*[_type == "profile"][0] {
@@ -18,7 +24,10 @@ export const profileQuery = `*[_type == "profile"][0] {
   github,
   linkedin,
   location,
-  "avatarUrl": avatar.asset->url
+  "avatarUrl": avatar.asset->url,
+  nowUpdated,
+  nowItems,
+  funFacts
 }`;
 
 // 1. Fetch all Experiences, ordered by period

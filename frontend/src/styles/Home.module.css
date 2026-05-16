@@ -1,216 +1,516 @@
-/* Layout */
-.container {
-  @apply min-h-screen pt-20 pb-12 px-4;
+/* Home page layout — Classic variant */
+
+.page {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  /* 64px nav height + 4px bar + 20px breathing room */
+  padding: 88px clamp(16px, 4vw, 56px) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad-section);
 }
 
-.content {
-  @apply max-w-7xl mx-auto;
-}
-
-.topSection {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-8;
-}
-
-.terminalSection {
-  @apply mb-12;
-}
-
-.highlightsGrid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-4 mb-8;
-}
-
-.highlightCard {
-  @apply rounded-lg p-5;
-}
-
-.highlightHeader {
-  @apply flex items-center gap-2 mb-3;
-}
-
-.highlightIcon {
-  @apply w-4 h-4 text-teal-400;
-}
-
-.highlightTitle {
-  @apply font-mono text-sm font-bold text-pink-400;
-}
-
-.highlightList {
-  @apply space-y-2 mb-3;
-}
-
-.highlightRow {
-  @apply border border-teal-500/25 bg-[#0A0E27] px-3 py-2;
-}
-
-.highlightRowTitle {
-  @apply font-mono text-sm text-teal-200;
-}
-
-.highlightRowMeta {
-  @apply font-mono text-[11px] text-gray-400;
-}
-
-.highlightEmpty {
-  @apply font-mono text-xs text-gray-400;
-}
-
-.highlightLink {
-  @apply inline-flex items-center gap-1 font-mono text-xs text-pink-300 hover:text-teal-300 transition-colors;
-}
-
-.highlightArrow {
-  @apply w-3.5 h-3.5;
-}
-
-/* Loading States */
 .loadingContainer {
-  @apply min-h-screen pt-20 pb-12 px-4 flex items-center justify-center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
 }
 
-.loadingText {
-  @apply text-pink-400 font-mono;
+/* ── Hero ─────────────────────────────────────────────────── */
+
+.heroRow {
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
+  min-height: 480px;
 }
 
-/* Profile Card */
-.profileCard {
-  @apply rounded-lg p-8 transition-all duration-300 h-full flex items-center justify-center;
+.heroLeft {
+  flex: 0 0 420px;
+  max-width: 420px;
 }
 
-.profileContent {
-  @apply flex flex-col items-center text-center;
+.heroRight {
+  flex: 1;
+  min-height: 420px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-/* Avatar */
-.avatar {
-  @apply w-40 h-40 mb-6 relative;
+.bioCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.avatarGradientBorder {
-  @apply w-full h-full bg-gradient-to-br from-pink-500 to-teal-500 rounded-lg p-1;
+.avatarRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
-.avatarInner {
-  @apply w-full h-full bg-[#0A0E27] rounded-lg flex items-center justify-center;
+.avatarWrap {
+  position: relative;
+  flex-shrink: 0;
 }
 
-.avatarImage {
-  @apply w-full h-full object-cover rounded-lg;
+.avatarImg {
+  width: 72px;
+  height: 72px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--pink-dim);
+  background: var(--card-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.avatarEmoji {
-  @apply text-6xl;
+.statusDot {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--card);
+  box-shadow: 0 0 8px var(--green-dim);
 }
 
-.statusIndicator {
-  @apply absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-2 border-[#1A1B26] animate-pulse;
+.nameBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* Profile Info */
+.hello {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
 .name {
-  @apply text-3xl font-bold font-mono mb-2 bg-gradient-to-r from-pink-400 to-teal-400 bg-clip-text text-transparent;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.2;
 }
 
-.cursor {
-  @apply text-teal-400 animate-pulse;
+.openStatus {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
 }
 
-.title {
-  @apply text-teal-400 font-mono text-base mb-2;
+.greenDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green-dim);
+  flex-shrink: 0;
 }
 
-.tagline {
-  @apply text-pink-300 font-mono text-sm mb-6;
+.typeRole {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cyan);
+  min-height: 1.5em;
+}
+
+.typeTagline {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-mute);
+  min-height: 1.5em;
 }
 
 .bio {
-  @apply text-gray-300 mb-6 leading-relaxed;
+  font-size: 14px;
+  color: var(--text-mute);
+  line-height: 1.7;
+  margin: 0;
 }
 
-/* Location */
 .location {
-  @apply flex items-center gap-2 text-gray-400 mb-6;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
 }
 
-.locationIcon {
-  @apply w-4 h-4;
+.socials {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  justify-content: center;
 }
 
-.locationText {
-  @apply font-mono text-sm;
+.splineFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--card-2);
+  font-family: var(--mono);
 }
 
-/* Social Links */
-.socialLinks {
-  @apply flex gap-4;
+.splineLoader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  z-index: 2;
+  background: var(--card-2);
+  gap: 4px;
 }
 
-.socialLink {
-  @apply p-3 bg-[#0A0E27] border-2 rounded-lg transition-all duration-200;
+/* ── Now section ──────────────────────────────────────────── */
+
+.nowGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
 }
 
-.socialLinkPink {
-  @apply border-pink-500 hover:bg-pink-500/10;
+.nowItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.socialLinkTeal {
-  @apply border-teal-500 hover:bg-teal-500/10;
+.nowLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--pink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
 }
 
-.socialIcon {
-  @apply w-5 h-5;
+.nowText {
+  font-size: 14px;
+  color: var(--text);
+  font-style: italic;
 }
 
-.socialIconPink {
-  @apply text-pink-400;
+/* ── Projects section ─────────────────────────────────────── */
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--gap-stack);
 }
 
-.socialIconTeal {
-  @apply text-teal-400;
+.projectCard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
 }
 
-/* Spline Section */
-.splineContainer {
-  @apply flex items-center justify-center h-full min-h-[400px] relative;
+.projectImg {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.splineLoading {
-  @apply absolute inset-0 flex items-center justify-center;
+.projectPlaceholder {
+  width: 100%;
+  height: 180px;
+  background: rgba(255, 61, 140, 0.06);
+  border: 1px dashed var(--pink-dim);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-faint);
 }
 
-.splineError {
-  @apply flex flex-col items-center justify-center h-full gap-3 text-gray-500;
+.projectPlaceholderCyan {
+  background: rgba(45, 212, 191, 0.06);
+  border-color: var(--cyan-dim);
 }
 
-.errorEmoji {
-  @apply text-3xl;
+.projectBlurb {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.65;
+  margin: 0;
+  flex: 1;
 }
 
-.errorText {
-  @apply text-sm font-mono opacity-70;
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-/* Terminal Tips */
-.tipsCard {
-  @apply rounded-lg p-6 font-mono text-sm;
+.projectFooter {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.tipsContent {
-  @apply flex items-start gap-3;
+.sectionFooter {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
 }
 
-.tipsIcon {
-  @apply text-teal-400 text-xl;
+/* ── Skills section ───────────────────────────────────────── */
+
+.skillsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
-.tipsTitle {
-  @apply text-pink-400 font-bold mb-2;
+.skillRow {
+  display: flex;
+  gap: 16px;
+  padding: 5px 0;
+  align-items: flex-start;
 }
 
-.tipsList {
-  @apply text-gray-300 space-y-1;
+.skillKey {
+  flex: 0 0 110px;
+  color: var(--pink-soft);
+  white-space: nowrap;
 }
 
-.tipsCode {
-  @apply text-teal-300;
+.skillItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  align-items: center;
+}
+
+.skillNote {
+  font-size: 11px;
+  color: var(--text-dim);
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+}
+
+/* ── Experience section ───────────────────────────────────── */
+
+.expRow {
+  display: grid;
+  grid-template-columns: 80px 18px 1fr;
+  gap: 0 16px;
+  align-items: start;
+  padding: 20px 0;
+}
+
+.expWhen {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  padding-top: 4px;
+  text-align: right;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.expDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+  justify-self: center;
+}
+
+.expContent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.expHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.expTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.expCity {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.expWhat {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.6;
+}
+
+/* ── Blog section ─────────────────────────────────────────── */
+
+.blogList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-stack);
+}
+
+.blogCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.blogMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.blogTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  line-height: 1.3;
+  transition: color 0.15s ease;
+}
+
+.blogTitle:hover {
+  color: var(--pink);
+}
+
+.blogBlurb {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Fun facts section ────────────────────────────────────── */
+
+.factsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px 24px;
+}
+
+.factItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.factKey {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.factVal {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.factNote {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 860px) {
+  .heroRow {
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  .heroLeft {
+    flex: unset;
+    max-width: 100%;
+  }
+
+  .heroRight {
+    min-height: 320px;
+  }
+
+  .projectsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .expRow {
+    grid-template-columns: 70px 16px 1fr;
+    gap: 0 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .nowGrid,
+  .factsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .skillRow {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .skillKey {
+    flex: unset;
+  }
+
+  .expRow {
+    grid-template-columns: 60px 14px 1fr;
+    gap: 0 8px;
+  }
+
+  .expWhen {
+    font-size: 10px;
+  }
 }

@@ -1,6 +1,7 @@
 .App {
   min-height: 100vh;
-  background: #0A0E27;
+  /* body handles background gradient; keep this transparent */
+  background: transparent;
 }
 
 /* Remove default centering */

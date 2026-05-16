@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TerminalNav from './components/TerminalNav';
+import TerminalOverlay from './components/TerminalOverlay';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -13,9 +14,10 @@ import BlogPost from './pages/BlogPost';
 
 function App() {
   return (
-    <div className="App min-h-screen bg-[#0A0E27] text-white">
+    <div className="App min-h-screen text-white">
       <BrowserRouter>
           <TerminalNav />
+          <TerminalOverlay />
           <div className="min-h-screen">
             <Routes>
               <Route path="/" element={<Home />} />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Calendar, Tag, ArrowRight, Terminal, Camera, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
-import PixelCard from '../components/PixelCard';
+import CornerCard from '../components/CornerCard';
 import { getBlogPosts, getArtPhotos } from '../services/sanityClient';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import ArtLightboxModal from '../components/ArtLightboxModal';
@@ -202,7 +202,7 @@ const Blog = () => {
                 <div className={styles.postsList}>
                   {filteredPosts.map((post) => (
                     <Link key={post._id} to={`/blog/${post.slug.current}`} className={`${styles.postLink} group`}>
-                      <PixelCard className={styles.postCard}>
+                      <CornerCard tone="pink" className={styles.postCard}>
                       <div className={styles.postContent}>
                         <div className={styles.postMain}>
                           <h2 className={styles.postTitle}>
@@ -236,7 +236,7 @@ const Blog = () => {
                           <ArrowRight className={styles.arrowIcon} />
                         </div>
                       </div>
-                      </PixelCard>
+                      </CornerCard>
                     </Link>
                   ))}
                 </div>
@@ -277,8 +277,9 @@ const Blog = () => {
               ) : (
                 <div className={styles.galleryGridCompact}>
                   {filteredPhotos.map((item) => (
-                    <PixelCard
+                    <CornerCard
                       key={item._id}
+                      tone="cyan"
                       className={`${styles.galleryCard} ${styles.galleryCardInteractive}`}
                       onClick={() => openLightboxById(item._id)}
                     >
@@ -323,7 +324,7 @@ const Blog = () => {
                           </div>
                         )}
                       </div>
-                    </PixelCard>
+                    </CornerCard>
                   ))}
                 </div>
               )}
@@ -366,7 +367,7 @@ const Blog = () => {
                   <div className={styles.postsList}>
                     {filteredPosts.map((post) => (
                       <Link key={post._id} to={`/blog/${post.slug.current}`} className={`${styles.postLink} group`}>
-                        <PixelCard className={styles.postCard}>
+                        <CornerCard className={styles.postCard}>
                         <div className={styles.postContent}>
                           <div className={styles.postMain}>
                             <h2 className={styles.postTitle}>
@@ -396,7 +397,7 @@ const Blog = () => {
                             <ArrowRight className={styles.arrowIcon} />
                           </div>
                         </div>
-                        </PixelCard>
+                        </CornerCard>
                       </Link>
                     ))}
                   </div>
@@ -438,8 +439,9 @@ const Blog = () => {
                 ) : (
                   <div className={styles.galleryGrid}>
                   {filteredPhotos.map((item) => (
-                    <PixelCard
+                    <CornerCard
                       key={item._id}
+                      tone="cyan"
                       className={`${styles.galleryCard} ${styles.galleryCardInteractive}`}
                       onClick={() => openLightboxById(item._id)}
                     >
@@ -484,7 +486,7 @@ const Blog = () => {
                             </div>
                           )}
                         </div>
-                      </PixelCard>
+                      </CornerCard>
                     ))}
                   </div>
                 )}
