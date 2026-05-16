@@ -98,7 +98,17 @@ export default {
               name: 'icon',
               title: 'Icon',
               type: 'string',
-              description: 'build | read | learn | listen | travel',
+              options: {
+                list: [
+                  { title: 'Build',   value: 'build'  },
+                  { title: 'Read',    value: 'read'   },
+                  { title: 'Learn',   value: 'learn'  },
+                  { title: 'Listen',  value: 'listen' },
+                  { title: 'Travel',  value: 'travel' },
+                ],
+                layout: 'radio',
+              },
+              validation: (Rule: any) => Rule.required().valid('build', 'read', 'learn', 'listen', 'travel'),
             },
             {
               name: 'label',

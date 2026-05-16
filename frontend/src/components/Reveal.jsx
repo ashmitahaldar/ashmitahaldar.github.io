@@ -13,21 +13,22 @@ export default function Reveal({ children, delay = 0, className = '', style }) {
     const el = ref.current;
     if (!el) return;
 
+    let t;
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const t = setTimeout(() => setVisible(true), delay);
-            io.disconnect();
-            return () => clearTimeout(t);
-          }
-        });
+        if (entries[0].isIntersecting) {
+          t = setTimeout(() => setVisible(true), delay);
+          io.disconnect();
+        }
       },
       { rootMargin: '-40px' }
     );
 
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      clearTimeout(t);
+    };
   }, [delay]);
 
   return (

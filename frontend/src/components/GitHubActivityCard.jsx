@@ -86,8 +86,6 @@ export default function GitHubActivityCard({ github }) {
     return markers;
   }, [contributionDays]);
 
-  const username = extractGitHubUsername(github);
-
   return (
     <CornerCard tone="pink">
       {/* Header */}
