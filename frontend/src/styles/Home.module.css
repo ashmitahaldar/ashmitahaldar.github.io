@@ -462,29 +462,6 @@
   font-style: italic;
 }
 
-/* ── Terminal + page footer ───────────────────────────────── */
-
-.terminalTip {
-  padding: 10px 16px;
-  background: rgba(0, 0, 0, 0.3);
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.pageFooterLine {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  padding-top: 12px;
-  border-top: 1px dashed rgba(255, 61, 140, 0.12);
-  flex-wrap: wrap;
-  gap: 8px;
-}
 
 /* ── Responsive ───────────────────────────────────────────── */
 
