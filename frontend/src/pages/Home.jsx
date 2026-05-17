@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
-import Spline from '@splinetool/react-spline';
-import SplineErrorBoundary from '../components/SplineErrorBoundary';
 import GitHubActivityCard from '../components/GitHubActivityCard';
+import Terminal from '../components/Terminal';
 import CornerCard from '../components/CornerCard';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
@@ -120,7 +119,6 @@ function HeroTypewriter({ role, tagline }) {
 // ── Hero ─────────────────────────────────────────────────────
 
 function Hero({ profileData }) {
-  const [splineLoading, setSplineLoading] = useState(true);
   if (!profileData) return null;
 
   const socials = [
@@ -183,28 +181,20 @@ function Hero({ profileData }) {
         </CornerCard>
       </div>
 
-      {/* Right: Spline only (stats strip removed) */}
+      {/* Right: interactive terminal */}
       <div className={styles.heroRight}>
-        <SplineErrorBoundary
-          fallback={
-            <div className={styles.splineFallback}>
-              <span style={{ color: 'var(--pink)', fontSize: 11 }}>// 3D scene unavailable</span>
-              <span style={{ color: 'var(--text-dim)', fontSize: 12 }}>desk · monitor · flowers</span>
+        <div className={styles.terminalWindow}>
+          <div className={styles.terminalTitleBar}>
+            <div className={styles.terminalDots}>
+              <span className={`${styles.terminalDot} ${styles.dotRed}`} />
+              <span className={`${styles.terminalDot} ${styles.dotYellow}`} />
+              <span className={`${styles.terminalDot} ${styles.dotGreen}`} />
             </div>
-          }
-        >
-          {splineLoading && (
-            <div className={styles.splineLoader}>
-              <span style={{ color: 'var(--pink)' }}>$</span>&nbsp;loading scene...
-              <span className="blink" style={{ color: 'var(--text-dim)' }} />
-            </div>
-          )}
-          <Spline
-            scene="https://prod.spline.design/PZ-RH4uPUyHnb9mI/scene.splinecode"
-            onLoad={() => setSplineLoading(false)}
-            style={{ width: '100%', height: '100%' }}
-          />
-        </SplineErrorBoundary>
+            <span className={styles.terminalTitle}>portfolio-terminal</span>
+            <span />
+          </div>
+          <Terminal profileData={profileData} height="420px" />
+        </div>
       </div>
     </div>
   );
