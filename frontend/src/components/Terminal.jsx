@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSkills } from '../services/sanityClient';
 import { useSnakeGame } from '../hooks/useSnakeGame';
 
-const Terminal = ({ profileData }) => {
+const Terminal = ({ profileData, height = '480px' }) => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState([
     { type: 'info', text: '╔═══════════════════════════════════════════════════════╗' },
@@ -290,7 +290,8 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
       {/* Terminal Body */}
       <div
         ref={outputRef}
-        className="p-4 h-[480px] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
+        className="p-4 overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-800"
+        style={{ height }}
         onClick={() => inputRef.current?.focus()}
         tabIndex={0}
       >
