@@ -123,7 +123,7 @@ export default {
                 ],
                 layout: 'radio',
               },
-              validation: (Rule: any) => Rule.required().valid('build', 'read', 'learn', 'listen', 'travel'),
+              validation: (Rule: any) => Rule.required(),
             },
             {
               name: 'label',
