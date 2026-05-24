@@ -4,6 +4,25 @@ function createError(message, code) {
   return error;
 }
 
+const REPOSITORY_SNAPSHOT_URL =
+  'https://raw.githubusercontent.com/ashmitahaldar/ashmitahaldar.github.io/main/frontend/public/github-contributions.json';
+const LOCAL_SNAPSHOT_URL = '/github-contributions.json';
+
+function getSnapshotUrls() {
+  const hostname = typeof window === 'undefined' ? '' : window.location.hostname;
+  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+
+  return isLocalhost
+    ? [LOCAL_SNAPSHOT_URL, REPOSITORY_SNAPSHOT_URL]
+    : [REPOSITORY_SNAPSHOT_URL, LOCAL_SNAPSHOT_URL];
+}
+
+function getCacheBustedUrl(url) {
+  const snapshotUrl = new URL(url, window.location.origin);
+  snapshotUrl.searchParams.set('v', Date.now().toString());
+  return snapshotUrl.toString();
+}
+
 export function extractGitHubUsername(githubUrlOrHandle) {
   if (!githubUrlOrHandle || typeof githubUrlOrHandle !== 'string') return null;
 
@@ -58,13 +77,32 @@ function normalizeContributionRows(rows) {
     .sort((a, b) => Date.parse(a.isoDate) - Date.parse(b.isoDate));
 }
 
-async function fetchSnapshot(username) {
-  const response = await fetch('/github-contributions.json', { cache: 'no-store' });
+async function fetchJson(url) {
+  const response = await fetch(getCacheBustedUrl(url), { cache: 'no-store' });
   if (!response.ok) {
     throw createError(`Contributions snapshot unavailable (${response.status})`, 'SNAPSHOT_UNAVAILABLE');
   }
 
-  const payload = await response.json();
+  return response.json();
+}
+
+async function fetchSnapshot(username) {
+  let lastError = null;
+  let payload = null;
+
+  for (const url of getSnapshotUrls()) {
+    try {
+      payload = await fetchJson(url);
+      break;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  if (!payload) {
+    throw lastError || createError('Contributions snapshot unavailable', 'SNAPSHOT_UNAVAILABLE');
+  }
+
   const snapshotUsername = extractGitHubUsername(payload?.username || payload?.login || '');
   const requestedUsername = extractGitHubUsername(username || '');
 
