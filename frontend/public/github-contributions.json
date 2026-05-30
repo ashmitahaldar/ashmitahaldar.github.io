@@ -1,6 +1,6 @@
 {
   "username": "ashmitahaldar",
-  "generatedAt": "2026-05-30T04:28:43.352Z",
+  "generatedAt": "2026-05-30T08:41:10.149Z",
   "days": 364,
   "contributions": [
     {
@@ -345,8 +345,8 @@
     },
     {
       "isoDate": "2025-08-08",
-      "count": 2,
-      "level": 1
+      "count": 0,
+      "level": 0
     },
     {
       "isoDate": "2025-08-09",
@@ -731,7 +731,7 @@
     {
       "isoDate": "2025-10-24",
       "count": 6,
-      "level": 2
+      "level": 3
     },
     {
       "isoDate": "2025-10-25",
@@ -961,12 +961,12 @@
     {
       "isoDate": "2025-12-09",
       "count": 6,
-      "level": 2
+      "level": 3
     },
     {
       "isoDate": "2025-12-10",
       "count": 6,
-      "level": 2
+      "level": 3
     },
     {
       "isoDate": "2025-12-11",
@@ -1071,7 +1071,7 @@
     {
       "isoDate": "2025-12-31",
       "count": 3,
-      "level": 1
+      "level": 2
     },
     {
       "isoDate": "2026-01-01",
@@ -1171,7 +1171,7 @@
     {
       "isoDate": "2026-01-20",
       "count": 3,
-      "level": 1
+      "level": 2
     },
     {
       "isoDate": "2026-01-21",
@@ -1195,8 +1195,8 @@
     },
     {
       "isoDate": "2026-01-25",
-      "count": 1,
-      "level": 1
+      "count": 0,
+      "level": 0
     },
     {
       "isoDate": "2026-01-26",
@@ -1306,7 +1306,7 @@
     {
       "isoDate": "2026-02-16",
       "count": 9,
-      "level": 3
+      "level": 4
     },
     {
       "isoDate": "2026-02-17",
@@ -1351,7 +1351,7 @@
     {
       "isoDate": "2026-02-25",
       "count": 3,
-      "level": 1
+      "level": 2
     },
     {
       "isoDate": "2026-02-26",
@@ -1510,8 +1510,8 @@
     },
     {
       "isoDate": "2026-03-29",
-      "count": 2,
-      "level": 1
+      "count": 0,
+      "level": 0
     },
     {
       "isoDate": "2026-03-30",
@@ -1746,12 +1746,12 @@
     {
       "isoDate": "2026-05-15",
       "count": 9,
-      "level": 3
+      "level": 4
     },
     {
       "isoDate": "2026-05-16",
       "count": 9,
-      "level": 3
+      "level": 4
     },
     {
       "isoDate": "2026-05-17",
@@ -1761,7 +1761,7 @@
     {
       "isoDate": "2026-05-18",
       "count": 3,
-      "level": 1
+      "level": 2
     },
     {
       "isoDate": "2026-05-19",
@@ -1780,28 +1780,28 @@
     },
     {
       "isoDate": "2026-05-22",
-      "count": 13,
+      "count": 11,
       "level": 4
     },
     {
       "isoDate": "2026-05-23",
       "count": 3,
-      "level": 1
+      "level": 2
     },
     {
       "isoDate": "2026-05-24",
-      "count": 9,
+      "count": 8,
       "level": 3
     },
     {
       "isoDate": "2026-05-25",
       "count": 6,
-      "level": 2
+      "level": 3
     },
     {
       "isoDate": "2026-05-26",
-      "count": 4,
-      "level": 2
+      "count": 2,
+      "level": 1
     },
     {
       "isoDate": "2026-05-27",
@@ -1815,8 +1815,8 @@
     },
     {
       "isoDate": "2026-05-29",
-      "count": 1,
-      "level": 1
+      "count": 0,
+      "level": 0
     },
     {
       "isoDate": "2026-05-30",
