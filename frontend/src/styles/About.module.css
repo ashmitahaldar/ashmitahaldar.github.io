@@ -152,120 +152,156 @@
   align-items: center;
 }
 
-/* ── Experience timeline (compact) ────────────────────────── */
+/* ── Quick nav (sticky section jumper) ────────────────────── */
 
-.expRow {
-  display: grid;
-  grid-template-columns: 80px 18px 1fr;
-  gap: 0 16px;
-  align-items: start;
-  padding: 20px 0;
+.quickNav {
+  position: sticky;
+  top: 72px; /* below the fixed nav */
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  font-family: var(--mono);
 }
 
-.expWhen {
+.quickPrompt {
+  font-size: 12px;
+  color: var(--pink);
+  margin-right: 4px;
+}
+
+.quickChip {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.quickChip:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
+}
+
+/* anchor targets land below nav + quicknav */
+.anchorSection {
+  scroll-margin-top: 132px;
+}
+
+/* ── Accordion rows (experience + education) ──────────────── */
+
+.accRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.accHeader {
+  display: grid;
+  grid-template-columns: 80px 18px 1fr 20px;
+  gap: 0 16px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.accWhen {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--text-dim);
-  padding-top: 4px;
   text-align: right;
   white-space: nowrap;
   line-height: 1.3;
 }
 
-.expDot {
+.accDot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
   flex-shrink: 0;
-  margin-top: 5px;
   justify-self: center;
 }
 
-.expContent {
+.accTitleWrap {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 3px;
+  min-width: 0;
 }
 
-.expHeader {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.expTitle {
+.accTitle {
   font-size: 15px;
   font-weight: 600;
   color: var(--text);
+  transition: color 0.18s;
 }
 
-.expCity {
+.accHeader:hover .accTitle {
+  color: var(--pink);
+}
+
+.accCity {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--text-dim);
 }
 
-.expWhat {
-  font-size: 13px;
-  color: var(--text-mute);
-  line-height: 1.6;
+.accChevron {
+  width: 16px;
+  height: 16px;
+  color: var(--text-dim);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.18s;
 }
 
-.expWhat p { margin: 0 0 8px; }
-.expWhat p:last-child { margin-bottom: 0; }
+.accHeader:hover .accChevron {
+  color: var(--cyan);
+}
 
-.expTech {
+.accChevronOpen {
+  transform: rotate(180deg);
+}
+
+.accBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 36px 18px 114px; /* aligns under the title column */
+}
+
+.accWhat {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.accWhat p { margin: 0 0 8px; }
+.accWhat p:last-child { margin-bottom: 0; }
+
+.accTech {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   padding-top: 2px;
 }
 
-/* ── Education (compact) ──────────────────────────────────── */
-
-.eduRow {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 20px 0;
-}
-
-.eduRow:first-child { padding-top: 4px; }
-.eduRow:last-child { padding-bottom: 4px; }
-
-.eduHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.eduDegree {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.eduWhen {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-dim);
-  white-space: nowrap;
-}
-
-.eduMeta {
-  font-family: var(--mono);
-  font-size: 12.5px;
-}
-
-.eduDim {
-  color: var(--text-dim);
-}
-
 .eduGpa {
-  margin-left: 12px;
+  margin-left: 10px;
   padding: 1px 8px;
   border: 1px solid var(--pink-dim);
   border-radius: 3px;
@@ -288,13 +324,6 @@
 .eduBullet {
   color: var(--cyan);
   margin-right: 6px;
-}
-
-.eduCoursework {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding-top: 2px;
 }
 
 /* ── Resume button ────────────────────────────────────────── */
@@ -342,10 +371,12 @@
 
   .skillKey { flex: unset; }
 
-  .expRow {
-    grid-template-columns: 60px 14px 1fr;
+  .accHeader {
+    grid-template-columns: 58px 14px 1fr 18px;
     gap: 0 8px;
   }
 
-  .expWhen { font-size: 10px; }
+  .accWhen { font-size: 10px; }
+
+  .accBody { padding: 2px 8px 16px 80px; }
 }

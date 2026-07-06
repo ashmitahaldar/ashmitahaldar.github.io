@@ -150,7 +150,6 @@ function Hero({ profileData }) {
 
       <motion.div className={styles.heroRight} variants={rise}>
         <HeroScene
-          sceneUrl={HOME_CONTENT.hero.sceneUrl}
           label={HOME_CONTENT.hero.sceneLabel}
           status={HOME_CONTENT.hero.sceneStatus}
         />

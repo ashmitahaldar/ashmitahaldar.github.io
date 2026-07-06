@@ -3,13 +3,11 @@
 
 export const HOME_CONTENT = {
   // ── hero scene ────────────────────────────────────────────
-  // ⚑ TODO: paste your Spline scene URL here once the 3D girl
-  //   is ready (e.g. 'https://prod.spline.design/xxxx/scene.splinecode').
-  //   Until then the pixel-art placeholder renders in the frame.
+  // The 3D girl is procedural three.js — edit her in
+  // components/HeroGirl3D.jsx (colors, proportions, animations).
   hero: {
-    sceneUrl: '',
-    sceneLabel: './scene/ashmita.spline',
-    sceneStatus: 'placeholder sprite — 3d me in progress',
+    sceneLabel: './scene/me.threed',
+    sceneStatus: 'drag to spin',
   },
 
   // Minimal hero fallback so the page never renders empty when the

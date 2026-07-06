@@ -10,8 +10,6 @@ body {
     font-family: 'JetBrains Mono', monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #0A0E27;
-    color: #ffffff;
 }
 
 code {
@@ -139,6 +137,11 @@ code {
   --yellow: #fbbf24;
   --violet: #a78bfa;
 
+  /* chrome */
+  --nav-bg:    rgba(8, 8, 26, 0.88);
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --heat-0:    rgba(255, 255, 255, 0.04);
+
   /* spacing */
   --pad-card:    28px;
   --pad-section: 64px;
@@ -147,10 +150,50 @@ code {
 
   /* type */
   --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+/* ── light theme ("terminal paper") ──
+   Toggled via data-theme on <html>; terminal windows deliberately
+   stay dark in both themes. */
+:root[data-theme='light'] {
+  --bg:     #f2f1f7;
+  --bg-2:   #eae9f2;
+  --card:   #ffffff;
+  --card-2: #f7f6fb;
+  --card-3: #edecf5;
+
+  --text:       #23244a;
+  --text-mute:  #43455f;
+  --text-dim:   #6c6e8e;
+  --text-faint: #9b9db6;
+
+  --pink:      #d6216f;
+  --pink-soft: #b81b60;
+  --pink-dim:  rgba(214, 33, 111, 0.35);
+  --pink-glow: rgba(214, 33, 111, 0.09);
+
+  --cyan:      #0d9488;
+  --cyan-soft: #0b7d73;
+  --cyan-dim:  rgba(13, 148, 136, 0.4);
+  --cyan-glow: rgba(13, 148, 136, 0.1);
+
+  --green:     #0f8a5f;
+  --green-dim: rgba(15, 138, 95, 0.35);
+
+  --yellow: #a16207;
+  --violet: #6d4fd0;
+
+  --nav-bg:    rgba(250, 249, 253, 0.85);
+  --line-soft: rgba(35, 36, 74, 0.14);
+  --heat-0:    rgba(35, 36, 74, 0.07);
+
+  color-scheme: light;
 }
 
 body {
-  background: #0A0E27;
+  background: var(--bg);
   color: var(--text);
 }
 

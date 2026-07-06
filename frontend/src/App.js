@@ -57,7 +57,7 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <div className="App min-h-screen text-white">
+    <div className="App min-h-screen">
       <MotionConfig reducedMotion="user">
         <BrowserRouter>
           <ScrollToTop />

@@ -20,6 +20,17 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
         <title>Ashmita Haldar | Portfolio</title>
+        <script>
+            // Set theme before first paint to avoid a flash of the wrong mode.
+            (function () {
+                try {
+                    var t = localStorage.getItem('ashmayo-theme');
+                    document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+                } catch (e) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            })();
+        </script>
     </head>
     <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>

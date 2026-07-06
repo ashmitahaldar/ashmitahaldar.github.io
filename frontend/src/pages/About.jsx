@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Terminal, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Terminal, FileText, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
@@ -13,14 +13,6 @@ import { HOME_CONTENT } from '../content/home';
 import styles from '../styles/About.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
-
-function ptToText(blocks) {
-  if (!Array.isArray(blocks)) return typeof blocks === 'string' ? blocks : '';
-  return blocks
-    .filter((b) => b._type === 'block')
-    .map((b) => (b.children || []).map((c) => c.text || '').join(''))
-    .join(' ');
-}
 
 function formatPeriod(period) {
   if (!period) return '';
@@ -45,13 +37,59 @@ function sanitySkillsToGroups(doc) {
   return groups.length > 0 ? groups : null;
 }
 
+// ── quick nav ────────────────────────────────────────────────
+
+const QUICK_LINKS = [
+  { id: 'story',      label: 'story' },
+  { id: 'skills',     label: 'skills' },
+  { id: 'experience', label: 'experience' },
+  { id: 'education',  label: 'education' },
+  { id: 'resume',     label: 'resume' },
+];
+
+function QuickNav() {
+  const jump = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  return (
+    <nav className={styles.quickNav} aria-label="Page sections">
+      <span className={styles.quickPrompt}>$ cd</span>
+      {QUICK_LINKS.map((l) => (
+        <button key={l.id} className={styles.quickChip} onClick={() => jump(l.id)}>
+          ./{l.label}
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+// ── collapsible body ─────────────────────────────────────────
+
+function Expandable({ open, children }) {
+  return (
+    <AnimatePresence initial={false}>
+      {open && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: 'auto', opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.32, ease: [0.2, 0.7, 0.2, 1] }}
+          style={{ overflow: 'hidden' }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 // ── skills as a JS object literal ────────────────────────────
 
 function SkillsBlock({ groups }) {
   if (!groups || !groups.length) return null;
   const total = groups.reduce((n, g) => n + g.items.length, 0);
   return (
-    <section>
+    <section id="skills" className={styles.anchorSection}>
       <SectionHeader cmd="cat" arg="skills.json" count={total} />
       <CornerCard tone="cyan">
         <div className={styles.skillsBlock}>
@@ -85,47 +123,58 @@ function SkillsBlock({ groups }) {
   );
 }
 
-// ── experience timeline (compact) ────────────────────────────
+// ── experience: collapsed timeline, expand for detail ────────
 
 function ExperienceTimeline({ experiences }) {
+  const [openIdx, setOpenIdx] = useState(0); // most recent open by default
   if (!experiences.length) return null;
   return (
-    <section id="experience">
-      <SectionHeader cmd="git" arg="log --experience" count={experiences.length} />
+    <section id="experience" className={styles.anchorSection}>
+      <SectionHeader cmd="git" arg="log --experience" comment="click to expand" count={experiences.length} />
       <CornerCard tone="pink">
         {experiences.map((e, i) => {
           const tone = i % 2 === 0 ? 'pink' : 'cyan';
-          const what = Array.isArray(e.description) ? null : e.description;
+          const open = openIdx === i;
           return (
             <div
               key={e._id}
-              className={styles.expRow}
-              style={{ borderBottom: i < experiences.length - 1 ? '1px dashed rgba(255,61,140,0.15)' : 'none' }}
+              className={styles.accRow}
+              style={{ borderBottom: i < experiences.length - 1 ? '1px dashed var(--line-soft)' : 'none' }}
             >
-              <div className={styles.expWhen}>{formatPeriod(e.period)}</div>
-              <div className={styles.expDot} style={{ background: `var(--${tone})`, boxShadow: `0 0 12px var(--${tone}-dim)` }} />
-              <div className={styles.expContent}>
-                <div className={styles.expHeader}>
-                  <span className={styles.expTitle}>
+              <button
+                className={styles.accHeader}
+                onClick={() => setOpenIdx(open ? -1 : i)}
+                aria-expanded={open}
+              >
+                <span className={styles.accWhen}>{formatPeriod(e.period)}</span>
+                <span className={styles.accDot} style={{ background: `var(--${tone})`, boxShadow: `0 0 12px var(--${tone}-dim)` }} />
+                <span className={styles.accTitleWrap}>
+                  <span className={styles.accTitle}>
                     {e.title}{' '}
                     <span style={{ color: 'var(--text-dim)' }}>@</span>{' '}
                     <span style={{ color: `var(--${tone})` }}>{e.company}</span>
                   </span>
-                  {e.location && <span className={styles.expCity}>{e.location}</span>}
+                  {e.location && <span className={styles.accCity}>{e.location}</span>}
+                </span>
+                <ChevronDown className={`${styles.accChevron} ${open ? styles.accChevronOpen : ''}`} />
+              </button>
+
+              <Expandable open={open}>
+                <div className={styles.accBody}>
+                  {Array.isArray(e.description) ? (
+                    <div className={styles.accWhat}><PortableText value={e.description} /></div>
+                  ) : (
+                    e.description && <p className={styles.accWhat}>{e.description}</p>
+                  )}
+                  {e.technologies?.length > 0 && (
+                    <div className={styles.accTech}>
+                      {e.technologies.map((t) => (
+                        <span key={t} className={`ds-tag${tone === 'cyan' ? ' cyan' : ''}`}>{t}</span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-                {Array.isArray(e.description) ? (
-                  <div className={styles.expWhat}><PortableText value={e.description} /></div>
-                ) : (
-                  what && <span className={styles.expWhat}>{what}</span>
-                )}
-                {e.technologies?.length > 0 && (
-                  <div className={styles.expTech}>
-                    {e.technologies.map((t) => (
-                      <span key={t} className={`ds-tag${tone === 'cyan' ? ' cyan' : ''}`}>{t}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
+              </Expandable>
             </div>
           );
         })}
@@ -134,45 +183,62 @@ function ExperienceTimeline({ experiences }) {
   );
 }
 
-// ── education (compact) ──────────────────────────────────────
+// ── education: same collapsed pattern ────────────────────────
 
 function EducationList({ education }) {
+  const [openIdx, setOpenIdx] = useState(0);
   if (!education.length) return null;
   return (
-    <section id="education">
-      <SectionHeader cmd="cat" arg="education.log" count={education.length} />
+    <section id="education" className={styles.anchorSection}>
+      <SectionHeader cmd="cat" arg="education.log" comment="click to expand" count={education.length} />
       <CornerCard tone="cyan">
-        {education.map((edu, i) => (
-          <div
-            key={edu._id || i}
-            className={styles.eduRow}
-            style={{ borderBottom: i < education.length - 1 ? '1px dashed rgba(45,212,191,0.15)' : 'none' }}
-          >
-            <div className={styles.eduHeader}>
-              <span className={styles.eduDegree}>{edu.degree}</span>
-              <span className={styles.eduWhen}>{formatPeriod(edu.period || edu.dateRange)}</span>
+        {education.map((edu, i) => {
+          const open = openIdx === i;
+          return (
+            <div
+              key={edu._id || i}
+              className={styles.accRow}
+              style={{ borderBottom: i < education.length - 1 ? '1px dashed var(--line-soft)' : 'none' }}
+            >
+              <button
+                className={styles.accHeader}
+                onClick={() => setOpenIdx(open ? -1 : i)}
+                aria-expanded={open}
+              >
+                <span className={styles.accWhen}>{formatPeriod(edu.period || edu.dateRange)}</span>
+                <span className={styles.accDot} style={{ background: 'var(--cyan)', boxShadow: '0 0 12px var(--cyan-dim)' }} />
+                <span className={styles.accTitleWrap}>
+                  <span className={styles.accTitle}>{edu.degree}</span>
+                  <span className={styles.accCity}>
+                    <span style={{ color: 'var(--cyan)' }}>{edu.school}</span>
+                    {edu.location && <> · {edu.location}</>}
+                    {edu.gpa && <span className={styles.eduGpa}>gpa {edu.gpa}</span>}
+                  </span>
+                </span>
+                <ChevronDown className={`${styles.accChevron} ${open ? styles.accChevronOpen : ''}`} />
+              </button>
+
+              <Expandable open={open}>
+                <div className={styles.accBody}>
+                  {edu.description?.length > 0 && (
+                    <ul className={styles.eduHighlights}>
+                      {edu.description.map((item, idx) => (
+                        <li key={idx}><span className={styles.eduBullet}>▸</span> {item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  {edu.relevant?.length > 0 && (
+                    <div className={styles.accTech}>
+                      {edu.relevant.map((course) => (
+                        <span key={course} className="ds-tag cyan">{course}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </Expandable>
             </div>
-            <div className={styles.eduMeta}>
-              <span style={{ color: 'var(--cyan)' }}>{edu.school}</span>
-              {edu.location && <span className={styles.eduDim}> · {edu.location}</span>}
-              {edu.gpa && <span className={styles.eduGpa}>gpa {edu.gpa}</span>}
-            </div>
-            {edu.description?.length > 0 && (
-              <ul className={styles.eduHighlights}>
-                {edu.description.map((item, idx) => (
-                  <li key={idx}><span className={styles.eduBullet}>▸</span> {item}</li>
-                ))}
-              </ul>
-            )}
-            {edu.relevant?.length > 0 && (
-              <div className={styles.eduCoursework}>
-                {edu.relevant.map((course) => (
-                  <span key={course} className="ds-tag cyan">{course}</span>
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </CornerCard>
     </section>
   );
@@ -262,8 +328,10 @@ const About = () => {
           </p>
         </motion.div>
 
+        <QuickNav />
+
         {/* Story */}
-        <section>
+        <section id="story" className={styles.anchorSection}>
           <SectionHeader cmd="cat" arg="story.md" />
           <CornerCard tone="pink" className={styles.bioCard}>
             <div className={styles.bioText}>
@@ -284,13 +352,15 @@ const About = () => {
 
         {/* View Resume Button */}
         {resumeData?.pdfUrl && (
-          <button
-            className={styles.viewResumeButton}
-            onClick={() => setIsResumeModalOpen(true)}
-          >
-            <FileText className={styles.resumeIcon} />
-            <span>View Resume</span>
-          </button>
+          <div id="resume" className={styles.anchorSection}>
+            <button
+              className={styles.viewResumeButton}
+              onClick={() => setIsResumeModalOpen(true)}
+            >
+              <FileText className={styles.resumeIcon} />
+              <span>View Resume</span>
+            </button>
+          </div>
         )}
       </div>
 

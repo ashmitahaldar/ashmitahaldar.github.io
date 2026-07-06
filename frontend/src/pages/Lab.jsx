@@ -280,9 +280,7 @@ export default function Lab() {
           <span className={styles.subtitleCommand}>{typedSubtitle}</span>
         </p>
         <p className={styles.intro}>
-          The unpolished corner — a running log of small thoughts, photos and
-          art, odd facts, and a terminal that answers back. Nothing here is a
-          deliverable.
+          Nothing here is a deliverable.
         </p>
       </motion.div>
 

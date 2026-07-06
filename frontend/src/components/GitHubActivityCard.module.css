@@ -57,7 +57,7 @@
   pointer-events: none;
 }
 
-.heatLevel0 { background: rgba(255, 255, 255, 0.04); }
+.heatLevel0 { background: var(--heat-0); }
 .heatLevel1 { background: rgba(45, 212, 191, 0.18); }
 .heatLevel2 { background: rgba(45, 212, 191, 0.40); }
 .heatLevel3 { background: rgba(45, 212, 191, 0.70); }

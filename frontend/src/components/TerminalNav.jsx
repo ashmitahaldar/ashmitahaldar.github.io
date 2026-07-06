@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, User, FolderGit2, BookOpen, FlaskConical, Menu, X, TerminalSquare } from 'lucide-react';
+import { Home, User, FolderGit2, BookOpen, FlaskConical, Menu, X, TerminalSquare, Sun, Moon } from 'lucide-react';
 import CommandPalette from './CommandPalette';
 import { getProfile } from '../services/sanityClient';
 import styles from './TerminalNav.module.css';
@@ -17,6 +17,16 @@ export default function TerminalNav() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [brandName, setBrandName] = useState('ashmita.haldar');
+  const [theme, setTheme] = useState(
+    () => document.documentElement.getAttribute('data-theme') || 'dark',
+  );
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('ashmayo-theme', next); } catch (e) { /* private mode */ }
+  };
 
   useEffect(() => {
     getProfile().then((p) => {
@@ -37,7 +47,7 @@ export default function TerminalNav() {
       {/* Nav */}
       <nav style={{
         position: 'fixed', top: 4, left: 0, right: 0, zIndex: 50,
-        background: 'rgba(8, 8, 26, 0.88)',
+        background: 'var(--nav-bg)',
         backdropFilter: 'blur(12px)',
         WebkitBackdropFilter: 'blur(12px)',
         borderBottom: '1px solid rgba(255, 61, 140, 0.08)',
@@ -92,8 +102,19 @@ export default function TerminalNav() {
               })}
             </div>
 
-            {/* Right: shortcut badge + command palette + mobile toggle */}
+            {/* Right: theme toggle + shortcut badge + command palette + mobile toggle */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                className={styles.terminalBtn}
+              >
+                {theme === 'dark'
+                  ? <Sun style={{ width: 16, height: 16 }} />
+                  : <Moon style={{ width: 16, height: 16 }} />}
+              </button>
+
               <button
                 onClick={() => window.dispatchEvent(new Event('ashmayo:open-terminal'))}
                 aria-label="Open terminal"

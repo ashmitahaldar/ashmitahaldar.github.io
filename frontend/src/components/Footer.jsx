@@ -20,7 +20,7 @@ export default function Footer() {
   return (
     <footer style={{ fontFamily: 'var(--mono)' }}>
       {/* Top border — matches nav's bottom border */}
-      <div style={{ borderTop: '1px solid rgba(255, 61, 140, 0.08)', background: 'rgba(8, 8, 26, 0.92)' }}>
+      <div style={{ borderTop: '1px solid rgba(255, 61, 140, 0.08)', background: 'var(--nav-bg)' }}>
         <div style={{ maxWidth: 1240, margin: '0 auto', padding: '20px clamp(16px, 4vw, 48px)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
 
