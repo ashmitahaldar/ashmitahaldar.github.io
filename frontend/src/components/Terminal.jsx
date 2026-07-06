@@ -73,12 +73,13 @@ Navigation Shortcuts:
   /home          - Go to home page
   /about         - Go to about page
   /projects      - Go to projects page
-  /experience    - Go to experience page
-  /education     - Go to education page
-  /logs          - Go to blog posts
+  /experience    - Go to experience (on about)
+  /education     - Go to education (on about)
   /blog          - Go to blog posts
-  /resume        - Go to resume page
-  /gallery       - Go to photography gallery
+  /lab           - Go to the lab
+  /log           - Go to the microblog log
+  /gallery       - Go to photography & art
+  /resume        - Open the resume
 
 Tips:
   - Use UP/DOWN arrows to cycle through command history
@@ -150,15 +151,22 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     // Navigation shortcuts
     if (trimmedCmd.startsWith('/')) {
       const route = trimmedCmd.toLowerCase();
-      if (['/home', '/about', '/projects', '/experience', '/education', '/blog', '/logs', '/gallery', '/resume'].includes(route)) {
+      const routeMap = {
+        '/home':       '/',
+        '/about':      '/about',
+        '/projects':   '/projects',
+        '/experience': '/about#experience',
+        '/education':  '/about#education',
+        '/blog':       '/blog',
+        '/logs':       '/blog',
+        '/lab':        '/lab',
+        '/log':        '/lab#log',
+        '/gallery':    '/lab#gallery',
+        '/resume':     '/about?resume=1',
+      };
+      if (routeMap[route]) {
         setOutput(prev => [...prev, { type: 'success', text: `Navigating to ${route}...` }, { type: 'info', text: '' }]);
-        setTimeout(() => {
-          if (route === '/home') navigate('/');
-          else if (route === '/logs') navigate('/blog?view=posts');
-          else if (route === '/gallery') navigate('/blog?view=gallery');
-          else if (route === '/resume') navigate('/about?resume=1');
-          else navigate(route);
-        }, 500);
+        setTimeout(() => navigate(routeMap[route]), 500);
         return;
       } else {
         setOutput(prev => [...prev, { type: 'error', text: `Route not found: ${route}` }, { type: 'info', text: '' }]);
@@ -190,7 +198,7 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     }
 
     if (command === 'ls') {
-      setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  experience/  education/  blog/  resume.pdf' }, { type: 'info', text: '' }]);
+      setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  blog/  lab/  resume.pdf' }, { type: 'info', text: '' }]);
       return;
     }
 

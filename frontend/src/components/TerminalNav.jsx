@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, User, Briefcase, GraduationCap, FolderGit2, BookOpen, Menu, X, TerminalSquare } from 'lucide-react';
+import { Home, User, FolderGit2, BookOpen, FlaskConical, Menu, X, TerminalSquare } from 'lucide-react';
 import CommandPalette from './CommandPalette';
 import { getProfile } from '../services/sanityClient';
 import styles from './TerminalNav.module.css';
 
 const navItems = [
-  { path: '/',           label: 'Home',       Icon: Home },
-  { path: '/about',      label: 'About',      Icon: User },
-  { path: '/experience', label: 'Experience', Icon: Briefcase },
-  { path: '/education',  label: 'Education',  Icon: GraduationCap },
-  { path: '/projects',   label: 'Projects',   Icon: FolderGit2 },
-  { path: '/blog',       label: 'Blog',       Icon: BookOpen },
+  { path: '/',         label: 'Home',     Icon: Home },
+  { path: '/about',    label: 'About',    Icon: User },
+  { path: '/projects', label: 'Projects', Icon: FolderGit2 },
+  { path: '/blog',     label: 'Blog',     Icon: BookOpen },
+  { path: '/lab',      label: 'Lab',      Icon: FlaskConical },
 ];
 
 export default function TerminalNav() {

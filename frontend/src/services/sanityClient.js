@@ -136,6 +136,20 @@ export async function getArtPhotos() {
   return await sanityClient.fetch(artPhotosQuery);
 }
 
+// Microblog "lab log" entries, newest first.
+export const microblogsQuery = `*[_type == "microblog"] | order(postedAt desc) {
+  _id,
+  text,
+  postedAt,
+  mood,
+  tags,
+  link
+}`;
+
+export async function getMicroblogs() {
+  return await sanityClient.fetch(microblogsQuery);
+}
+
 // Fetch a single blog post by slug
 export async function getBlogPostBySlug(slug) {
   const query = `*[_type == "blogPost" && slug.current == $slug][0] {

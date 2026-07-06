@@ -15,6 +15,8 @@ import {
   Github,
   Linkedin,
   Clock3,
+  FlaskConical,
+  Rss,
 } from 'lucide-react';
 import {
   Command,
@@ -38,7 +40,6 @@ const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [recentIds, setRecentIds] = useState([]);
-  const viewParam = new URLSearchParams(location.search).get('view');
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -95,18 +96,13 @@ const CommandPalette = () => {
     () => [
       { id: 'nav-home', label: 'Go: Home', path: '/', icon: Home, action: () => navigate('/') },
       { id: 'nav-about', label: 'Go: About', path: '/about', icon: User, action: () => navigate('/about') },
-      { id: 'nav-exp', label: 'Go: Experience', path: '/experience', icon: Briefcase, action: () => navigate('/experience') },
-      { id: 'nav-edu', label: 'Go: Education', path: '/education', icon: GraduationCap, action: () => navigate('/education') },
+      { id: 'nav-exp', label: 'Go: Experience', path: '/about#experience', icon: Briefcase, action: () => navigate('/about#experience') },
+      { id: 'nav-edu', label: 'Go: Education', path: '/about#education', icon: GraduationCap, action: () => navigate('/about#education') },
       { id: 'nav-projects', label: 'Go: Projects', path: '/projects', icon: FolderGit2, action: () => navigate('/projects') },
-      { id: 'nav-logs', label: 'Go: Logs (Blog Posts)', path: '/blog', icon: BookOpen, action: () => navigate('/blog?view=posts') },
-      { id: 'nav-gallery', label: 'Go: Gallery', path: '/blog', icon: Camera, action: () => navigate('/blog?view=gallery') },
-    ],
-    [navigate],
-  );
-
-  const blogModeCommands = useMemo(
-    () => [
-      { id: 'blog-all', label: 'Blog Mode: All', path: '/blog?view=all', icon: BookOpen, action: () => navigate('/blog') },
+      { id: 'nav-blog', label: 'Go: Blog', path: '/blog', icon: BookOpen, action: () => navigate('/blog') },
+      { id: 'nav-lab', label: 'Go: Lab', path: '/lab', icon: FlaskConical, action: () => navigate('/lab') },
+      { id: 'nav-log', label: 'Go: Log (Microblog)', path: '/lab#log', icon: Rss, action: () => navigate('/lab#log') },
+      { id: 'nav-gallery', label: 'Go: Gallery', path: '/lab#gallery', icon: Camera, action: () => navigate('/lab#gallery') },
     ],
     [navigate],
   );
@@ -154,8 +150,8 @@ const CommandPalette = () => {
   }, [profileData]);
 
   const allCommands = useMemo(
-    () => [...navCommands, ...blogModeCommands, ...actionCommands, ...socialCommands],
-    [navCommands, blogModeCommands, actionCommands, socialCommands],
+    () => [...navCommands, ...actionCommands, ...socialCommands],
+    [navCommands, actionCommands, socialCommands],
   );
 
   const recentCommands = useMemo(() => {
@@ -214,14 +210,7 @@ const CommandPalette = () => {
               <CommandGroup heading="Navigation">
                 {navCommands.map((command) => {
                   const Icon = command.icon;
-                  const active =
-                    (command.path === '/home' && location.pathname === '/') ||
-                    (command.path === '/blog?view=gallery' && location.pathname === '/blog' && viewParam === 'gallery') ||
-                    (command.path === '/blog?view=posts' && location.pathname === '/blog' && (viewParam === 'posts' || !viewParam)) ||
-                    (command.path === '/about' && location.pathname === '/about') ||
-                    (command.path === '/work/experience' && location.pathname === '/experience') ||
-                    (command.path === '/work/education' && location.pathname === '/education') ||
-                    (command.path === '/work/projects' && location.pathname === '/projects');
+                  const active = command.path.split('#')[0] === location.pathname;
 
                   return (
                     <CommandItem
@@ -233,26 +222,6 @@ const CommandPalette = () => {
                       <Icon className="h-4 w-4 text-teal-300" />
                       <span>{command.label}</span>
                       <CommandShortcut className={active ? 'text-pink-300' : 'text-gray-500'}>{command.path}</CommandShortcut>
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-
-              <CommandSeparator className="bg-teal-500/20" />
-
-              <CommandGroup heading="Blog Modes">
-                {blogModeCommands.map((command) => {
-                  const Icon = command.icon;
-                  return (
-                    <CommandItem
-                      key={command.id}
-                      value={`${command.label} ${command.path}`}
-                      onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
-                    >
-                      <Icon className="h-4 w-4 text-teal-300" />
-                      <span>{command.label}</span>
-                      <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
                     </CommandItem>
                   );
                 })}

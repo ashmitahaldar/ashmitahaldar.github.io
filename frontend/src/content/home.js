@@ -2,6 +2,25 @@
 // NowSection uses now.items when Sanity nowItems is empty (see Home.jsx).
 
 export const HOME_CONTENT = {
+  // ── hero scene ────────────────────────────────────────────
+  // ⚑ TODO: paste your Spline scene URL here once the 3D girl
+  //   is ready (e.g. 'https://prod.spline.design/xxxx/scene.splinecode').
+  //   Until then the pixel-art placeholder renders in the frame.
+  hero: {
+    sceneUrl: '',
+    sceneLabel: './scene/ashmita.spline',
+    sceneStatus: 'placeholder sprite — 3d me in progress',
+  },
+
+  // Minimal hero fallback so the page never renders empty when the
+  // CMS is unreachable (offline dev, CORS, outage).
+  // ⚑ TODO: tweak the wording — this only shows when Sanity is down.
+  profileFallback: {
+    name: 'Ashmita Haldar',
+    title: 'cs student & builder',
+    tagline: 'code, pixels, and the occasional pun',
+  },
+
   // ── // now section ────────────────────────────────────────
   // Populated via Sanity (profile.nowItems / profile.nowUpdated).
   // This fallback shows only items with real values so nothing
