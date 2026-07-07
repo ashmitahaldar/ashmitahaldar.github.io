@@ -153,7 +153,16 @@ function Gallery({ photos }) {
               key={item._id}
               tone="cyan"
               className={styles.galleryCard}
+              role="button"
+              tabIndex={0}
+              aria-label={`View ${item.title || 'image'}`}
               onClick={() => openLightbox(item._id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  openLightbox(item._id);
+                }
+              }}
             >
               <div
                 className={styles.galleryImageWrap}

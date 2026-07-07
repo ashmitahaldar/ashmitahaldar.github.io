@@ -81,7 +81,11 @@ const CommandPalette = () => {
   const recordRecent = (id) => {
     setRecentIds((prev) => {
       const next = [id, ...prev.filter((item) => item !== id)].slice(0, MAX_RECENTS);
-      localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+      try {
+        localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+      } catch (e) {
+        // storage unavailable (private mode) — recents just don't persist
+      }
       return next;
     });
   };

@@ -228,6 +228,11 @@
   cursor: zoom-in;
 }
 
+.galleryCard:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
 .galleryImageWrap {
   width: 100%;
   background: var(--card);

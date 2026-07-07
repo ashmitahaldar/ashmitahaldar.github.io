@@ -96,8 +96,9 @@ export async function getEducation() {
   return await sanityClient.fetch(educationQuery);
 }
 
-// 5. Fetch all Blog Posts
-export const blogPostsQuery = `*[_type == "blogPost"] | order(publishedAt desc) {
+// 5. Fetch all Blog Posts (slug required — a post without one would
+// otherwise crash the /blog list, which links via slug.current)
+export const blogPostsQuery = `*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc) {
   _id,
   title,
   slug,
