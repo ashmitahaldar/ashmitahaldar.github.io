@@ -217,30 +217,15 @@
   column-gap: 20px;
 }
 
+/* NOTE: never transform the card itself — inside a multicol
+   container Chrome repaints the fragmented box on hover and the
+   card flickers. Hover feedback lives on the image zoom instead. */
 .galleryCard {
   display: flex;
   flex-direction: column;
   break-inside: avoid;
   margin-bottom: 20px;
   cursor: zoom-in;
-  transform: rotate(var(--tilt, 0deg));
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
-}
-
-/* pinned-at-a-slight-angle; overlapping periods (3n/4n) keep the
-   tilt pattern from reading as a repeat */
-.galleryCard:nth-child(3n + 1) { --tilt: -0.8deg; }
-.galleryCard:nth-child(3n + 2) { --tilt: 0.7deg; }
-.galleryCard:nth-child(4n + 3) { --tilt: 1deg; }
-.galleryCard:nth-child(5n)     { --tilt: -0.5deg; }
-
-/* prints straighten as you reach for them */
-.galleryCard:hover {
-  transform: rotate(0deg) translateY(-4px);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .galleryCard { --tilt: 0deg; }
 }
 
 .galleryImageWrap {
