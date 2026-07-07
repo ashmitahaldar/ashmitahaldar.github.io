@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode, Terminal } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode } from 'lucide-react';
 import CornerCard from '../components/CornerCard';
+import PageHeader from '../components/PageHeader';
 import { getProjects } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
-import { useTypingEffect } from '../hooks/useTypingEffect';
 import styles from '../styles/Projects.module.css';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
-  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Projects', 100);
-  const { displayedText: typedSubtitle } = useTypingEffect("ls -la ~/projects/ | grep awesome", 50, 1000);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -48,25 +45,7 @@ const Projects = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {/* Header */}
-        <motion.div 
-          className={styles.header}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className={styles.title}>
-            <Terminal className={styles.titleIcon} />
-            <span>
-              {typedTitle}
-              {!titleComplete && <span className={styles.cursor}>_</span>}
-            </span>
-          </h1>
-          <p className={styles.subtitle}>
-            <span className={styles.subtitlePrompt}>$ </span>
-            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
-          </p>
-        </motion.div>
+        <PageHeader word="projects" command="ls -la ~/projects | grep awesome" />
 
         {/* Projects Grid */}
         <div className={styles.projectsGrid}>

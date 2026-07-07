@@ -209,6 +209,13 @@ export default function HeroGirl3D() {
     scene.add(parts.root);
     scene.add(parts.shadow);
 
+    // the black drop shadow reads far too heavy on light backgrounds
+    const applyShadowTheme = () => {
+      const light = document.documentElement.getAttribute('data-theme') === 'light';
+      parts.shadow.material.opacity = light ? 0.35 : 1;
+    };
+    applyShadowTheme();
+
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // ── drag to spin (soft parallax until the first grab) ─────
@@ -337,6 +344,13 @@ export default function HeroGirl3D() {
     };
     document.addEventListener('visibilitychange', onVisibility);
 
+    // follow the site theme toggle live
+    const themeObserver = new MutationObserver(() => {
+      applyShadowTheme();
+      if (reduceMotion) renderFrame();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
     const ro = new ResizeObserver(() => {
       const w = mount.clientWidth;
       const h = mount.clientHeight;
@@ -352,6 +366,7 @@ export default function HeroGirl3D() {
       stop();
       io.disconnect();
       ro.disconnect();
+      themeObserver.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       mount.removeEventListener('pointerdown', onPointerDown);
       mount.removeEventListener('pointermove', onPointerMove);

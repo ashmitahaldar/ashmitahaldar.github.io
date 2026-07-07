@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Calendar, Camera, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
+import PageHeader from '../components/PageHeader';
+import QuickNav from '../components/QuickNav';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
 import Terminal from '../components/Terminal';
 import ArtLightboxModal from '../components/ArtLightboxModal';
-import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getArtPhotos, getMicroblogs, getProfile } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
@@ -43,13 +43,18 @@ function Window({ title, children }) {
 
 // ── log feed ─────────────────────────────────────────────────
 
+const LOG_PAGE = 8; // entries shown per "older" click — the feed only grows on demand
+
 function LogFeed({ entries }) {
+  const [visible, setVisible] = useState(LOG_PAGE);
+  const shown = entries.slice(0, visible);
+  const hidden = entries.length - shown.length;
   return (
-    <section id="log">
+    <section id="log" className={styles.anchorSection}>
       <SectionHeader cmd="tail" arg="-f log.txt" comment="microblog" count={entries.length} />
       <Window title="~/lab/log.txt">
         <div className={styles.logFeed}>
-          {entries.map((e, i) => (
+          {shown.map((e, i) => (
             <article key={e._id || i} className={styles.logEntry}>
               <div className={styles.logMeta}>
                 <span className={styles.logTime}>[{formatLogTime(e.postedAt)}]</span>
@@ -71,6 +76,12 @@ function LogFeed({ entries }) {
               )}
             </article>
           ))}
+          {hidden > 0 && (
+            <button className={styles.logMore} onClick={() => setVisible((v) => v + LOG_PAGE)}>
+              <span style={{ color: 'var(--pink)' }}>$</span> tail -n +{visible + 1} log.txt
+              <span className={styles.logMoreCount}>· {hidden} older</span>
+            </button>
+          )}
           <div className={styles.logHint}>// short thoughts, shipped often. no editing after posting.</div>
         </div>
       </Window>
@@ -105,7 +116,7 @@ function Gallery({ photos }) {
   };
 
   return (
-    <section id="gallery">
+    <section id="gallery" className={styles.anchorSection}>
       <SectionHeader cmd="open" arg="./gallery" comment="photography + art" count={photos.length} />
 
       {categories.length > 2 && (
@@ -193,7 +204,7 @@ function Gallery({ photos }) {
 function FunFacts({ facts }) {
   if (!facts.length) return null;
   return (
-    <section id="facts">
+    <section id="facts" className={styles.anchorSection}>
       <SectionHeader cmd="whoami" arg="--verbose" count={facts.length} />
       <CornerCard tone="cyan">
         <div className={styles.factsGrid}>
@@ -218,8 +229,6 @@ export default function Lab() {
   const [photos, setPhotos]           = useState([]);
   const [logEntries, setLogEntries]   = useState([]);
   const [loading, setLoading]         = useState(true);
-
-  const { displayedText: typedSubtitle } = useTypingEffect('cd ~/lab && ls -la', 40, 600);
 
   useEffect(() => {
     Promise.allSettled([
@@ -263,26 +272,21 @@ export default function Lab() {
 
   return (
     <div className={styles.container}>
-      <motion.div
-        className={styles.header}
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-      >
-        <h1 className={styles.title}>
-          <span className={styles.titleTilde}>~</span>
-          <span className={styles.titleSlash}>/</span>
-          <span className={styles.titleWord}>lab</span>
-          <span className="blink" style={{ color: 'var(--pink)' }} />
-        </h1>
-        <p className={styles.subtitle}>
-          <span className={styles.subtitlePrompt}>$ </span>
-          <span className={styles.subtitleCommand}>{typedSubtitle}</span>
-        </p>
-        <p className={styles.intro}>
-          Nothing here is a deliverable.
-        </p>
-      </motion.div>
+      <PageHeader
+        word="lab"
+        command="cd ~/lab && ls -la"
+        intro="Nothing here is a deliverable."
+      />
+
+      <QuickNav
+        className={styles.labQuickNav}
+        links={[
+          { id: 'log',      label: 'log' },
+          { id: 'gallery',  label: 'gallery' },
+          { id: 'facts',    label: 'facts' },
+          { id: 'terminal', label: 'terminal' },
+        ]}
+      />
 
       <Reveal><LogFeed entries={logEntries} /></Reveal>
 
@@ -291,7 +295,7 @@ export default function Lab() {
       <Reveal><FunFacts facts={facts} /></Reveal>
 
       <Reveal>
-        <section id="terminal">
+        <section id="terminal" className={styles.anchorSection}>
           <SectionHeader cmd="ssh" arg="visitor@ashmita" comment="try `help` or `snake`" />
           <Window title="portfolio-terminal">
             <Terminal profileData={profileData} height="420px" />

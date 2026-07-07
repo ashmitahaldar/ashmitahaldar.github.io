@@ -31,54 +31,6 @@
   font-size: 14px;
 }
 
-/* ── Header ───────────────────────────────────────────────── */
-
-.header {
-  text-align: center;
-}
-
-.title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  font-family: var(--mono);
-  margin-bottom: 12px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.titleIcon {
-  width: 28px;
-  height: 28px;
-  color: var(--cyan);
-  -webkit-text-fill-color: initial;
-  flex-shrink: 0;
-}
-
-.cursor {
-  color: var(--cyan);
-  -webkit-text-fill-color: var(--cyan);
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
-
-.subtitle {
-  color: var(--text-dim);
-  font-family: var(--mono);
-  font-size: 13px;
-  min-height: 24px;
-}
-
-.subtitlePrompt { color: var(--pink); }
-.subtitleCommand { color: var(--cyan); }
-
 /* ── Tag filter ───────────────────────────────────────────── */
 
 .tagFilter { margin-bottom: 20px; }

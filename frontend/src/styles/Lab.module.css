@@ -19,63 +19,25 @@
   color: var(--text-dim);
 }
 
-/* ── Header ───────────────────────────────────────────────── */
+/* ── layout helpers ───────────────────────────────────────── */
 
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* pull the quick nav closer to the header than the section gap */
+.labQuickNav {
+  margin-top: -28px;
 }
 
-.title {
-  font-family: var(--mono);
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  margin: 0;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.titleTilde {
-  color: var(--cyan);
-}
-
-.titleSlash {
-  color: var(--text-faint);
-}
-
-.titleWord {
-  color: var(--pink);
-}
-
-.subtitle {
-  color: var(--text-dim);
-  font-family: var(--mono);
-  font-size: 13px;
-  min-height: 24px;
-  margin: 0;
-}
-
-.subtitlePrompt { color: var(--pink); }
-.subtitleCommand { color: var(--cyan); }
-
-.intro {
-  font-size: 14px;
-  color: var(--text-mute);
-  margin: 0;
-  max-width: 60ch;
-  line-height: 1.7;
+/* anchor targets land below nav + quicknav */
+.anchorSection {
+  scroll-margin-top: 132px;
 }
 
 /* ── shared window chrome ─────────────────────────────────── */
 
 .window {
-  border: 1px solid rgba(255, 61, 140, 0.3);
+  border: 1px solid var(--pink-dim);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255, 61, 140, 0.06), 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-win);
   background: var(--card);
 }
 
@@ -84,8 +46,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 14px;
-  background: rgba(255, 61, 140, 0.08);
-  border-bottom: 1px solid rgba(255, 61, 140, 0.15);
+  background: var(--pink-glow);
+  border-bottom: 1px solid var(--pink-dim);
 }
 
 .windowDots {
@@ -173,6 +135,32 @@
 
 .logLink:hover {
   color: var(--cyan-soft);
+}
+
+.logMore {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 9px 12px;
+  border: 1px dashed var(--line-soft);
+  border-radius: 4px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--cyan);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.logMore:hover {
+  border-color: var(--cyan-dim);
+  background: var(--cyan-glow);
+}
+
+.logMoreCount {
+  color: var(--text-dim);
 }
 
 .logHint {

@@ -1,0 +1,49 @@
+/* PageHeader — `~/word` path title + typed command (lab style) */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  font-family: var(--mono);
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.titleTilde {
+  color: var(--cyan);
+}
+
+.titleSlash {
+  color: var(--text-faint);
+}
+
+.titleWord {
+  color: var(--pink);
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+  min-height: 24px;
+  margin: 0;
+}
+
+.subtitlePrompt { color: var(--pink); }
+.subtitleCommand { color: var(--cyan); }
+
+.intro {
+  font-size: 14px;
+  color: var(--text-mute);
+  margin: 0;
+  max-width: 60ch;
+  line-height: 1.7;
+}

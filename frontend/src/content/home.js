@@ -5,8 +5,8 @@ export const HOME_CONTENT = {
   // ── hero scene ────────────────────────────────────────────
   // The 3D girl is procedural three.js — edit her in
   // components/HeroGirl3D.jsx (colors, proportions, animations).
+  // sceneStatus is the faint hint below her.
   hero: {
-    sceneLabel: './scene/me.threed',
     sceneStatus: 'drag to spin',
   },
 

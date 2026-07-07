@@ -31,60 +31,6 @@
   font-size: 14px;
 }
 
-/* ── Header ───────────────────────────────────────────────── */
-
-.header {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  font-family: var(--mono);
-  margin-bottom: 12px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.titleIcon {
-  width: 28px;
-  height: 28px;
-  color: var(--cyan);
-  -webkit-text-fill-color: initial;
-  flex-shrink: 0;
-}
-
-.cursor {
-  color: var(--cyan);
-  -webkit-text-fill-color: var(--cyan);
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
-
-.subtitle {
-  color: var(--text-dim);
-  font-family: var(--mono);
-  font-size: 13px;
-  min-height: 24px;
-}
-
-.subtitlePrompt {
-  color: var(--pink);
-}
-
-.subtitleCommand {
-  color: var(--cyan);
-}
-
 /* ── Bio card ─────────────────────────────────────────────── */
 
 .bioCard {
@@ -150,48 +96,6 @@
   flex-wrap: wrap;
   gap: 4px 6px;
   align-items: center;
-}
-
-/* ── Quick nav (sticky section jumper) ────────────────────── */
-
-.quickNav {
-  position: sticky;
-  top: 72px; /* below the fixed nav */
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 8px 12px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--line-soft);
-  border-radius: 6px;
-  font-family: var(--mono);
-}
-
-.quickPrompt {
-  font-size: 12px;
-  color: var(--pink);
-  margin-right: 4px;
-}
-
-.quickChip {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  padding: 4px 10px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background: transparent;
-  cursor: pointer;
-  transition: color 0.18s, border-color 0.18s;
-}
-
-.quickChip:hover {
-  color: var(--cyan);
-  border-color: var(--cyan-dim);
 }
 
 /* anchor targets land below nav + quicknav */
@@ -352,7 +256,7 @@
 .viewResumeButton:hover {
   border-color: var(--pink);
   color: var(--pink);
-  background: rgba(255, 61, 140, 0.06);
+  background: var(--pink-glow);
   transform: translateY(-1px);
 }
 

@@ -149,16 +149,18 @@ function Hero({ profileData }) {
       </div>
 
       <motion.div className={styles.heroRight} variants={rise}>
-        <HeroScene
-          label={HOME_CONTENT.hero.sceneLabel}
-          status={HOME_CONTENT.hero.sceneStatus}
-        />
+        <HeroScene status={HOME_CONTENT.hero.sceneStatus} />
       </motion.div>
     </motion.section>
   );
 }
 
 // ── selected work: compact index rows ────────────────────────
+
+// Sanity link fields sometimes omit the protocol.
+function externalUrl(url) {
+  return url.startsWith('http') ? url : `https://${url}`;
+}
 
 function ProjectRows({ projects }) {
   if (!projects.length) return null;
@@ -167,11 +169,24 @@ function ProjectRows({ projects }) {
       <SectionHeader cmd="ls" arg="./projects" comment="selected" count={projects.length} />
       <div className={styles.rowList}>
         {projects.map((p) => {
-          const href = p.demo || p.github || null;
+          const primary = p.demo || p.github || null;
           const blurb = ptToText(p.description);
           const tags = (p.technologies || []).slice(0, 3).map((t) => t.toLowerCase()).join(' · ');
-          const inner = (
-            <>
+          return (
+            // The whole row links to the primary destination via the
+            // stretched cover; live/repo are real links layered above it.
+            <div key={p._id} className={styles.row}>
+              {primary ? (
+                <a
+                  href={externalUrl(primary)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.rowCover}
+                  aria-label={p.title}
+                />
+              ) : (
+                <Link to="/projects" className={styles.rowCover} aria-label={p.title} />
+              )}
               <span className={styles.rowPerm}>drwxr-xr-x</span>
               <span className={styles.rowMain}>
                 <span className={styles.rowTitleLine}>
@@ -181,18 +196,19 @@ function ProjectRows({ projects }) {
                 {blurb && <span className={styles.rowBlurb}>{blurb}</span>}
               </span>
               <span className={styles.rowAside}>
-                {p.demo && <span>live</span>}
-                {p.github && <span>repo</span>}
+                {p.demo && (
+                  <a href={externalUrl(p.demo)} target="_blank" rel="noopener noreferrer" className={styles.rowLink}>
+                    live ↗
+                  </a>
+                )}
+                {p.github && (
+                  <a href={externalUrl(p.github)} target="_blank" rel="noopener noreferrer" className={styles.rowLink}>
+                    repo ↗
+                  </a>
+                )}
                 <span className={styles.rowArrow}>→</span>
               </span>
-            </>
-          );
-          return href ? (
-            <a key={p._id} href={href} target="_blank" rel="noopener noreferrer" className={styles.row}>
-              {inner}
-            </a>
-          ) : (
-            <Link key={p._id} to="/projects" className={styles.row}>{inner}</Link>
+            </div>
           );
         })}
       </div>

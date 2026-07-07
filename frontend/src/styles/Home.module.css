@@ -129,6 +129,7 @@
 }
 
 .row {
+  position: relative; /* anchors the stretched cover link */
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: baseline;
@@ -141,8 +142,31 @@
 }
 
 .row:hover {
-  background: rgba(255, 61, 140, 0.05);
+  background: var(--wash-pink);
   transform: translateX(6px);
+}
+
+/* invisible link covering the whole row (primary destination) */
+.rowCover {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 4px;
+}
+
+/* per-target links sit above the cover */
+.rowLink {
+  position: relative;
+  z-index: 1;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.18s, border-color 0.18s;
+}
+
+.rowLink:hover {
+  color: var(--cyan);
+  border-color: var(--cyan-dim);
 }
 
 .rowPerm {
@@ -241,7 +265,7 @@
 }
 
 .logLine:hover {
-  background: rgba(45, 212, 191, 0.045);
+  background: var(--wash-cyan);
 }
 
 .logTime {

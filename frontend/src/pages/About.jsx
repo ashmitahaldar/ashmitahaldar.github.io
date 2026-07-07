@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Terminal, FileText, ChevronDown } from 'lucide-react';
+import { FileText, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
+import PageHeader from '../components/PageHeader';
+import QuickNav from '../components/QuickNav';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
 import { getEducation, getExperiences, getProfile, getResume, getSkills } from '../services/sanityClient';
-import { useTypingEffect } from '../hooks/useTypingEffect';
 import PortableText from '../components/PortableText';
 import ResumeModal from '../components/ResumeModal';
 import { HOME_CONTENT } from '../content/home';
@@ -37,7 +38,7 @@ function sanitySkillsToGroups(doc) {
   return groups.length > 0 ? groups : null;
 }
 
-// ── quick nav ────────────────────────────────────────────────
+// ── quick nav links ──────────────────────────────────────────
 
 const QUICK_LINKS = [
   { id: 'story',      label: 'story' },
@@ -46,22 +47,6 @@ const QUICK_LINKS = [
   { id: 'education',  label: 'education' },
   { id: 'resume',     label: 'resume' },
 ];
-
-function QuickNav() {
-  const jump = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-  return (
-    <nav className={styles.quickNav} aria-label="Page sections">
-      <span className={styles.quickPrompt}>$ cd</span>
-      {QUICK_LINKS.map((l) => (
-        <button key={l.id} className={styles.quickChip} onClick={() => jump(l.id)}>
-          ./{l.label}
-        </button>
-      ))}
-    </nav>
-  );
-}
 
 // ── collapsible body ─────────────────────────────────────────
 
@@ -212,7 +197,7 @@ function EducationList({ education }) {
                   <span className={styles.accCity}>
                     <span style={{ color: 'var(--cyan)' }}>{edu.school}</span>
                     {edu.location && <> · {edu.location}</>}
-                    {edu.gpa && <span className={styles.eduGpa}>gpa {edu.gpa}</span>}
+                    {edu.gpa && <span className={styles.eduGpa}>{edu.gpa}</span>}
                   </span>
                 </span>
                 <ChevronDown className={`${styles.accChevron} ${open ? styles.accChevronOpen : ''}`} />
@@ -255,8 +240,6 @@ const About = () => {
   const [resumeData, setResumeData]     = useState(null);
   const [loading, setLoading]           = useState(true);
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
-  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('About Me', 100);
-  const { displayedText: typedSubtitle } = useTypingEffect('cat ~/.profile/about.txt', 50, 1000);
 
   useEffect(() => {
     Promise.allSettled([
@@ -308,27 +291,9 @@ const About = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {/* Header */}
-        <motion.div
-          className={styles.header}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className={styles.title}>
-            <Terminal className={styles.titleIcon} />
-            <span>
-              {typedTitle}
-              {!titleComplete && <span className={styles.cursor}>_</span>}
-            </span>
-          </h1>
-          <p className={styles.subtitle}>
-            <span className={styles.subtitlePrompt}>$ </span>
-            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
-          </p>
-        </motion.div>
+        <PageHeader word="about" command="cat ~/.profile/about.txt" />
 
-        <QuickNav />
+        <QuickNav links={QUICK_LINKS} />
 
         {/* Story */}
         <section id="story" className={styles.anchorSection}>

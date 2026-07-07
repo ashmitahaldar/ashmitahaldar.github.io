@@ -141,6 +141,9 @@ code {
   --nav-bg:    rgba(8, 8, 26, 0.88);
   --line-soft: rgba(255, 255, 255, 0.07);
   --heat-0:    rgba(255, 255, 255, 0.04);
+  --shadow-win: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --wash-pink: rgba(255, 61, 140, 0.05);
+  --wash-cyan: rgba(45, 212, 191, 0.045);
 
   /* spacing */
   --pad-card:    28px;
@@ -158,26 +161,27 @@ code {
    Toggled via data-theme on <html>; terminal windows deliberately
    stay dark in both themes. */
 :root[data-theme='light'] {
-  --bg:     #f2f1f7;
-  --bg-2:   #eae9f2;
-  --card:   #ffffff;
-  --card-2: #f7f6fb;
-  --card-3: #edecf5;
+  /* deeper lavender paper so white cards separate from the page */
+  --bg:     #e9e7f2;
+  --bg-2:   #dfddeb;
+  --card:   #fdfdff;
+  --card-2: #f4f3fa;
+  --card-3: #e7e5f0;
 
-  --text:       #23244a;
-  --text-mute:  #43455f;
-  --text-dim:   #6c6e8e;
-  --text-faint: #9b9db6;
+  --text:       #1d1e40;
+  --text-mute:  #3c3e5c;
+  --text-dim:   #63658a;
+  --text-faint: #9294b2;
 
   --pink:      #d6216f;
   --pink-soft: #b81b60;
-  --pink-dim:  rgba(214, 33, 111, 0.35);
-  --pink-glow: rgba(214, 33, 111, 0.09);
+  --pink-dim:  rgba(214, 33, 111, 0.4);
+  --pink-glow: rgba(214, 33, 111, 0.08);
 
   --cyan:      #0d9488;
   --cyan-soft: #0b7d73;
-  --cyan-dim:  rgba(13, 148, 136, 0.4);
-  --cyan-glow: rgba(13, 148, 136, 0.1);
+  --cyan-dim:  rgba(13, 148, 136, 0.45);
+  --cyan-glow: rgba(13, 148, 136, 0.09);
 
   --green:     #0f8a5f;
   --green-dim: rgba(15, 138, 95, 0.35);
@@ -185,11 +189,19 @@ code {
   --yellow: #a16207;
   --violet: #6d4fd0;
 
-  --nav-bg:    rgba(250, 249, 253, 0.85);
-  --line-soft: rgba(35, 36, 74, 0.14);
-  --heat-0:    rgba(35, 36, 74, 0.07);
+  --nav-bg:    rgba(246, 245, 251, 0.88);
+  --line-soft: rgba(29, 30, 64, 0.16);
+  --heat-0:    rgba(29, 30, 64, 0.08);
+  --shadow-win: 0 2px 6px rgba(29, 30, 64, 0.06), 0 12px 32px rgba(29, 30, 64, 0.12);
+  --wash-pink: rgba(214, 33, 111, 0.05);
+  --wash-cyan: rgba(13, 148, 136, 0.055);
 
   color-scheme: light;
+}
+
+/* light mode: corner cards get a soft paper shadow for definition */
+:root[data-theme='light'] .cc {
+  box-shadow: 0 1px 2px rgba(29, 30, 64, 0.05), 0 6px 20px rgba(29, 30, 64, 0.07);
 }
 
 body {

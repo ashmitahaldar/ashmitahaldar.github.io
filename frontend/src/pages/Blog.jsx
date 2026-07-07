@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Calendar, Tag, ArrowRight, Terminal } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Calendar, Tag, ArrowRight } from 'lucide-react';
 import CornerCard from '../components/CornerCard';
+import PageHeader from '../components/PageHeader';
 import { getBlogPosts } from '../services/sanityClient';
-import { useTypingEffect } from '../hooks/useTypingEffect';
 import styles from '../styles/Blog.module.css';
 
 const Blog = () => {
@@ -13,8 +12,6 @@ const Blog = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState('All');
-  const { displayedText: typedTitle, isComplete: titleComplete } = useTypingEffect('Blog', 100);
-  const { displayedText: typedSubtitle } = useTypingEffect('tail -f ~/thoughts/blog.log', 50, 1000);
 
   // The gallery now lives in ~/lab — honour old links.
   useEffect(() => {
@@ -66,25 +63,7 @@ const Blog = () => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        {/* Header */}
-        <motion.div
-          className={styles.header}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className={styles.title}>
-            <Terminal className={styles.titleIcon} />
-            <span>
-              {typedTitle}
-              {!titleComplete && <span className={styles.cursor}>_</span>}
-            </span>
-          </h1>
-          <p className={styles.subtitle}>
-            <span className={styles.subtitlePrompt}>$ </span>
-            <span className={styles.subtitleCommand}>{typedSubtitle}</span>
-          </p>
-        </motion.div>
+        <PageHeader word="blog" command="tail -f ~/thoughts/blog.log" />
 
         {/* Tag filter */}
         {allTags.length > 1 && (

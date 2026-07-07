@@ -164,12 +164,17 @@ const CommandPalette = () => {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="hidden md:inline-flex items-center gap-1 border border-teal-500/35 bg-[#0A0E27] px-1.5 py-0.5 font-mono text-[10px] leading-none text-teal-300 hover:border-teal-400"
+        className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 font-mono text-[10px] leading-none"
+        style={{
+          background: 'var(--card)',
+          border: '1px solid var(--cyan-dim)',
+          color: 'var(--cyan)',
+        }}
         aria-label="Open command palette"
         title="Open command palette (Cmd/Ctrl + K)"
       >
         <CommandIcon className="h-3 w-3" />
-        <span className="text-pink-300">⌘K</span>
+        <span style={{ color: 'var(--pink-soft)' }}>⌘K</span>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
