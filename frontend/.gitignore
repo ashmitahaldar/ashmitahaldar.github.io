@@ -11,6 +11,10 @@
 # production
 /build
 
+# generated at build time (scripts/generate-rss.mjs)
+/public/feed.xml
+/public/log.xml
+
 # misc
 .DS_Store
 .env.local

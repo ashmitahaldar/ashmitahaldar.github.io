@@ -32,6 +32,10 @@ export default function Footer() {
               </span>
               <span style={{ color: 'var(--text-faint)' }}>·</span>
               <span style={{ color: 'var(--text-dim)', fontSize: 12 }}>© {year}</span>
+              <span style={{ color: 'var(--text-faint)' }}>·</span>
+              <a href="/feed.xml" className="btn-link" style={{ fontSize: 12, padding: 0 }}>
+                rss
+              </a>
             </div>
 
             {/* Social icon buttons */}

@@ -121,6 +121,44 @@
   padding-top: 12px;
 }
 
+/* ── // now block ─────────────────────────────────────────── */
+
+.nowList {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--mono);
+}
+
+.nowLine {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 10px 12px;
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.nowIcon {
+  width: 14px;
+  height: 14px;
+  color: var(--cyan);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.nowLabel {
+  width: 84px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.nowText {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.65;
+}
+
 /* ── index rows (projects + writing) ──────────────────────── */
 
 .rowList {

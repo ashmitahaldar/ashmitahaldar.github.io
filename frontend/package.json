@@ -64,6 +64,7 @@
   },
   "scripts": {
     "start": "craco start",
+    "prebuild": "node scripts/generate-rss.mjs",
     "build": "craco build",
     "test": "craco test"
   },

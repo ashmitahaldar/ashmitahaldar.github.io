@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import {
+  BookOpen, Clapperboard, Gamepad2, Github, Hammer, Headphones,
+  Linkedin, Mail, MapPin, Sparkles,
+} from 'lucide-react';
 import GitHubActivityCard from '../components/GitHubActivityCard';
 import HeroScene from '../components/HeroScene';
 import SectionHeader from '../components/SectionHeader';
@@ -152,6 +155,45 @@ function Hero({ profileData }) {
         <HeroScene status={HOME_CONTENT.hero.sceneStatus} />
       </motion.div>
     </motion.section>
+  );
+}
+
+// ── // now: what's currently in rotation ─────────────────────
+
+const NOW_ICONS = {
+  read: BookOpen,
+  listen: Headphones,
+  build: Hammer,
+  watch: Clapperboard,
+  play: Gamepad2,
+};
+
+function NowBlock({ profileData }) {
+  const fromSanity = profileData?.nowItems?.length
+    ? { updated: profileData.nowUpdated, items: profileData.nowItems }
+    : HOME_CONTENT.now;
+  const items = (fromSanity.items || []).filter((i) => i.text && i.text.trim());
+  if (!items.length) return null;
+  return (
+    <section className={styles.section}>
+      <SectionHeader
+        cmd="cat"
+        arg="./now"
+        comment={fromSanity.updated ? `updated ${fromSanity.updated}` : undefined}
+      />
+      <div className={styles.nowList}>
+        {items.map((item, i) => {
+          const Icon = NOW_ICONS[item.icon] || Sparkles;
+          return (
+            <div key={i} className={styles.nowLine}>
+              <Icon className={styles.nowIcon} />
+              <span className={styles.nowLabel}>{item.label || item.icon}</span>
+              <span className={styles.nowText}>{item.text}</span>
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }
 
@@ -322,6 +364,8 @@ export default function Home() {
     <div className={styles.page}>
 
       <Hero profileData={profileData} />
+
+      <Reveal><NowBlock profileData={profileData} /></Reveal>
 
       <Reveal><ProjectRows projects={projects} /></Reveal>
 
