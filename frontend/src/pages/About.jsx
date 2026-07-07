@@ -11,7 +11,6 @@ import { getEducation, getExperiences, getProfile, getResume, getSkills } from '
 import PortableText from '../components/PortableText';
 import ResumeModal from '../components/ResumeModal';
 import { HOME_CONTENT } from '../content/home';
-import { LIFE_LOG, fakeHash } from '../content/timeline';
 import styles from '../styles/About.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -43,7 +42,6 @@ function sanitySkillsToGroups(doc) {
 
 const QUICK_LINKS = [
   { id: 'story',      label: 'story' },
-  { id: 'timeline',   label: 'timeline' },
   { id: 'skills',     label: 'skills' },
   { id: 'experience', label: 'experience' },
   { id: 'education',  label: 'education' },
@@ -67,35 +65,6 @@ function Expandable({ open, children }) {
         </motion.div>
       )}
     </AnimatePresence>
-  );
-}
-
-// ── life as a git log ────────────────────────────────────────
-
-function LifeLog() {
-  if (!LIFE_LOG.length) return null;
-  return (
-    <section id="timeline" className={styles.anchorSection}>
-      <SectionHeader cmd="git" arg="log --oneline ~/life" count={LIFE_LOG.length} />
-      <CornerCard tone="cyan">
-        <div className={styles.lifeLog}>
-          {LIFE_LOG.map((e, i) => (
-            <div key={i} className={styles.lifeRow}>
-              <span className={styles.lifeGraph}>{i === 0 ? '*' : '·'}</span>
-              <span className={styles.lifeHash}>{fakeHash(e.text)}</span>
-              <span className={styles.lifeMsg}>
-                {e.head && <span className={styles.lifeHead}>(HEAD -&gt; now) </span>}
-                <span className={styles.lifeType}>
-                  {e.type}{e.scope ? `(${e.scope})` : ''}:
-                </span>{' '}
-                {e.text}
-              </span>
-              <span className={styles.lifeYear}>{e.year}</span>
-            </div>
-          ))}
-        </div>
-      </CornerCard>
-    </section>
   );
 }
 
@@ -339,8 +308,6 @@ const About = () => {
             </div>
           </CornerCard>
         </section>
-
-        <Reveal><LifeLog /></Reveal>
 
         <Reveal><SkillsBlock groups={skillGroups} /></Reveal>
 

@@ -10,10 +10,17 @@
 }
 
 .content {
-  max-width: 760px;
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+/* Cards span the full page width; the text inside sits in a
+   centered reading column so long lines stay comfortable. */
+.inner {
+  width: 100%;
+  max-width: 76ch;
+  margin: 0 auto;
 }
 
 .loadingContainer {
@@ -82,7 +89,7 @@
 
 /* ── Post header card ─────────────────────────────────────── */
 
-.headerCard {
+.headerCard .inner {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -161,10 +168,12 @@
   flex-direction: column;
 }
 
+/* long-form body reads in serif; headings/code keep the mono voice */
 .postContent {
   color: var(--text-mute);
-  line-height: 1.8;
-  font-size: 15px;
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.85;
 }
 
 .postContent h1, .postContent h2, .postContent h3 {
@@ -192,11 +201,12 @@
 
 .postContent pre {
   background: var(--card);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--line-soft);
   border-radius: 6px;
   padding: 16px;
   overflow-x: auto;
   margin: 1em 0;
+  font-size: 13px;
 }
 
 .postContent pre code {

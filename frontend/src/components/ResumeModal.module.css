@@ -1,13 +1,17 @@
+/* ResumeModal — resizable window in the site's chrome (theme-aware) */
+
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(8px);
+  background: var(--scrim);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
   padding: 1rem;
+  animation: fadeIn 0.12s ease;
 }
 
 .modal {
@@ -15,9 +19,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.68);
-  backdrop-filter: blur(4px);
-  border: 2px solid #e841a4;
+  background: var(--card);
+  border: 1px solid var(--pink-dim);
+  border-radius: 8px;
+  box-shadow: var(--shadow-win);
   display: flex;
   flex-direction: column;
   user-select: none;
@@ -25,110 +30,106 @@
   overflow: hidden;
 }
 
+/* ── titlebar (matches Lab/overlay window chrome) ─────────── */
+
 .titlebar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(90deg, rgba(232, 65, 164, 0.3) 0%, rgba(94, 243, 243, 0.18) 100%);
-  border-bottom: 1px solid rgba(232, 65, 164, 0.45);
-  padding: 0.45rem 0.6rem;
+  padding: 8px 14px;
+  background: var(--pink-glow);
+  border-bottom: 1px solid var(--pink-dim);
 }
 
-.titlebarLeft {
+.dots {
   display: flex;
-  align-items: center;
-  gap: 0.45rem;
+  gap: 7px;
 }
 
-.systemDot {
-  width: 10px;
-  height: 10px;
-  background: #5ef3f3;
-  border: 1px solid #0A0E27;
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
 }
+
+.dotRed    { background: #ff5f57; cursor: pointer; }
+.dotYellow { background: #febc2e; }
+.dotGreen  { background: #28c840; }
 
 .headerTitle {
-  color: #e5e7eb;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
 }
 
-.windowControls {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.windowButton,
 .closeButton {
-  width: 26px;
-  height: 22px;
-  border: 1px solid rgba(232, 65, 164, 0.65);
-  background: rgba(10, 14, 39, 0.82);
-  color: #f9a8d4;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  padding: 2px;
+  line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
 }
 
-.windowButton:hover,
-.closeButton:hover {
-  background: rgba(232, 65, 164, 0.9);
-  color: #0A0E27;
-}
+.closeButton:hover { color: var(--pink); }
+
+/* ── content ──────────────────────────────────────────────── */
 
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  gap: 0.75rem;
-  padding: 0.8rem;
+  gap: 12px;
+  padding: 14px;
 }
 
 .pdfContainer {
   flex: 1;
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(94, 243, 243, 0.35);
-  background: #05070f;
+  border: 1px solid var(--line-soft);
+  border-radius: 4px;
+  background: var(--card-2);
 }
 
 .pdfViewer {
   width: 100%;
   height: 100%;
   border: none;
-  background: #fff;
+  background: #fff; /* PDFs render on white regardless of theme */
 }
 
 .footer {
   display: flex;
   justify-content: center;
-  padding: 0.2rem 0 0.1rem;
 }
 
 .downloadButton {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.52rem 0.95rem;
-  border: 1px solid rgba(94, 243, 243, 0.6);
-  background: rgba(10, 14, 39, 0.9);
-  color: #5ef3f3;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.74rem;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid var(--cyan-dim);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
 }
 
 .downloadButton:hover {
-  background: #5ef3f3;
-  color: #0A0E27;
+  border-color: var(--cyan);
+  background: var(--cyan-glow);
 }
 
 .downloadIcon {
@@ -141,12 +142,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #9ca3af;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  border: 1px solid rgba(94, 243, 243, 0.25);
-  background: rgba(5, 7, 15, 0.75);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+  border: 1px dashed var(--line-soft);
+  border-radius: 4px;
 }
+
+/* ── resize handles ───────────────────────────────────────── */
 
 .resizeTop,
 .resizeRight,
@@ -164,13 +167,8 @@
   cursor: ns-resize;
 }
 
-.resizeTop {
-  top: 0;
-}
-
-.resizeBottom {
-  bottom: 0;
-}
+.resizeTop { top: 0; }
+.resizeBottom { bottom: 0; }
 
 .resizeLeft,
 .resizeRight {
@@ -180,13 +178,8 @@
   cursor: ew-resize;
 }
 
-.resizeLeft {
-  left: 0;
-}
-
-.resizeRight {
-  right: 0;
-}
+.resizeLeft { left: 0; }
+.resizeRight { right: 0; }
 
 .resizeTopLeft,
 .resizeTopRight,
@@ -198,75 +191,16 @@
   z-index: 21;
 }
 
-.resizeTopLeft {
-  top: 0;
-  left: 0;
-  cursor: nwse-resize;
-}
-
-.resizeTopRight {
-  top: 0;
-  right: 0;
-  cursor: nesw-resize;
-}
-
-.resizeBottomLeft {
-  bottom: 0;
-  left: 0;
-  cursor: nesw-resize;
-}
-
-.resizeBottomRight {
-  bottom: 0;
-  right: 0;
-  cursor: nwse-resize;
-}
-
-.cornerTL,
-.cornerTR,
-.cornerBL,
-.cornerBR {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  pointer-events: none;
-}
-
-.cornerTL {
-  top: -2px;
-  left: -2px;
-  border-top: 4px solid #5ef3f3;
-  border-left: 4px solid #5ef3f3;
-}
-
-.cornerTR {
-  top: -2px;
-  right: -2px;
-  border-top: 4px solid #e841a4;
-  border-right: 4px solid #e841a4;
-}
-
-.cornerBL {
-  bottom: -2px;
-  left: -2px;
-  border-bottom: 4px solid #e841a4;
-  border-left: 4px solid #e841a4;
-}
-
-.cornerBR {
-  bottom: -2px;
-  right: -2px;
-  border-bottom: 4px solid #5ef3f3;
-  border-right: 4px solid #5ef3f3;
-}
+.resizeTopLeft     { top: 0;    left: 0;  cursor: nwse-resize; }
+.resizeTopRight    { top: 0;    right: 0; cursor: nesw-resize; }
+.resizeBottomLeft  { bottom: 0; left: 0;  cursor: nesw-resize; }
+.resizeBottomRight { bottom: 0; right: 0; cursor: nwse-resize; }
 
 @media (max-width: 768px) {
-  .headerTitle {
-    font-size: 0.7rem;
-  }
+  .headerTitle { font-size: 11px; }
 
   .downloadButton {
-    font-size: 0.7rem;
-    padding: 0.48rem 0.8rem;
+    font-size: 11px;
+    padding: 8px 14px;
   }
 }

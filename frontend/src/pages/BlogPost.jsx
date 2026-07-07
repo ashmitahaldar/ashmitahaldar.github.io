@@ -73,46 +73,50 @@ const BlogPost = () => {
 
         {/* Post Header */}
         <CornerCard tone="pink" className={styles.headerCard}>
-          <motion.h1 
-            className={styles.postTitle}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {typedTitle}
-            {!titleComplete && <span className={styles.cursor}>_</span>}
-          </motion.h1>
-          
-          <div className={styles.postMeta}>
-            <div className={styles.postDate}>
-              <Calendar className={styles.calendarIcon} />
-              <span className={styles.postDateText}>{new Date(post.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
-            </div>
-          </div>
+          <div className={styles.inner}>
+            <motion.h1
+              className={styles.postTitle}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {typedTitle}
+              {!titleComplete && <span className={styles.cursor}>_</span>}
+            </motion.h1>
 
-          {/* Tags */}
-          {post.tags && Array.isArray(post.tags) && post.tags.length > 0 ? (
-            <div className={styles.tagsContainer}>
-              <Tag className={styles.tagIcon} />
-              {post.tags.map(tag => (
-                <span key={tag} className={styles.tag}>
-                  {tag}
-                </span>
-              ))}
+            <div className={styles.postMeta}>
+              <div className={styles.postDate}>
+                <Calendar className={styles.calendarIcon} />
+                <span className={styles.postDateText}>{new Date(post.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              </div>
             </div>
-          ) : (
-            <p className={styles.noTags}>No tags</p>
-          )}
-  </CornerCard>
+
+            {/* Tags */}
+            {post.tags && Array.isArray(post.tags) && post.tags.length > 0 ? (
+              <div className={styles.tagsContainer}>
+                <Tag className={styles.tagIcon} />
+                {post.tags.map(tag => (
+                  <span key={tag} className={styles.tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className={styles.noTags}>No tags</p>
+            )}
+          </div>
+        </CornerCard>
 
         {/* Post Content - Sanity Portable Text */}
         <CornerCard tone="cyan" className={styles.contentCard}>
-          <div className={styles.postContent}>
-            {Array.isArray(post.content) ? (
-              <PortableText value={post.content} />
-            ) : (
-              <p>{post.content}</p>
-            )}
+          <div className={styles.inner}>
+            <div className={styles.postContent}>
+              {Array.isArray(post.content) ? (
+                <PortableText value={post.content} />
+              ) : (
+                <p>{post.content}</p>
+              )}
+            </div>
           </div>
         </CornerCard>
       </div>

@@ -68,58 +68,6 @@
 .bioText p { margin: 0 0 12px; }
 .bioText p:last-child { margin-bottom: 0; }
 
-/* ── Life log (git log --oneline ~/life) ──────────────────── */
-
-.lifeLog {
-  display: flex;
-  flex-direction: column;
-  font-family: var(--mono);
-  font-size: 13px;
-}
-
-.lifeRow {
-  display: grid;
-  grid-template-columns: 14px auto minmax(0, 1fr) auto;
-  gap: 0 12px;
-  align-items: baseline;
-  padding: 7px 0;
-}
-
-.lifeRow + .lifeRow {
-  border-top: 1px dashed var(--line-soft);
-}
-
-.lifeGraph {
-  color: var(--pink);
-  text-align: center;
-}
-
-.lifeHash {
-  color: var(--yellow);
-  font-size: 12px;
-}
-
-.lifeMsg {
-  color: var(--text-mute);
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.lifeHead {
-  color: var(--cyan);
-  font-weight: 600;
-}
-
-.lifeType {
-  color: var(--pink-soft);
-}
-
-.lifeYear {
-  color: var(--text-dim);
-  font-size: 11px;
-  white-space: nowrap;
-}
-
 /* ── Skills (JS object literal block) ─────────────────────── */
 
 .skillsBlock {
@@ -335,8 +283,4 @@
   .accWhen { font-size: 10px; }
 
   .accBody { padding: 2px 8px 16px 80px; }
-
-  .lifeRow { grid-template-columns: 14px minmax(0, 1fr) auto; }
-
-  .lifeHash { display: none; }
 }
