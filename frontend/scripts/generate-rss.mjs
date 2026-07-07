@@ -7,7 +7,7 @@ import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SITE = 'https://ashmitahaldar.github.io';
+const SITE = 'https://ashmitahaldar.com';
 const SANITY = 'https://2azshrlg.apicdn.sanity.io/v2024-01-01/data/query/production';
 const OUT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
 
