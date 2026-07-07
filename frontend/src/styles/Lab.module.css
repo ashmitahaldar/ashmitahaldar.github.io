@@ -210,32 +210,48 @@
   font-size: 13px;
 }
 
-.galleryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+/* photo wall: masonry columns, prints keep their natural aspect
+   ratio so tall and wide shots break the grid rhythm */
+.galleryWall {
+  columns: 3 240px;
+  column-gap: 20px;
 }
 
 .galleryCard {
   display: flex;
   flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: 20px;
   cursor: zoom-in;
-  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
 
+/* pinned-at-a-slight-angle; overlapping periods (3n/4n) keep the
+   tilt pattern from reading as a repeat */
+.galleryCard:nth-child(3n + 1) { --tilt: -0.8deg; }
+.galleryCard:nth-child(3n + 2) { --tilt: 0.7deg; }
+.galleryCard:nth-child(4n + 3) { --tilt: 1deg; }
+.galleryCard:nth-child(5n)     { --tilt: -0.5deg; }
+
+/* prints straighten as you reach for them */
 .galleryCard:hover {
-  transform: translateY(-4px);
+  transform: rotate(0deg) translateY(-4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .galleryCard { --tilt: 0deg; }
 }
 
 .galleryImageWrap {
   width: 100%;
-  height: 200px;
   background: var(--card);
   border: 1px solid var(--pink-dim);
   overflow: hidden;
 }
 
 .galleryImage {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -248,7 +264,7 @@
 
 .galleryImageFallback {
   width: 100%;
-  height: 100%;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;

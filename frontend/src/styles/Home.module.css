@@ -121,6 +121,17 @@
   padding-top: 12px;
 }
 
+/* ── now + log status band ────────────────────────────────── */
+
+/* two columns while they fit; auto-fit lets a lone child (or a
+   narrow viewport) take the full width without a media query */
+.statusDuo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 56px clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
 /* ── // now block ─────────────────────────────────────────── */
 
 .nowList {

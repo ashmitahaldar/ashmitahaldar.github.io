@@ -91,6 +91,13 @@ function LogFeed({ entries }) {
 
 // ── gallery ──────────────────────────────────────────────────
 
+// Sanity CDN filenames end in -<width>x<height>.<ext>; reserving the
+// ratio up front stops the photo wall reflowing as images load.
+function aspectFromUrl(url) {
+  const m = /-(\d+)x(\d+)\.\w+$/.exec(url || '');
+  return m ? `${m[1]} / ${m[2]}` : undefined;
+}
+
 function Gallery({ photos }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -140,7 +147,7 @@ function Gallery({ photos }) {
           Nothing here yet — the camera roll is loading.
         </div>
       ) : (
-        <div className={styles.galleryGrid}>
+        <div className={styles.galleryWall}>
           {filtered.map((item) => (
             <CornerCard
               key={item._id}
@@ -148,7 +155,10 @@ function Gallery({ photos }) {
               className={styles.galleryCard}
               onClick={() => openLightbox(item._id)}
             >
-              <div className={styles.galleryImageWrap}>
+              <div
+                className={styles.galleryImageWrap}
+                style={item.imageUrl ? { aspectRatio: aspectFromUrl(item.imageUrl) } : undefined}
+              >
                 {item.imageUrl ? (
                   <img
                     src={item.imageUrl}

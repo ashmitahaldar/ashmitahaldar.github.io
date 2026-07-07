@@ -365,13 +365,16 @@ export default function Home() {
 
       <Hero profileData={profileData} />
 
-      <Reveal><NowBlock profileData={profileData} /></Reveal>
+      <Reveal>
+        <div className={styles.statusDuo}>
+          <NowBlock profileData={profileData} />
+          <LogTeaser entries={logEntries} />
+        </div>
+      </Reveal>
 
       <Reveal><ProjectRows projects={projects} /></Reveal>
 
       <Reveal><WritingRows posts={posts} /></Reveal>
-
-      <Reveal><LogTeaser entries={logEntries} /></Reveal>
 
       <Reveal>
         <SectionHeader cmd="git" arg="contributions --year" comment="synced from github" />
