@@ -178,14 +178,21 @@ const CommandPalette = () => {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-xl overflow-hidden border border-pink-500/60 bg-[#0A0E27] p-0 shadow-[0_0_0_1px_rgba(94,243,243,0.2)]">
-          <Command className="rounded-none border border-teal-500/30 bg-[#0A0E27] text-gray-100">
+        <DialogContent
+          className="max-w-xl overflow-hidden p-0"
+          style={{
+            background: 'var(--card)',
+            border: '1px solid var(--pink-dim)',
+            boxShadow: 'var(--shadow-win)',
+          }}
+        >
+          <Command className="palette rounded-none">
             <CommandInput
               placeholder="Type a command or path..."
-              className="font-mono text-sm text-teal-200 placeholder:text-gray-500"
+              className="font-mono text-sm"
             />
             <CommandList className="max-h-[360px]">
-              <CommandEmpty className="font-mono text-sm text-gray-400">No results found.</CommandEmpty>
+              <CommandEmpty className="font-mono text-sm ink-dim">No results found.</CommandEmpty>
 
               {recentCommands.length > 0 && (
                 <>
@@ -197,18 +204,18 @@ const CommandPalette = () => {
                           key={command.id}
                           value={`${command.label} ${command.path || ''}`}
                           onSelect={() => runCommand(command)}
-                          className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                          className="font-mono text-sm"
                         >
-                          <Clock3 className="h-4 w-4 text-pink-300" />
+                          <Clock3 className="h-4 w-4 ink-pink" />
                           <span>{command.label}</span>
                           {command.path && (
-                            <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
+                            <CommandShortcut className="ink-dim">{command.path}</CommandShortcut>
                           )}
                         </CommandItem>
                       );
                     })}
                   </CommandGroup>
-                  <CommandSeparator className="bg-teal-500/20" />
+                  <CommandSeparator />
                 </>
               )}
 
@@ -222,17 +229,17 @@ const CommandPalette = () => {
                       key={command.id}
                       value={`${command.label} ${command.path}`}
                       onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                      className="font-mono text-sm"
                     >
-                      <Icon className="h-4 w-4 text-teal-300" />
+                      <Icon className="h-4 w-4 ink-cyan" />
                       <span>{command.label}</span>
-                      <CommandShortcut className={active ? 'text-pink-300' : 'text-gray-500'}>{command.path}</CommandShortcut>
+                      <CommandShortcut className={active ? 'ink-pink' : 'ink-dim'}>{command.path}</CommandShortcut>
                     </CommandItem>
                   );
                 })}
               </CommandGroup>
 
-              <CommandSeparator className="bg-teal-500/20" />
+              <CommandSeparator />
 
               <CommandGroup heading="Actions">
                 {actionCommands.map((command) => {
@@ -242,9 +249,9 @@ const CommandPalette = () => {
                       key={command.id}
                       value={command.label}
                       onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                      className="font-mono text-sm"
                     >
-                      <Icon className="h-4 w-4 text-pink-300" />
+                      <Icon className="h-4 w-4 ink-pink" />
                       <span>{command.label}</span>
                     </CommandItem>
                   );
@@ -253,7 +260,7 @@ const CommandPalette = () => {
 
               {socialCommands.length > 0 && (
                 <>
-                  <CommandSeparator className="bg-teal-500/20" />
+                  <CommandSeparator />
                   <CommandGroup heading="Social">
                     {socialCommands.map((command) => {
                       const Icon = command.icon;
@@ -262,12 +269,12 @@ const CommandPalette = () => {
                           key={command.id}
                           value={`${command.label} ${command.path || ''}`}
                           onSelect={() => runCommand(command)}
-                          className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                          className="font-mono text-sm"
                         >
-                          <Icon className="h-4 w-4 text-pink-300" />
+                          <Icon className="h-4 w-4 ink-pink" />
                           <span>{command.label}</span>
                           {command.path && (
-                            <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
+                            <CommandShortcut className="ink-dim">{command.path}</CommandShortcut>
                           )}
                         </CommandItem>
                       );

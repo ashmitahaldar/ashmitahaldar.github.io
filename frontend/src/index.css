@@ -22,16 +22,16 @@ code {
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-    background: #1A1B26;
+    background: var(--card-2);
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #ec4899;
+    background: var(--pink-dim);
     border-radius: 4px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #db2777;
+    background: var(--pink);
 }
 
 /* Scanline Effect */
@@ -136,8 +136,10 @@ code {
 
   --yellow: #fbbf24;
   --violet: #a78bfa;
+  --red:    #f87171;
 
   /* chrome */
+  --scrim:     rgba(8, 8, 26, 0.82);
   --nav-bg:    rgba(8, 8, 26, 0.88);
   --line-soft: rgba(255, 255, 255, 0.07);
   --heat-0:    rgba(255, 255, 255, 0.04);
@@ -188,7 +190,9 @@ code {
 
   --yellow: #a16207;
   --violet: #6d4fd0;
+  --red:    #dc2626;
 
+  --scrim:     rgba(29, 30, 64, 0.45);
   --nav-bg:    rgba(246, 245, 251, 0.88);
   --line-soft: rgba(29, 30, 64, 0.16);
   --heat-0:    rgba(29, 30, 64, 0.08);
@@ -338,6 +342,29 @@ body {
   background: transparent;
 }
 .btn-link:hover { border-color: var(--cyan-dim); gap: 12px; color: var(--cyan); }
+
+/* ── command palette (cmdk) theming ──
+   Scoped overrides so the palette follows the light/dark tokens
+   instead of the hardcoded shadcn RGB variables. */
+.palette {
+  background: var(--card);
+  color: var(--text);
+}
+.palette [cmdk-input-wrapper] { border-color: var(--line-soft); }
+.palette input { color: var(--cyan); }
+.palette input::placeholder { color: var(--text-faint); }
+.palette [cmdk-group-heading] { color: var(--text-faint); }
+.palette [cmdk-item] { color: var(--text-mute); }
+.palette [cmdk-item][data-selected='true'] {
+  background: var(--pink-glow);
+  color: var(--cyan);
+}
+.palette [cmdk-separator] { background: var(--line-soft); }
+
+/* token ink helpers (for icons/labels inside Tailwind-styled trees) */
+.ink-pink { color: var(--pink-soft); }
+.ink-cyan { color: var(--cyan); }
+.ink-dim  { color: var(--text-dim); }
 
 /* ── reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
