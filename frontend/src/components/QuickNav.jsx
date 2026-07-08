@@ -5,7 +5,8 @@ import styles from './QuickNav.module.css';
 // id matches an element on the page (give targets scroll-margin-top).
 export default function QuickNav({ links, className }) {
   const jump = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.getElementById(id)?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   };
   return (
     <nav className={`${styles.quickNav}${className ? ` ${className}` : ''}`} aria-label="Page sections">
