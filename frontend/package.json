@@ -66,6 +66,7 @@
     "start": "craco start",
     "prebuild": "node scripts/generate-rss.mjs",
     "build": "craco build",
+    "postbuild": "cp build/index.html build/404.html",
     "test": "craco test"
   },
   "browserslist": {
