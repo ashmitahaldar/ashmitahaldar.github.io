@@ -1,0 +1,369 @@
+/* ~/lab — the unpolished corner: log, gallery, facts, terminal */
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 104px clamp(16px, 4vw, 56px) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* ── layout helpers ───────────────────────────────────────── */
+
+/* pull the quick nav closer to the header than the section gap */
+.labQuickNav {
+  margin-top: -28px;
+}
+
+/* anchor targets land below nav + quicknav */
+.anchorSection {
+  scroll-margin-top: 132px;
+}
+
+/* ── shared window chrome ─────────────────────────────────── */
+
+.window {
+  border: 1px solid var(--pink-dim);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow-win);
+  background: var(--card);
+}
+
+.windowBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: var(--pink-glow);
+  border-bottom: 1px solid var(--pink-dim);
+}
+
+.windowDots {
+  display: flex;
+  gap: 7px;
+}
+
+.windowDot {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dotRed    { background: #ff5f57; }
+.dotYellow { background: #febc2e; }
+.dotGreen  { background: #28c840; }
+
+.windowTitle {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+/* ── log feed ─────────────────────────────────────────────── */
+
+.logFeed {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 18px;
+  font-family: var(--mono);
+}
+
+.logEntry {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 4px;
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.logEntry:last-child {
+  border-bottom: none;
+}
+
+.logMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.logTime {
+  font-size: 11px;
+  color: var(--cyan);
+  white-space: nowrap;
+}
+
+.logMood {
+  font-size: 12px;
+}
+
+.logTags {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--pink-soft);
+  opacity: 0.85;
+}
+
+.logText {
+  font-size: 13.5px;
+  color: var(--text-mute);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.logLink {
+  font-size: 12px;
+  color: var(--cyan);
+  text-decoration: none;
+  border-bottom: 1px solid var(--cyan-dim);
+  align-self: flex-start;
+}
+
+.logLink:hover {
+  color: var(--cyan-soft);
+}
+
+.logMore {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 9px 12px;
+  border: 1px dashed var(--line-soft);
+  border-radius: 4px;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--cyan);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s, background 0.18s;
+}
+
+.logMore:hover {
+  border-color: var(--cyan-dim);
+  background: var(--cyan-glow);
+}
+
+.logMoreCount {
+  color: var(--text-dim);
+}
+
+.logHint {
+  padding: 14px 4px 8px;
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+/* ── gallery (ported from Blog) ───────────────────────────── */
+
+.tagButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.tagButton {
+  padding: 5px 12px;
+  border: 1px solid;
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: transparent;
+}
+
+.tagButtonActive {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: white;
+}
+
+.tagButtonInactive {
+  background: var(--card-2);
+  border-color: var(--pink-dim);
+  color: var(--pink-soft);
+}
+
+.tagButtonInactive:hover { border-color: var(--pink); }
+
+.emptyState {
+  text-align: center;
+  padding: 48px 0;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+/* photo wall: masonry columns, prints keep their natural aspect
+   ratio so tall and wide shots break the grid rhythm */
+.galleryWall {
+  columns: 3 240px;
+  column-gap: 20px;
+}
+
+/* NOTE: never transform the card itself — inside a multicol
+   container Chrome repaints the fragmented box on hover and the
+   card flickers. Hover feedback lives on the image zoom instead. */
+.galleryCard {
+  display: flex;
+  flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: 20px;
+  cursor: zoom-in;
+}
+
+.galleryCard:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.galleryImageWrap {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--pink-dim);
+  overflow: hidden;
+}
+
+.galleryImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
+}
+
+.galleryCard:hover .galleryImage {
+  transform: scale(1.04);
+}
+
+.galleryImageFallback {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.galleryFallbackIcon {
+  width: 36px;
+  height: 36px;
+  color: var(--text-faint);
+}
+
+.galleryCardBody { margin-top: 12px; }
+
+.galleryMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.galleryBadge {
+  padding: 2px 8px;
+  background: var(--card);
+  border: 1px solid var(--cyan-dim);
+  border-radius: 3px;
+  color: var(--cyan-soft);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.galleryDate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.calendarIcon { width: 13px; height: 13px; }
+
+.galleryLocation {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.galleryLocationIcon { width: 11px; height: 11px; }
+
+.galleryDescription {
+  color: var(--text-mute);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── fun facts ────────────────────────────────────────────── */
+
+.factsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 18px 24px;
+}
+
+.factItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.factKey {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.factVal {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.factNote {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ── responsive ───────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .container {
+    gap: 48px;
+  }
+
+  .factsGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .logFeed {
+    padding: 6px 12px;
+  }
+}

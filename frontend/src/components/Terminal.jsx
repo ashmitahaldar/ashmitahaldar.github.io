@@ -73,12 +73,13 @@ Navigation Shortcuts:
   /home          - Go to home page
   /about         - Go to about page
   /projects      - Go to projects page
-  /experience    - Go to experience page
-  /education     - Go to education page
-  /logs          - Go to blog posts
+  /experience    - Go to experience (on about)
+  /education     - Go to education (on about)
   /blog          - Go to blog posts
-  /resume        - Go to resume page
-  /gallery       - Go to photography gallery
+  /lab           - Go to the lab
+  /log           - Go to the microblog log
+  /gallery       - Go to photography & art
+  /resume        - Open the resume
 
 Tips:
   - Use UP/DOWN arrows to cycle through command history
@@ -150,15 +151,22 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     // Navigation shortcuts
     if (trimmedCmd.startsWith('/')) {
       const route = trimmedCmd.toLowerCase();
-      if (['/home', '/about', '/projects', '/experience', '/education', '/blog', '/logs', '/gallery', '/resume'].includes(route)) {
+      const routeMap = {
+        '/home':       '/',
+        '/about':      '/about',
+        '/projects':   '/projects',
+        '/experience': '/about#experience',
+        '/education':  '/about#education',
+        '/blog':       '/blog',
+        '/logs':       '/blog',
+        '/lab':        '/lab',
+        '/log':        '/lab#log',
+        '/gallery':    '/lab#gallery',
+        '/resume':     '/about?resume=1',
+      };
+      if (routeMap[route]) {
         setOutput(prev => [...prev, { type: 'success', text: `Navigating to ${route}...` }, { type: 'info', text: '' }]);
-        setTimeout(() => {
-          if (route === '/home') navigate('/');
-          else if (route === '/logs') navigate('/blog?view=posts');
-          else if (route === '/gallery') navigate('/blog?view=gallery');
-          else if (route === '/resume') navigate('/about?resume=1');
-          else navigate(route);
-        }, 500);
+        setTimeout(() => navigate(routeMap[route]), 500);
         return;
       } else {
         setOutput(prev => [...prev, { type: 'error', text: `Route not found: ${route}` }, { type: 'info', text: '' }]);
@@ -190,7 +198,7 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     }
 
     if (command === 'ls') {
-      setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  experience/  education/  blog/  resume.pdf' }, { type: 'info', text: '' }]);
+      setOutput(prev => [...prev, { type: 'output', text: 'about.txt  projects/  blog/  lab/  resume.pdf' }, { type: 'info', text: '' }]);
       return;
     }
 
@@ -275,18 +283,19 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
     }
   };
 
+  // Theme-token colors so the terminal follows light/dark mode.
   const getOutputColor = (type) => {
     switch (type) {
-      case 'command': return 'text-teal-400';
-      case 'output': return 'text-pink-200';
-      case 'error': return 'text-red-400';
-      case 'success': return 'text-green-400';
-      default: return 'text-gray-300';
+      case 'command': return 'var(--cyan)';
+      case 'output': return 'var(--pink-soft)';
+      case 'error': return 'var(--red)';
+      case 'success': return 'var(--green)';
+      default: return 'var(--text-mute)';
     }
   };
 
   return (
-    <div style={{ background: '#0A0E27' }}>
+    <div style={{ background: 'var(--card)' }}>
       {/* Terminal Body */}
       <div
         ref={outputRef}
@@ -297,21 +306,21 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
       >
         {/* Snake Game */}
         {gameState && (
-          <div className="text-green-400 whitespace-pre mb-4">
+          <div className="whitespace-pre mb-4" style={{ color: 'var(--green)' }}>
             {renderGame()}
           </div>
         )}
 
         {/* Output */}
         {!gameState && output.map((line, index) => (
-          <pre key={index} className={`${getOutputColor(line.type)} mb-1 font-mono text-sm`}>
+          <pre key={index} className="mb-1 font-mono text-sm" style={{ color: getOutputColor(line.type) }}>
             {line.text}
           </pre>
         ))}
 
         {/* Input Line */}
         {!gameState && (
-          <div className="flex items-center gap-2 text-teal-400">
+          <div className="flex items-center gap-2" style={{ color: 'var(--cyan)' }}>
             <span>visitor@portfolio:~$</span>
             <input
               ref={inputRef}
@@ -319,10 +328,11 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-transparent outline-none text-pink-300 caret-pink-400"
+              className="flex-1 bg-transparent outline-none"
+              style={{ color: 'var(--pink-soft)', caretColor: 'var(--pink)' }}
               spellCheck="false"
             />
-            <span className="animate-pulse text-pink-400">▊</span>
+            <span className="animate-pulse" style={{ color: 'var(--pink)' }}>▊</span>
           </div>
         )}
 

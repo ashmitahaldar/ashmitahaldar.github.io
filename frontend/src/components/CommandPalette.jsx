@@ -15,6 +15,8 @@ import {
   Github,
   Linkedin,
   Clock3,
+  FlaskConical,
+  Rss,
 } from 'lucide-react';
 import {
   Command,
@@ -38,7 +40,6 @@ const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [recentIds, setRecentIds] = useState([]);
-  const viewParam = new URLSearchParams(location.search).get('view');
 
   useEffect(() => {
     const onKeyDown = (event) => {
@@ -80,7 +81,11 @@ const CommandPalette = () => {
   const recordRecent = (id) => {
     setRecentIds((prev) => {
       const next = [id, ...prev.filter((item) => item !== id)].slice(0, MAX_RECENTS);
-      localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+      try {
+        localStorage.setItem(RECENT_STORAGE_KEY, JSON.stringify(next));
+      } catch (e) {
+        // storage unavailable (private mode) — recents just don't persist
+      }
       return next;
     });
   };
@@ -95,18 +100,13 @@ const CommandPalette = () => {
     () => [
       { id: 'nav-home', label: 'Go: Home', path: '/', icon: Home, action: () => navigate('/') },
       { id: 'nav-about', label: 'Go: About', path: '/about', icon: User, action: () => navigate('/about') },
-      { id: 'nav-exp', label: 'Go: Experience', path: '/experience', icon: Briefcase, action: () => navigate('/experience') },
-      { id: 'nav-edu', label: 'Go: Education', path: '/education', icon: GraduationCap, action: () => navigate('/education') },
+      { id: 'nav-exp', label: 'Go: Experience', path: '/about#experience', icon: Briefcase, action: () => navigate('/about#experience') },
+      { id: 'nav-edu', label: 'Go: Education', path: '/about#education', icon: GraduationCap, action: () => navigate('/about#education') },
       { id: 'nav-projects', label: 'Go: Projects', path: '/projects', icon: FolderGit2, action: () => navigate('/projects') },
-      { id: 'nav-logs', label: 'Go: Logs (Blog Posts)', path: '/blog', icon: BookOpen, action: () => navigate('/blog?view=posts') },
-      { id: 'nav-gallery', label: 'Go: Gallery', path: '/blog', icon: Camera, action: () => navigate('/blog?view=gallery') },
-    ],
-    [navigate],
-  );
-
-  const blogModeCommands = useMemo(
-    () => [
-      { id: 'blog-all', label: 'Blog Mode: All', path: '/blog?view=all', icon: BookOpen, action: () => navigate('/blog') },
+      { id: 'nav-blog', label: 'Go: Blog', path: '/blog', icon: BookOpen, action: () => navigate('/blog') },
+      { id: 'nav-lab', label: 'Go: Lab', path: '/lab', icon: FlaskConical, action: () => navigate('/lab') },
+      { id: 'nav-log', label: 'Go: Log (Microblog)', path: '/lab#log', icon: Rss, action: () => navigate('/lab#log') },
+      { id: 'nav-gallery', label: 'Go: Gallery', path: '/lab#gallery', icon: Camera, action: () => navigate('/lab#gallery') },
     ],
     [navigate],
   );
@@ -154,8 +154,8 @@ const CommandPalette = () => {
   }, [profileData]);
 
   const allCommands = useMemo(
-    () => [...navCommands, ...blogModeCommands, ...actionCommands, ...socialCommands],
-    [navCommands, blogModeCommands, actionCommands, socialCommands],
+    () => [...navCommands, ...actionCommands, ...socialCommands],
+    [navCommands, actionCommands, socialCommands],
   );
 
   const recentCommands = useMemo(() => {
@@ -168,23 +168,35 @@ const CommandPalette = () => {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="hidden md:inline-flex items-center gap-1 border border-teal-500/35 bg-[#0A0E27] px-1.5 py-0.5 font-mono text-[10px] leading-none text-teal-300 hover:border-teal-400"
+        className="hidden md:inline-flex items-center gap-1 px-1.5 py-0.5 font-mono text-[10px] leading-none"
+        style={{
+          background: 'var(--card)',
+          border: '1px solid var(--cyan-dim)',
+          color: 'var(--cyan)',
+        }}
         aria-label="Open command palette"
         title="Open command palette (Cmd/Ctrl + K)"
       >
         <CommandIcon className="h-3 w-3" />
-        <span className="text-pink-300">⌘K</span>
+        <span style={{ color: 'var(--pink-soft)' }}>⌘K</span>
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-xl overflow-hidden border border-pink-500/60 bg-[#0A0E27] p-0 shadow-[0_0_0_1px_rgba(94,243,243,0.2)]">
-          <Command className="rounded-none border border-teal-500/30 bg-[#0A0E27] text-gray-100">
+        <DialogContent
+          className="max-w-xl overflow-hidden p-0"
+          style={{
+            background: 'var(--card)',
+            border: '1px solid var(--pink-dim)',
+            boxShadow: 'var(--shadow-win)',
+          }}
+        >
+          <Command className="palette rounded-none">
             <CommandInput
               placeholder="Type a command or path..."
-              className="font-mono text-sm text-teal-200 placeholder:text-gray-500"
+              className="font-mono text-sm"
             />
             <CommandList className="max-h-[360px]">
-              <CommandEmpty className="font-mono text-sm text-gray-400">No results found.</CommandEmpty>
+              <CommandEmpty className="font-mono text-sm ink-dim">No results found.</CommandEmpty>
 
               {recentCommands.length > 0 && (
                 <>
@@ -196,69 +208,42 @@ const CommandPalette = () => {
                           key={command.id}
                           value={`${command.label} ${command.path || ''}`}
                           onSelect={() => runCommand(command)}
-                          className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                          className="font-mono text-sm"
                         >
-                          <Clock3 className="h-4 w-4 text-pink-300" />
+                          <Clock3 className="h-4 w-4 ink-pink" />
                           <span>{command.label}</span>
                           {command.path && (
-                            <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
+                            <CommandShortcut className="ink-dim">{command.path}</CommandShortcut>
                           )}
                         </CommandItem>
                       );
                     })}
                   </CommandGroup>
-                  <CommandSeparator className="bg-teal-500/20" />
+                  <CommandSeparator />
                 </>
               )}
 
               <CommandGroup heading="Navigation">
                 {navCommands.map((command) => {
                   const Icon = command.icon;
-                  const active =
-                    (command.path === '/home' && location.pathname === '/') ||
-                    (command.path === '/blog?view=gallery' && location.pathname === '/blog' && viewParam === 'gallery') ||
-                    (command.path === '/blog?view=posts' && location.pathname === '/blog' && (viewParam === 'posts' || !viewParam)) ||
-                    (command.path === '/about' && location.pathname === '/about') ||
-                    (command.path === '/work/experience' && location.pathname === '/experience') ||
-                    (command.path === '/work/education' && location.pathname === '/education') ||
-                    (command.path === '/work/projects' && location.pathname === '/projects');
+                  const active = command.path.split('#')[0] === location.pathname;
 
                   return (
                     <CommandItem
                       key={command.id}
                       value={`${command.label} ${command.path}`}
                       onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                      className="font-mono text-sm"
                     >
-                      <Icon className="h-4 w-4 text-teal-300" />
+                      <Icon className="h-4 w-4 ink-cyan" />
                       <span>{command.label}</span>
-                      <CommandShortcut className={active ? 'text-pink-300' : 'text-gray-500'}>{command.path}</CommandShortcut>
+                      <CommandShortcut className={active ? 'ink-pink' : 'ink-dim'}>{command.path}</CommandShortcut>
                     </CommandItem>
                   );
                 })}
               </CommandGroup>
 
-              <CommandSeparator className="bg-teal-500/20" />
-
-              <CommandGroup heading="Blog Modes">
-                {blogModeCommands.map((command) => {
-                  const Icon = command.icon;
-                  return (
-                    <CommandItem
-                      key={command.id}
-                      value={`${command.label} ${command.path}`}
-                      onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
-                    >
-                      <Icon className="h-4 w-4 text-teal-300" />
-                      <span>{command.label}</span>
-                      <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
-                    </CommandItem>
-                  );
-                })}
-              </CommandGroup>
-
-              <CommandSeparator className="bg-teal-500/20" />
+              <CommandSeparator />
 
               <CommandGroup heading="Actions">
                 {actionCommands.map((command) => {
@@ -268,9 +253,9 @@ const CommandPalette = () => {
                       key={command.id}
                       value={command.label}
                       onSelect={() => runCommand(command)}
-                      className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                      className="font-mono text-sm"
                     >
-                      <Icon className="h-4 w-4 text-pink-300" />
+                      <Icon className="h-4 w-4 ink-pink" />
                       <span>{command.label}</span>
                     </CommandItem>
                   );
@@ -279,7 +264,7 @@ const CommandPalette = () => {
 
               {socialCommands.length > 0 && (
                 <>
-                  <CommandSeparator className="bg-teal-500/20" />
+                  <CommandSeparator />
                   <CommandGroup heading="Social">
                     {socialCommands.map((command) => {
                       const Icon = command.icon;
@@ -288,12 +273,12 @@ const CommandPalette = () => {
                           key={command.id}
                           value={`${command.label} ${command.path || ''}`}
                           onSelect={() => runCommand(command)}
-                          className="font-mono text-sm data-[selected=true]:bg-pink-500/20 data-[selected=true]:text-teal-200"
+                          className="font-mono text-sm"
                         >
-                          <Icon className="h-4 w-4 text-pink-300" />
+                          <Icon className="h-4 w-4 ink-pink" />
                           <span>{command.label}</span>
                           {command.path && (
-                            <CommandShortcut className="text-gray-500">{command.path}</CommandShortcut>
+                            <CommandShortcut className="ink-dim">{command.path}</CommandShortcut>
                           )}
                         </CommandItem>
                       );

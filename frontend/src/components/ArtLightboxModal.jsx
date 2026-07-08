@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './ArtLightboxModal.module.css';
 
@@ -25,21 +26,24 @@ const ArtLightboxModal = ({ isOpen, onClose, items = [], currentIndex = 0, onPre
 
   if (!isOpen || !item) return null;
 
-  return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+  // Portal to <body>: ancestors with transforms (Reveal, page
+  // transitions) would otherwise trap position:fixed and break the
+  // overlay's positioning and stacking.
+  return createPortal(
+    <div className={`${styles.overlay} win-overlay`} onClick={onClose}>
+      <div className={`${styles.modal} win-zoom`} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titlebar}>
-          <div className={styles.titlebarLeft}>
-            <span className={styles.systemDot} />
-            <span className={styles.headerTitle}>Image Viewer</span>
+          <div className={styles.dots}>
+            <button className={`${styles.dot} ${styles.dotRed}`} onClick={onClose} aria-label="Close" />
+            <span className={`${styles.dot} ${styles.dotYellow}`} />
+            <span className={`${styles.dot} ${styles.dotGreen}`} />
           </div>
-          <div className={styles.windowControls}>
-            <button className={styles.windowButton} aria-label="Minimize">_</button>
-            <button className={styles.windowButton} aria-label="Maximize">[]</button>
-            <button className={styles.closeButton} onClick={onClose} aria-label="Close image viewer">
-              <X size={14} />
-            </button>
-          </div>
+          <span className={styles.headerTitle}>
+            ~/gallery/{(item.title || 'image').toLowerCase().replace(/\s+/g, '-')}
+          </span>
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close image viewer">
+            <X size={14} />
+          </button>
         </div>
 
         <div className={styles.content}>
@@ -68,46 +72,48 @@ const ArtLightboxModal = ({ isOpen, onClose, items = [], currentIndex = 0, onPre
           </div>
 
           <div className={styles.infoPanel}>
-            <h3 className={styles.title}>FILE INFO</h3>
+            <h3 className={styles.title}>// file info</h3>
 
             <div className={styles.propertiesTable}>
               <div className={styles.propertyRow}>
-                <span className={styles.propertyLabel}>Name</span>
+                <span className={styles.propertyLabel}>name</span>
                 <span className={styles.propertyValue}>{item.title || 'Untitled'}</span>
               </div>
               <div className={styles.propertyRow}>
-                <span className={styles.propertyLabel}>Type</span>
+                <span className={styles.propertyLabel}>type</span>
                 <span className={styles.propertyValue}>{item.category || 'Uncategorized'}</span>
               </div>
               {item.capturedAt && (
                 <div className={styles.propertyRow}>
-                  <span className={styles.propertyLabel}>Created</span>
+                  <span className={styles.propertyLabel}>created</span>
                   <span className={styles.propertyValue}>{new Date(item.capturedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</span>
                 </div>
               )}
               {item.location && (
                 <div className={styles.propertyRow}>
-                  <span className={styles.propertyLabel}>Location</span>
+                  <span className={styles.propertyLabel}>location</span>
                   <span className={styles.propertyValue}>{item.location}</span>
+                </div>
+              )}
+              {items.length > 1 && (
+                <div className={styles.propertyRow}>
+                  <span className={styles.propertyLabel}>index</span>
+                  <span className={styles.propertyValue}>{currentIndex + 1} / {items.length}</span>
                 </div>
               )}
             </div>
 
             {(item.artDescription || item.description) && (
               <div className={styles.block}>
-                <div className={styles.blockTitle}>Notes</div>
+                <div className={styles.blockTitle}>// notes</div>
                 <p className={styles.description}>{item.artDescription || item.description}</p>
               </div>
             )}
           </div>
         </div>
-
-        <div className={styles.cornerTL} />
-        <div className={styles.cornerTR} />
-        <div className={styles.cornerBL} />
-        <div className={styles.cornerBR} />
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

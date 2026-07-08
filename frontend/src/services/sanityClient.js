@@ -50,6 +50,8 @@ export const projectsQuery = `*[_type == "project"] | order(orderRank asc) {
   github,
   demo,
   "imageUrl": image.asset->url, // Fetches the actual URL for the Sanity image asset
+  "galleryUrls": gallery[].asset->url,
+  "blogSlug": blogPost->slug.current,
 }`;
 
 // 3. Fetch all Education records
@@ -96,8 +98,9 @@ export async function getEducation() {
   return await sanityClient.fetch(educationQuery);
 }
 
-// 5. Fetch all Blog Posts
-export const blogPostsQuery = `*[_type == "blogPost"] | order(publishedAt desc) {
+// 5. Fetch all Blog Posts (slug required — a post without one would
+// otherwise crash the /blog list, which links via slug.current)
+export const blogPostsQuery = `*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc) {
   _id,
   title,
   slug,
@@ -134,6 +137,20 @@ export async function getBlogPosts() {
 
 export async function getArtPhotos() {
   return await sanityClient.fetch(artPhotosQuery);
+}
+
+// Microblog "lab log" entries, newest first.
+export const microblogsQuery = `*[_type == "microblog"] | order(postedAt desc) {
+  _id,
+  text,
+  postedAt,
+  mood,
+  tags,
+  link
+}`;
+
+export async function getMicroblogs() {
+  return await sanityClient.fetch(microblogsQuery);
 }
 
 // Fetch a single blog post by slug

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Download } from 'lucide-react';
 import { useResizable } from '../hooks/useResizable';
 import styles from './ResumeModal.module.css';
@@ -48,25 +49,25 @@ const ResumeModal = ({ isOpen, onClose, resumeData }) => {
 
   if (!isOpen) return null;
 
-  return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div 
-        className={styles.modal} 
+  // Portal to <body> so transformed ancestors (page transitions)
+  // can't trap the fixed-position overlay.
+  return createPortal(
+    <div className={`${styles.overlay} win-overlay`} onClick={onClose}>
+      <div
+        className={`${styles.modal} win-zoom`}
         onClick={(e) => e.stopPropagation()}
         style={{ width: size.width, height: size.height }}
       >
         <div className={styles.titlebar}>
-          <div className={styles.titlebarLeft}>
-            <span className={styles.systemDot} />
-            <span className={styles.headerTitle}>Resume Viewer</span>
+          <div className={styles.dots}>
+            <button type="button" className={`${styles.dot} ${styles.dotRed}`} onClick={onClose} aria-label="Close" />
+            <span className={`${styles.dot} ${styles.dotYellow}`} />
+            <span className={`${styles.dot} ${styles.dotGreen}`} />
           </div>
-          <div className={styles.windowControls}>
-            <button type="button" className={styles.windowButton} aria-label="Minimize">_</button>
-            <button type="button" className={styles.windowButton} aria-label="Maximize">[]</button>
-            <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Close">
-              <X size={14} />
-            </button>
-          </div>
+          <span className={styles.headerTitle}>~/resume.pdf</span>
+          <button type="button" className={styles.closeButton} onClick={onClose} aria-label="Close">
+            <X size={14} />
+          </button>
         </div>
 
         {/* Content */}
@@ -110,14 +111,9 @@ const ResumeModal = ({ isOpen, onClose, resumeData }) => {
         <div className={styles.resizeTopRight} onMouseDown={resizeHandlers.topRight} />
         <div className={styles.resizeBottomLeft} onMouseDown={resizeHandlers.bottomLeft} />
         <div className={styles.resizeBottomRight} onMouseDown={resizeHandlers.bottomRight} />
-
-        {/* PixelCard-style Corner Decorations */}
-        <div className={styles.cornerTL}></div>
-        <div className={styles.cornerTR}></div>
-        <div className={styles.cornerBL}></div>
-        <div className={styles.cornerBR}></div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

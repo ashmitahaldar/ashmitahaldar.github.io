@@ -1,0 +1,95 @@
+/* 404 — lost page, pixel girl keeps searching */
+
+.container {
+  min-height: 100vh;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 120px clamp(16px, 4vw, 56px) 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+}
+
+/* ── the failed command ───────────────────────────────────── */
+
+.terminalLines {
+  font-family: var(--mono);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  word-break: break-all;
+}
+
+.cmdLine { color: var(--text-mute); }
+
+.prompt { color: var(--cyan); }
+
+.errLine { color: var(--pink); }
+
+/* ── big glitchy 404 ──────────────────────────────────────── */
+
+.code {
+  margin: 6px 0 0;
+  font-family: var(--mono);
+  font-size: clamp(72px, 15vw, 130px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  text-shadow:
+    4px 0 var(--pink-dim),
+    -4px 0 var(--cyan-dim);
+}
+
+.codeZero { color: var(--pink); }
+
+/* ── copy + actions ───────────────────────────────────────── */
+
+.message {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.action {
+  padding: 9px 18px;
+  background: var(--card);
+  border: 1px solid;
+  font-family: var(--mono);
+  font-size: 13px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.actionPink {
+  border-color: var(--pink-dim);
+  color: var(--pink);
+}
+
+.actionPink:hover {
+  border-color: var(--pink);
+  background: var(--pink-glow);
+}
+
+.actionCyan {
+  border-color: var(--cyan-dim);
+  color: var(--cyan);
+}
+
+.actionCyan:hover {
+  border-color: var(--cyan);
+  background: var(--cyan-glow);
+}

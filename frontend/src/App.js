@@ -1,36 +1,101 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, MotionConfig, motion } from 'framer-motion';
 import TerminalNav from './components/TerminalNav';
 import TerminalOverlay from './components/TerminalOverlay';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
-import Experience from './pages/Experience';
-import Education from './pages/Education';
 import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
+import Lab from './pages/Lab';
+import NotFound from './pages/NotFound';
+
+// Reset scroll on navigation (unless heading to an in-page anchor).
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    if (!hash) window.scrollTo(0, 0);
+  }, [pathname, hash]);
+  return null;
+}
+
+// Remember where the user last pressed, as viewport coords on <html>.
+// Modal windows read --win-ox/--win-oy so .win-zoom grows out of the
+// clicked spot (keyboard-opened modals fall back to center).
+function WinOriginTracker() {
+  useEffect(() => {
+    const remember = (e) => {
+      document.documentElement.style.setProperty('--win-ox', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--win-oy', `${e.clientY}px`);
+    };
+    const forget = () => {
+      document.documentElement.style.removeProperty('--win-ox');
+      document.documentElement.style.removeProperty('--win-oy');
+    };
+    document.addEventListener('pointerdown', remember, { capture: true, passive: true });
+    document.addEventListener('keydown', forget, { capture: true, passive: true });
+    return () => {
+      document.removeEventListener('pointerdown', remember, { capture: true });
+      document.removeEventListener('keydown', forget, { capture: true });
+    };
+  }, []);
+  return null;
+}
+
+// Shared page transition: quick fade + rise.
+function Page({ children }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.28, ease: [0.2, 0.7, 0.2, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Page><Home /></Page>} />
+        <Route path="/about" element={<Page><About /></Page>} />
+        <Route path="/projects" element={<Page><Projects /></Page>} />
+        <Route path="/blog" element={<Page><Blog /></Page>} />
+        <Route path="/blog/:slug" element={<Page><BlogPost /></Page>} />
+        <Route path="/lab" element={<Page><Lab /></Page>} />
+
+        {/* Experience & Education merged into About — keep old URLs alive */}
+        <Route path="/experience" element={<Navigate to="/about#experience" replace />} />
+        <Route path="/education" element={<Navigate to="/about#education" replace />} />
+
+        <Route path="*" element={<Page><NotFound /></Page>} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 function App() {
   return (
-    <div className="App min-h-screen text-white">
-      <BrowserRouter>
+    <div className="App min-h-screen">
+      <MotionConfig reducedMotion="user">
+        <BrowserRouter>
+          <ScrollToTop />
+          <WinOriginTracker />
           <TerminalNav />
           <TerminalOverlay />
           <div className="min-h-screen">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/experience" element={<Experience />} />
-              <Route path="/education" element={<Education />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-            </Routes>
+            <AnimatedRoutes />
           </div>
           <Footer />
-      </BrowserRouter>
+        </BrowserRouter>
+      </MotionConfig>
     </div>
   );
 }

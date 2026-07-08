@@ -2,16 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import JetBrains Mono font */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+/* Fonts: JetBrains Mono (UI) + Source Serif 4 (long-form reading) */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap');
 
 body {
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #0A0E27;
-    color: #ffffff;
 }
 
 code {
@@ -24,16 +22,16 @@ code {
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
-    background: #1A1B26;
+    background: var(--card-2);
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #ec4899;
+    background: var(--pink-dim);
     border-radius: 4px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #db2777;
+    background: var(--pink);
 }
 
 /* Scanline Effect */
@@ -138,6 +136,16 @@ code {
 
   --yellow: #fbbf24;
   --violet: #a78bfa;
+  --red:    #f87171;
+
+  /* chrome */
+  --scrim:     rgba(8, 8, 26, 0.82);
+  --nav-bg:    rgba(8, 8, 26, 0.88);
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --heat-0:    rgba(255, 255, 255, 0.04);
+  --shadow-win: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --wash-pink: rgba(255, 61, 140, 0.05);
+  --wash-cyan: rgba(45, 212, 191, 0.045);
 
   /* spacing */
   --pad-card:    28px;
@@ -147,10 +155,62 @@ code {
 
   /* type */
   --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, 'SF Mono', Menlo, monospace;
+  --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  color-scheme: dark;
+}
+
+/* ── light theme ("terminal paper") ──
+   Toggled via data-theme on <html>; terminal windows deliberately
+   stay dark in both themes. */
+:root[data-theme='light'] {
+  /* deeper lavender paper so white cards separate from the page */
+  --bg:     #e9e7f2;
+  --bg-2:   #dfddeb;
+  --card:   #fdfdff;
+  --card-2: #f4f3fa;
+  --card-3: #e7e5f0;
+
+  --text:       #1d1e40;
+  --text-mute:  #3c3e5c;
+  --text-dim:   #63658a;
+  --text-faint: #9294b2;
+
+  --pink:      #d6216f;
+  --pink-soft: #b81b60;
+  --pink-dim:  rgba(214, 33, 111, 0.4);
+  --pink-glow: rgba(214, 33, 111, 0.08);
+
+  --cyan:      #0d9488;
+  --cyan-soft: #0b7d73;
+  --cyan-dim:  rgba(13, 148, 136, 0.45);
+  --cyan-glow: rgba(13, 148, 136, 0.09);
+
+  --green:     #0f8a5f;
+  --green-dim: rgba(15, 138, 95, 0.35);
+
+  --yellow: #a16207;
+  --violet: #6d4fd0;
+  --red:    #dc2626;
+
+  --scrim:     rgba(29, 30, 64, 0.45);
+  --nav-bg:    rgba(246, 245, 251, 0.88);
+  --line-soft: rgba(29, 30, 64, 0.16);
+  --heat-0:    rgba(29, 30, 64, 0.08);
+  --shadow-win: 0 2px 6px rgba(29, 30, 64, 0.06), 0 12px 32px rgba(29, 30, 64, 0.12);
+  --wash-pink: rgba(214, 33, 111, 0.05);
+  --wash-cyan: rgba(13, 148, 136, 0.055);
+
+  color-scheme: light;
+}
+
+/* light mode: corner cards get a soft paper shadow for definition */
+:root[data-theme='light'] .cc {
+  box-shadow: 0 1px 2px rgba(29, 30, 64, 0.05), 0 6px 20px rgba(29, 30, 64, 0.07);
 }
 
 body {
-  background: #0A0E27;
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -220,6 +280,27 @@ body {
 @keyframes fadeIn  { from { opacity: 0; }                              to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ── modal window-open ── */
+/* Shared by the project, gallery and resume modals: the window grows
+   smoothly out of the point that was clicked. --win-ox/--win-oy hold
+   the last pointer press in viewport coords (tracked in App.js).
+   Because every modal is flex-centered in a full-viewport overlay,
+   its own center sits at (50vw, 50vh) — so the click point maps to
+   element-local origin via calc(click - viewportCenter + 50%).
+   Without a recorded press (keyboard) it grows from its center. */
+.win-overlay { animation: fadeIn 0.18s ease; }
+.win-zoom {
+  transform-origin: calc(var(--win-ox, 50vw) - 50vw + 50%) calc(var(--win-oy, 50vh) - 50vh + 50%);
+  animation: win-zoom 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes win-zoom {
+  from { opacity: 0; transform: scale(0.1); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .win-overlay, .win-zoom { animation: none; }
+}
+
 /* ── scroll-reveal ── */
 .reveal {
   opacity: 0;
@@ -283,3 +364,37 @@ body {
   background: transparent;
 }
 .btn-link:hover { border-color: var(--cyan-dim); gap: 12px; color: var(--cyan); }
+
+/* ── command palette (cmdk) theming ──
+   Scoped overrides so the palette follows the light/dark tokens
+   instead of the hardcoded shadcn RGB variables. */
+.palette {
+  background: var(--card);
+  color: var(--text);
+}
+.palette [cmdk-input-wrapper] { border-color: var(--line-soft); }
+.palette input { color: var(--cyan); }
+.palette input::placeholder { color: var(--text-faint); }
+.palette [cmdk-group-heading] { color: var(--text-faint); }
+.palette [cmdk-item] { color: var(--text-mute); }
+.palette [cmdk-item][data-selected='true'] {
+  background: var(--pink-glow);
+  color: var(--cyan);
+}
+.palette [cmdk-separator] { background: var(--line-soft); }
+
+/* token ink helpers (for icons/labels inside Tailwind-styled trees) */
+.ink-pink { color: var(--pink-soft); }
+.ink-cyan { color: var(--cyan); }
+.ink-dim  { color: var(--text-dim); }
+
+/* ── reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}

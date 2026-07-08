@@ -31,60 +31,6 @@
   font-size: 14px;
 }
 
-/* ── Header ───────────────────────────────────────────────── */
-
-.header {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.title {
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 700;
-  font-family: var(--mono);
-  margin-bottom: 12px;
-  background: linear-gradient(90deg, var(--pink), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  min-height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.titleIcon {
-  width: 28px;
-  height: 28px;
-  color: var(--cyan);
-  -webkit-text-fill-color: initial;
-  flex-shrink: 0;
-}
-
-.cursor {
-  color: var(--cyan);
-  -webkit-text-fill-color: var(--cyan);
-  animation: pulse 1s ease-in-out infinite;
-}
-
-@keyframes pulse { 0%, 100% { opacity: 1 } 50% { opacity: 0 } }
-
-.subtitle {
-  color: var(--text-dim);
-  font-family: var(--mono);
-  font-size: 13px;
-  min-height: 24px;
-}
-
-.subtitlePrompt {
-  color: var(--pink);
-}
-
-.subtitleCommand {
-  color: var(--cyan);
-}
-
 /* ── Bio card ─────────────────────────────────────────────── */
 
 .bioCard {
@@ -122,88 +68,166 @@
 .bioText p { margin: 0 0 12px; }
 .bioText p:last-child { margin-bottom: 0; }
 
-/* ── Skills grid ──────────────────────────────────────────── */
+/* ── Skills (JS object literal block) ─────────────────────── */
 
-.skillsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--gap-stack);
-}
-
-.skillCard {
+.skillsBlock {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
-.skillHeader {
+.skillRow {
   display: flex;
+  gap: 16px;
+  padding: 5px 0;
+  align-items: flex-start;
+}
+
+.skillKey {
+  flex: 0 0 110px;
+  color: var(--pink-soft);
+  white-space: nowrap;
+}
+
+.skillItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
   align-items: center;
+}
+
+/* anchor targets land below nav + quicknav */
+.anchorSection {
+  scroll-margin-top: 132px;
+}
+
+/* ── Accordion rows (experience + education) ──────────────── */
+
+.accRow {
+  display: flex;
+  flex-direction: column;
+}
+
+.accHeader {
+  display: grid;
+  grid-template-columns: 80px 18px 1fr 20px;
+  gap: 0 16px;
+  align-items: center;
+  width: 100%;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.accWhen {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  text-align: right;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+.accDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  justify-self: center;
+}
+
+.accTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.accTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.18s;
+}
+
+.accHeader:hover .accTitle {
+  color: var(--pink);
+}
+
+.accCity {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.accChevron {
+  width: 16px;
+  height: 16px;
+  color: var(--text-dim);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.18s;
+}
+
+.accHeader:hover .accChevron {
+  color: var(--cyan);
+}
+
+.accChevronOpen {
+  transform: rotate(180deg);
+}
+
+.accBody {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+  padding: 2px 36px 18px 114px; /* aligns under the title column */
 }
 
-.skillIconPink {
-  width: 18px;
-  height: 18px;
-  color: var(--pink);
+.accWhat {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.65;
+  margin: 0;
 }
 
-.skillIconTeal {
-  width: 18px;
-  height: 18px;
-  color: var(--cyan);
-}
+.accWhat p { margin: 0 0 8px; }
+.accWhat p:last-child { margin-bottom: 0; }
 
-.skillTitlePink {
-  font-size: 15px;
-  font-weight: 700;
-  font-family: var(--mono);
-  color: var(--pink);
-}
-
-.skillTitleTeal {
-  font-size: 15px;
-  font-weight: 700;
-  font-family: var(--mono);
-  color: var(--cyan);
-}
-
-.skillTags {
+.accTech {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  padding-top: 2px;
 }
 
-/* ── Fun fact ─────────────────────────────────────────────── */
+.eduGpa {
+  margin-left: 10px;
+  padding: 1px 8px;
+  border: 1px solid var(--pink-dim);
+  border-radius: 3px;
+  color: var(--pink-soft);
+  font-size: 11px;
+}
 
-.funFactCard {
+.eduHighlights {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   display: flex;
   flex-direction: column;
-}
-
-.funFactContent {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-}
-
-.funFactEmoji {
-  font-size: 24px;
-  flex-shrink: 0;
-}
-
-.funFactTitle {
-  font-family: var(--mono);
-  font-weight: 700;
-  color: var(--cyan);
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-
-.funFactText {
+  gap: 4px;
+  font-size: 13px;
   color: var(--text-mute);
-  font-size: 14px;
   line-height: 1.6;
+}
+
+.eduBullet {
+  color: var(--cyan);
+  margin-right: 6px;
 }
 
 /* ── Resume button ────────────────────────────────────────── */
@@ -232,11 +256,31 @@
 .viewResumeButton:hover {
   border-color: var(--pink);
   color: var(--pink);
-  background: rgba(255, 61, 140, 0.06);
+  background: var(--pink-glow);
   transform: translateY(-1px);
 }
 
 .resumeIcon {
   width: 18px;
   height: 18px;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .skillRow {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .skillKey { flex: unset; }
+
+  .accHeader {
+    grid-template-columns: 58px 14px 1fr 18px;
+    gap: 0 8px;
+  }
+
+  .accWhen { font-size: 10px; }
+
+  .accBody { padding: 2px 8px 16px 80px; }
 }

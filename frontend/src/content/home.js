@@ -2,6 +2,23 @@
 // NowSection uses now.items when Sanity nowItems is empty (see Home.jsx).
 
 export const HOME_CONTENT = {
+  // ── hero scene ────────────────────────────────────────────
+  // The 3D girl is procedural three.js — edit her in
+  // components/HeroGirl3D.jsx (colors, proportions, animations).
+  // sceneStatus is the faint hint below her.
+  hero: {
+    sceneStatus: 'drag to spin',
+  },
+
+  // Minimal hero fallback so the page never renders empty when the
+  // CMS is unreachable (offline dev, CORS, outage).
+  // ⚑ TODO: tweak the wording — this only shows when Sanity is down.
+  profileFallback: {
+    name: 'Ashmita Haldar',
+    title: 'cs student & builder',
+    tagline: 'code, pixels, and the occasional pun',
+  },
+
   // ── // now section ────────────────────────────────────────
   // Populated via Sanity (profile.nowItems / profile.nowUpdated).
   // This fallback shows only items with real values so nothing

@@ -1,5 +1,6 @@
 import profile from './profile'
 import blogPost from './blogPost'
+import microblog from './microblog'
 import skills from './skills'; 
 import experience from './experience';
 import education from './education';
@@ -21,6 +22,7 @@ export const schemaTypes = [
 
   // Blog Content
   blogPost,
+  microblog,
   artPhoto,
 
   // Documents

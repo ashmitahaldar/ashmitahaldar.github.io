@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: rgba(8, 8, 26, 0.82);
+  background: var(--scrim);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   animation: fadeIn 0.12s ease;
@@ -16,10 +16,10 @@
   z-index: 201;
   width: calc(100% - clamp(32px, 8vw, 96px));
   max-width: 860px;
-  border: 1px solid rgba(255, 61, 140, 0.35);
+  border: 1px solid var(--pink-dim);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 0 1px rgba(255, 61, 140, 0.08), 0 32px 80px rgba(0, 0, 0, 0.7);
+  box-shadow: var(--shadow-win);
   animation: slideUp 0.14s ease;
   outline: none;
 }
@@ -29,8 +29,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 14px;
-  background: rgba(255, 61, 140, 0.08);
-  border-bottom: 1px solid rgba(255, 61, 140, 0.15);
+  background: var(--pink-glow);
+  border-bottom: 1px solid var(--pink-dim);
 }
 
 .dots {
