@@ -274,9 +274,14 @@ export default function Lab() {
   useEffect(() => {
     if (loading || !location.hash) return;
     const el = document.getElementById(location.hash.slice(1));
-    if (el) {
-      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
-    }
+    if (!el) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t = setTimeout(
+      () => el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' }),
+      60,
+    );
+    return () => clearTimeout(t);
   }, [loading, location.hash]);
 
   if (loading) {
