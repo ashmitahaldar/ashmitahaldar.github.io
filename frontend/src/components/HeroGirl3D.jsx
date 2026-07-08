@@ -120,9 +120,10 @@ function buildScene() {
   head.add(box(0.56, 0.34, 0.12, COLORS.hair, 0.36, 0.42, 0.585));
   head.add(box(0.2, 0.62, 0.14, COLORS.hair, -0.64, 0.24, 0.55));
   head.add(box(0.2, 0.62, 0.14, COLORS.hair, 0.64, 0.24, 0.55));
-  // long side hair falling to the desk
-  head.add(box(0.3, 1.75, 0.55, COLORS.hair, -0.75, -0.7, -0.32));
-  head.add(box(0.3, 1.75, 0.55, COLORS.hair, 0.75, -0.7, -0.32));
+  // long side hair falling to the desk — tops tucked under the crown
+  // so no skin shows at the temples (same bottom edge as before)
+  head.add(box(0.3, 2.05, 0.55, COLORS.hair, -0.75, -0.55, -0.32));
+  head.add(box(0.3, 2.05, 0.55, COLORS.hair, 0.75, -0.55, -0.32));
 
   // face details
   head.add(box(0.17, 0.26, 0.06, COLORS.eye, -0.28, -0.04, 0.585));
