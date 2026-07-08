@@ -38,6 +38,7 @@ export default {
       title: 'Link',
       type: 'url',
       description: 'Optional — something the entry points at.',
+      validation: (Rule) => Rule.uri({ scheme: ['http', 'https'] }),
     },
   ],
   preview: {

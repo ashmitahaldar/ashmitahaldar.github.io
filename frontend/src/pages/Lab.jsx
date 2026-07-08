@@ -69,7 +69,9 @@ function LogFeed({ entries }) {
                 {e.text}
                 {i === 0 && <span className="blink" style={{ color: 'var(--cyan)', width: 6, height: 13 }} />}
               </p>
-              {e.link && (
+              {/* schema validates this too, but never trust stored data
+                  with an href — javascript:/data: links stay unclickable */}
+              {typeof e.link === 'string' && /^https?:\/\//i.test(e.link) && (
                 <a href={e.link} target="_blank" rel="noopener noreferrer" className={styles.logLink}>
                   attached link ↗
                 </a>
