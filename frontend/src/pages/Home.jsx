@@ -38,9 +38,9 @@ function HeroTypewriter({ role, tagline }) {
   const [phase, setPhase] = useState(0);
 
   const { displayedText: roleTxt, isComplete: roleDone } = useTypingEffect(role, 22, 600);
-  const { displayedText: taglineTxt, isComplete: taglineDone } = useTypingEffect(
-    phase >= 1 ? `// ${tagline}` : '', 14, 0,
-  );
+  // const { displayedText: taglineTxt, isComplete: taglineDone } = useTypingEffect(
+  //   phase >= 1 ? `// ${tagline}` : '', 14, 0,
+  // );
 
   useEffect(() => {
     if (roleDone && phase === 0) {
@@ -55,10 +55,10 @@ function HeroTypewriter({ role, tagline }) {
         {roleTxt}
         {!roleDone && <span className="blink" />}
       </div>
-      <div className={styles.typeTagline}>
+      {/* <div className={styles.typeTagline}>
         {phase >= 1 && taglineTxt}
         {phase >= 1 && !taglineDone && <span className="blink" />}
-      </div>
+      </div> */}
     </div>
   );
 }

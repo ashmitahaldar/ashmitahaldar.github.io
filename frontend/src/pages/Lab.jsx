@@ -84,7 +84,7 @@ function LogFeed({ entries }) {
               <span className={styles.logMoreCount}>· {hidden} older</span>
             </button>
           )}
-          <div className={styles.logHint}>// short thoughts, shipped often. no editing after posting.</div>
+          <div className={styles.logHint}>short thoughts, posted often</div>
         </div>
       </Window>
     </section>
