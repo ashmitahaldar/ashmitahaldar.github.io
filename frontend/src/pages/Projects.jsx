@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ExternalLink, Github, Code2, Gamepad2, Palette, FileCode } from 'lucide-react';
 import CornerCard from '../components/CornerCard';
 import PageHeader from '../components/PageHeader';
+import ProjectModal from '../components/ProjectModal';
 import { getProjects } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
 import styles from '../styles/Projects.module.css';
@@ -10,6 +11,7 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
+  const [activeProject, setActiveProject] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -59,6 +61,21 @@ const Projects = () => {
                 onMouseEnter={() => setHoveredProject(project._id)}
                 onMouseLeave={() => setHoveredProject(null)}
                 className={styles.projectCard}
+                role="button"
+                tabIndex={0}
+                aria-label={`View details for ${project.title}`}
+                onClick={(e) => {
+                  // the Code/Demo anchors inside the card keep their
+                  // own behaviour — only bare card clicks open details
+                  if (e.target.closest('a')) return;
+                  setActiveProject(project);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActiveProject(project);
+                  }
+                }}
               >
                 {/* Project Icon/Image */}
                 <div className={`${styles.projectImage} ${
@@ -132,6 +149,12 @@ const Projects = () => {
           })}
         </div>
       </div>
+
+      <ProjectModal
+        isOpen={!!activeProject}
+        project={activeProject}
+        onClose={() => setActiveProject(null)}
+      />
     </div>
   );
 };

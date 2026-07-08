@@ -11,14 +11,12 @@
   justify-content: center;
   z-index: 9999;
   padding: 1rem;
-  animation: fadeIn 0.12s ease;
 }
 
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  /* centered by the overlay's flex, not translate(-50%,-50%) — the
+     shared win-open animation owns this element's transform */
+  position: relative;
   background: var(--card);
   border: 1px solid var(--pink-dim);
   border-radius: 8px;

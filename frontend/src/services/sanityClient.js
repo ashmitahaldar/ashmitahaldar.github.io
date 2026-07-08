@@ -50,6 +50,8 @@ export const projectsQuery = `*[_type == "project"] | order(orderRank asc) {
   github,
   demo,
   "imageUrl": image.asset->url, // Fetches the actual URL for the Sanity image asset
+  "galleryUrls": gallery[].asset->url,
+  "blogSlug": blogPost->slug.current,
 }`;
 
 // 3. Fetch all Education records

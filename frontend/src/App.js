@@ -11,6 +11,7 @@ import Projects from './pages/Projects';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Lab from './pages/Lab';
+import NotFound from './pages/NotFound';
 
 // Reset scroll on navigation (unless heading to an in-page anchor).
 function ScrollToTop() {
@@ -18,6 +19,29 @@ function ScrollToTop() {
   useEffect(() => {
     if (!hash) window.scrollTo(0, 0);
   }, [pathname, hash]);
+  return null;
+}
+
+// Remember where the user last pressed, as viewport coords on <html>.
+// Modal windows read --win-ox/--win-oy so .win-zoom grows out of the
+// clicked spot (keyboard-opened modals fall back to center).
+function WinOriginTracker() {
+  useEffect(() => {
+    const remember = (e) => {
+      document.documentElement.style.setProperty('--win-ox', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--win-oy', `${e.clientY}px`);
+    };
+    const forget = () => {
+      document.documentElement.style.removeProperty('--win-ox');
+      document.documentElement.style.removeProperty('--win-oy');
+    };
+    document.addEventListener('pointerdown', remember, { capture: true, passive: true });
+    document.addEventListener('keydown', forget, { capture: true, passive: true });
+    return () => {
+      document.removeEventListener('pointerdown', remember, { capture: true });
+      document.removeEventListener('keydown', forget, { capture: true });
+    };
+  }, []);
   return null;
 }
 
@@ -50,6 +74,8 @@ function AnimatedRoutes() {
         {/* Experience & Education merged into About — keep old URLs alive */}
         <Route path="/experience" element={<Navigate to="/about#experience" replace />} />
         <Route path="/education" element={<Navigate to="/about#education" replace />} />
+
+        <Route path="*" element={<Page><NotFound /></Page>} />
       </Routes>
     </AnimatePresence>
   );
@@ -61,6 +87,7 @@ function App() {
       <MotionConfig reducedMotion="user">
         <BrowserRouter>
           <ScrollToTop />
+          <WinOriginTracker />
           <TerminalNav />
           <TerminalOverlay />
           <div className="min-h-screen">

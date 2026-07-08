@@ -30,8 +30,8 @@ const ArtLightboxModal = ({ isOpen, onClose, items = [], currentIndex = 0, onPre
   // transitions) would otherwise trap position:fixed and break the
   // overlay's positioning and stacking.
   return createPortal(
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div className={`${styles.overlay} win-overlay`} onClick={onClose}>
+      <div className={`${styles.modal} win-zoom`} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titlebar}>
           <div className={styles.dots}>
             <button className={`${styles.dot} ${styles.dotRed}`} onClick={onClose} aria-label="Close" />

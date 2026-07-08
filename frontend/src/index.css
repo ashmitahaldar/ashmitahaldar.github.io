@@ -280,6 +280,27 @@ body {
 @keyframes fadeIn  { from { opacity: 0; }                              to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
+/* ── modal window-open ── */
+/* Shared by the project, gallery and resume modals: the window grows
+   smoothly out of the point that was clicked. --win-ox/--win-oy hold
+   the last pointer press in viewport coords (tracked in App.js).
+   Because every modal is flex-centered in a full-viewport overlay,
+   its own center sits at (50vw, 50vh) — so the click point maps to
+   element-local origin via calc(click - viewportCenter + 50%).
+   Without a recorded press (keyboard) it grows from its center. */
+.win-overlay { animation: fadeIn 0.18s ease; }
+.win-zoom {
+  transform-origin: calc(var(--win-ox, 50vw) - 50vw + 50%) calc(var(--win-oy, 50vh) - 50vh + 50%);
+  animation: win-zoom 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes win-zoom {
+  from { opacity: 0; transform: scale(0.1); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .win-overlay, .win-zoom { animation: none; }
+}
+
 /* ── scroll-reveal ── */
 .reveal {
   opacity: 0;

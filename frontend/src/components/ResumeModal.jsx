@@ -52,9 +52,9 @@ const ResumeModal = ({ isOpen, onClose, resumeData }) => {
   // Portal to <body> so transformed ancestors (page transitions)
   // can't trap the fixed-position overlay.
   return createPortal(
-    <div className={styles.overlay} onClick={onClose}>
-      <div 
-        className={styles.modal} 
+    <div className={`${styles.overlay} win-overlay`} onClick={onClose}>
+      <div
+        className={`${styles.modal} win-zoom`}
         onClick={(e) => e.stopPropagation()}
         style={{ width: size.width, height: size.height }}
       >

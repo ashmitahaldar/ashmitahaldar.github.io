@@ -43,12 +43,18 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
 }
 
 .projectCard:hover {
   transform: scale(1.03) translateY(-6px);
   box-shadow: var(--shadow-win);
   z-index: 1;
+}
+
+.projectCard:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
 }
 
 /* ── Project image/icon ───────────────────────────────────── */
@@ -115,6 +121,11 @@
   font-size: 13px;
   line-height: 1.65;
   flex: 1;
+  /* teaser only — the full readme lives in the project modal */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .projectDescription p { margin: 0 0 8px; }

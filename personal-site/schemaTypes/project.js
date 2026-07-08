@@ -31,6 +31,20 @@ export default {
       },
     },
     {
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'Optional extra screenshots — shown as a carousel in the project modal.',
+    },
+    {
+      name: 'blogPost',
+      title: 'Blog Write-up',
+      type: 'reference',
+      to: [{ type: 'blogPost' }],
+      description: 'Optional — a blog post about this project, linked from the modal.',
+    },
+    {
       name: 'orderRank',
       title: 'Order Rank',
       type: 'string',
