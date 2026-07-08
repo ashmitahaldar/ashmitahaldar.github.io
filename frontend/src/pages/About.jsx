@@ -298,7 +298,15 @@ const About = () => {
       <div className={styles.content}>
         <PageHeader word="about" command="cat ~/.profile/about.txt" />
 
-        <QuickNav links={QUICK_LINKS} />
+        <QuickNav
+          links={QUICK_LINKS.filter((l) => {
+            if (l.id === 'skills') return !!skillGroups?.length;
+            if (l.id === 'experience') return experiences.length > 0;
+            if (l.id === 'education') return education.length > 0;
+            if (l.id === 'resume') return !!resumeData?.pdfUrl;
+            return true;
+          })}
+        />
 
         {/* Story */}
         <section id="story" className={styles.anchorSection}>
