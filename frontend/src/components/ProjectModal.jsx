@@ -64,7 +64,7 @@ const ProjectModal = ({ isOpen, onClose, project }) => {
             <span className={`${styles.dot} ${styles.dotGreen}`} />
           </div>
           <span className={styles.headerTitle}>~/projects/{slug}</span>
-          <button className={styles.closeButton} onClick={onClose} aria-label="Close project details">
+          <button className={styles.closeButton} onClick={onClose} aria-label="Close project details" autoFocus>
             <X size={14} />
           </button>
         </div>
