@@ -24,7 +24,7 @@ export default function NotFound() {
       <p className={styles.message}>// she checked the whole filesystem. it's not here.</p>
 
       <div className={styles.actions}>
-        <Link to="/" className={`${styles.action} ${styles.actionPink}`}>$ cd ~</Link>
+        <Link to="/" className={`${styles.action} ${styles.actionPink}`}>$ cd ~/home</Link>
         <Link to="/projects" className={`${styles.action} ${styles.actionCyan}`}>$ open ~/projects</Link>
       </div>
     </div>
