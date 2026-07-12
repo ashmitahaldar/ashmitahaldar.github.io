@@ -161,7 +161,10 @@ export async function getBlogPostBySlug(slug) {
     slug,
     publishedAt,
     excerpt,
-    content,
+    content[]{
+      ...,
+      _type == "pdf" => { "url": asset->url }
+    },
     tags
   }`;
   return await sanityClient.fetch(query, { slug });

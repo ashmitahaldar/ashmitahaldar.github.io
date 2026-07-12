@@ -69,6 +69,12 @@
     "postbuild": "cp build/index.html build/404.html",
     "test": "craco test"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\](?!(@portabletext)[/\\\\]).+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",

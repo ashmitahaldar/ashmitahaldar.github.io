@@ -46,6 +46,31 @@ export default {
             },
           ],
         },
+        {
+          type: 'file',
+          name: 'pdf',
+          title: 'PDF',
+          options: { accept: 'application/pdf' },
+          fields: [
+            {
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+              description: 'Shown above the PDF and used as the download filename',
+            },
+            {
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            },
+          ],
+          preview: {
+            select: { title: 'title', filename: 'asset.originalFilename' },
+            prepare({ title, filename }) {
+              return { title: title || filename || 'PDF', subtitle: 'PDF' };
+            },
+          },
+        },
       ],
     },
     {
