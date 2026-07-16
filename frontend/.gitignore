@@ -15,6 +15,9 @@
 /public/feed.xml
 /public/log.xml
 
+# generated at build time (scripts/generate-sitemap.mjs)
+/public/sitemap.xml
+
 # misc
 .DS_Store
 .env.local

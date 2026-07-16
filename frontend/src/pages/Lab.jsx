@@ -11,6 +11,7 @@ import ArtLightboxModal from '../components/ArtLightboxModal';
 import { getArtPhotos, getMicroblogs, getProfile } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
+import Seo from '../components/Seo';
 import styles from '../styles/Lab.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -298,6 +299,11 @@ export default function Lab() {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title="Lab"
+        path="/lab"
+        description="~/lab — Ashmita Haldar's microblog log, photography, and creative experiments. Nothing here is a deliverable."
+      />
       <PageHeader
         word="lab"
         command="cd ~/lab && ls -la"

@@ -13,6 +13,7 @@ import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getBlogPosts, getMicroblogs, getProfile, getProjects } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
+import Seo from '../components/Seo';
 import styles from '../styles/Home.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -362,6 +363,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
+      <Seo path="/" />
 
       <Hero profileData={profileData} />
 

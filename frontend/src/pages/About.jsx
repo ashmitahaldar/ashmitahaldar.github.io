@@ -11,6 +11,7 @@ import { getEducation, getExperiences, getProfile, getResume, getSkills } from '
 import PortableText from '../components/PortableText';
 import ResumeModal from '../components/ResumeModal';
 import { HOME_CONTENT } from '../content/home';
+import Seo from '../components/Seo';
 import styles from '../styles/About.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -295,6 +296,11 @@ const About = () => {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title="About"
+        path="/about"
+        description="Ashmita Haldar's story, skills, experience, and education — a CS student and builder working across code, design, and 3D."
+      />
       <div className={styles.content}>
         <PageHeader word="about" command="cat ~/.profile/about.txt" />
 
