@@ -1,11 +1,5 @@
 import { useEffect } from 'react';
-
-// Canonical production domain — matches scripts/generate-rss.mjs.
-const SITE_URL = 'https://ashmitahaldar.com';
-const SITE_NAME = 'Ashmita Haldar';
-const DEFAULT_IMAGE = `${SITE_URL}/og-cover.png`;
-const DEFAULT_DESCRIPTION =
-  'Ashmita Haldar — CS student & builder. Code, pixels, and the occasional pun: projects, writing, and creative experiments.';
+import { SITE_URL, SITE_NAME, DEFAULT_IMAGE, DEFAULT_DESCRIPTION } from '../lib/seo';
 
 // Upsert a <meta> tag keyed by name/property; create it if missing so
 // the tags declared statically in index.html are updated, not duplicated.
@@ -50,12 +44,14 @@ export default function Seo({
   type = 'website',
   publishedTime,
   tags,
+  jsonLd,
   noindex = false,
 }) {
   const fullTitle = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME} — CS Student & Builder`;
   const url = `${SITE_URL}${path}`;
   const img = image.startsWith('http') ? image : `${SITE_URL}${image}`;
   const tagsKey = Array.isArray(tags) ? tags.join(',') : '';
+  const jsonLdKey = jsonLd ? JSON.stringify(jsonLd) : '';
 
   useEffect(() => {
     document.title = fullTitle;
@@ -93,7 +89,22 @@ export default function Seo({
     } else {
       setMeta('property', 'article:published_time', '');
     }
-  }, [fullTitle, description, url, img, type, publishedTime, tagsKey, noindex]);
+
+    // JSON-LD structured data — replace any previous route's blocks.
+    document.head
+      .querySelectorAll('script[data-seo-jsonld]')
+      .forEach((n) => n.remove());
+    if (jsonLd) {
+      const blocks = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+      blocks.filter(Boolean).forEach((block) => {
+        const s = document.createElement('script');
+        s.setAttribute('type', 'application/ld+json');
+        s.setAttribute('data-seo-jsonld', '');
+        s.textContent = JSON.stringify(block);
+        document.head.appendChild(s);
+      });
+    }
+  }, [fullTitle, description, url, img, type, publishedTime, tagsKey, jsonLdKey, noindex]);
 
   return null;
 }

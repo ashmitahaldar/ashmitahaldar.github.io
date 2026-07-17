@@ -44,6 +44,26 @@ describe('Seo', () => {
     expect(document.head.querySelector('meta[property="article:published_time"]')).toBeNull();
   });
 
+  it('injects JSON-LD blocks and clears them on the next route', () => {
+    mount(
+      <Seo
+        title="A Post"
+        path="/blog/a-post"
+        jsonLd={[
+          { '@type': 'BlogPosting', headline: 'A Post' },
+          { '@type': 'BreadcrumbList' },
+        ]}
+      />,
+    );
+    const blocks = document.head.querySelectorAll('script[data-seo-jsonld]');
+    expect(blocks.length).toBe(2);
+    expect(JSON.parse(blocks[0].textContent)['@type']).toBe('BlogPosting');
+
+    // A route without JSON-LD clears the previous blocks.
+    mount(<Seo title="Projects" path="/projects" />);
+    expect(document.head.querySelectorAll('script[data-seo-jsonld]').length).toBe(0);
+  });
+
   it('marks 404 pages noindex', () => {
     mount(<Seo title="404" path="/nope" noindex />);
     expect(meta('meta[name="robots"]')).toBe('noindex, nofollow');

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
 import PortableText from '../components/PortableText';
 import Seo from '../components/Seo';
+import { articleLd, breadcrumbLd } from '../lib/seo';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getBlogPostBySlug } from '../services/sanityClient';
 import styles from '../styles/BlogPost.module.css';
@@ -69,6 +70,20 @@ const BlogPost = () => {
         type="article"
         publishedTime={post.publishedAt}
         tags={post.tags}
+        jsonLd={[
+          articleLd({
+            title: post.title,
+            description: post.excerpt || `${post.title} — a post on Ashmita Haldar's blog.`,
+            path: `/blog/${slug}`,
+            publishedTime: post.publishedAt,
+            tags: post.tags,
+          }),
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Blog', path: '/blog' },
+            { name: post.title, path: `/blog/${slug}` },
+          ]),
+        ]}
       />
       <div className={styles.content}>
         {/* Back Button */}

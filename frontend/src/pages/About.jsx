@@ -12,6 +12,7 @@ import PortableText from '../components/PortableText';
 import ResumeModal from '../components/ResumeModal';
 import { HOME_CONTENT } from '../content/home';
 import Seo from '../components/Seo';
+import { personLd } from '../lib/seo';
 import styles from '../styles/About.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -300,6 +301,10 @@ const About = () => {
         title="About"
         path="/about"
         description="Ashmita Haldar's story, skills, experience, and education — a CS student and builder working across code, design, and 3D."
+        jsonLd={personLd({
+          name: profileData?.name,
+          sameAs: [profileData?.github, profileData?.linkedin],
+        })}
       />
       <div className={styles.content}>
         <PageHeader word="about" command="cat ~/.profile/about.txt" />

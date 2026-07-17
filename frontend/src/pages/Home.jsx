@@ -14,6 +14,7 @@ import { getBlogPosts, getMicroblogs, getProfile, getProjects } from '../service
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
 import Seo from '../components/Seo';
+import { personLd, websiteLd } from '../lib/seo';
 import styles from '../styles/Home.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -363,7 +364,16 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      <Seo path="/" />
+      <Seo
+        path="/"
+        jsonLd={[
+          personLd({
+            name: profileData?.name,
+            sameAs: [profileData?.github, profileData?.linkedin],
+          }),
+          websiteLd(),
+        ]}
+      />
 
       <Hero profileData={profileData} />
 
