@@ -6,7 +6,6 @@ import PageHeader from '../components/PageHeader';
 import QuickNav from '../components/QuickNav';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
-import Terminal from '../components/Terminal';
 import ArtLightboxModal from '../components/ArtLightboxModal';
 import { getArtPhotos, getMicroblogs, getProfile } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
@@ -271,7 +270,7 @@ export default function Lab() {
     });
   }, []);
 
-  // Honour #log / #gallery / #facts / #terminal deep links once content is in.
+  // Honour #log / #gallery / #facts deep links once content is in.
   useEffect(() => {
     if (loading || !location.hash) return;
     const el = document.getElementById(location.hash.slice(1));
@@ -316,7 +315,6 @@ export default function Lab() {
           { id: 'log',      label: 'log' },
           { id: 'gallery',  label: 'gallery' },
           { id: 'facts',    label: 'facts' },
-          { id: 'terminal', label: 'terminal' },
         ]}
       />
 
@@ -325,15 +323,6 @@ export default function Lab() {
       <Reveal><Gallery photos={photos} /></Reveal>
 
       <Reveal><FunFacts facts={facts} /></Reveal>
-
-      <Reveal>
-        <section id="terminal" className={styles.anchorSection}>
-          <SectionHeader cmd="ssh" arg="visitor@ashmita" comment="try `help` or `snake`" />
-          <Window title="portfolio-terminal">
-            <Terminal profileData={profileData} height="420px" />
-          </Window>
-        </section>
-      </Reveal>
     </div>
   );
 }

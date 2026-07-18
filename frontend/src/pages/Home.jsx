@@ -231,7 +231,6 @@ function ProjectRows({ projects }) {
               ) : (
                 <Link to="/projects" className={styles.rowCover} aria-label={p.title} />
               )}
-              <span className={styles.rowPerm}>drwxr-xr-x</span>
               <span className={styles.rowMain}>
                 <span className={styles.rowTitleLine}>
                   <span className={styles.rowTitle}>{p.title}</span>
@@ -273,7 +272,6 @@ function WritingRows({ posts }) {
       <div className={styles.rowList}>
         {posts.map((p) => (
           <Link key={p._id} to={`/blog/${p.slug?.current}`} className={styles.row}>
-            <span className={styles.rowPerm}>-rw-r--r--</span>
             <span className={styles.rowMain}>
               <span className={styles.rowTitleLine}>
                 <span className={styles.rowTitle}>{p.title}</span>
