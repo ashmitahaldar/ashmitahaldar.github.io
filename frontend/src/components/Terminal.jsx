@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getSkills } from '../services/sanityClient';
 import { useSnakeGame } from '../hooks/useSnakeGame';
+import { NAME_BANNER } from '../lib/asciiBanner';
 
 const Terminal = ({ profileData, height = '480px' }) => {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState([
-    { type: 'info', text: '╔═══════════════════════════════════════════════════════╗' },
-    { type: 'info', text: '║  Welcome to ' + (profileData?.name || 'Portfolio') + '\'s Portfolio Terminal  ║' },
-    { type: 'info', text: '╚═══════════════════════════════════════════════════════╝' },
+    { type: 'banner', text: NAME_BANNER },
+    { type: 'info', text: 'Welcome to ' + (profileData?.name || 'Portfolio') + '\'s Portfolio Terminal' },
     { type: 'info', text: '' },
     { type: 'success', text: 'System initialized successfully...' },
     { type: 'info', text: 'Type "help" for available commands' },
@@ -312,11 +312,26 @@ Feel free to reach out! Always happy to chat about tech, games, or pixel art.
         )}
 
         {/* Output */}
-        {!gameState && output.map((line, index) => (
-          <pre key={index} className="mb-1 font-mono text-sm" style={{ color: getOutputColor(line.type) }}>
-            {line.text}
-          </pre>
-        ))}
+        {!gameState && output.map((line, index) =>
+          line.type === 'banner' ? (
+            // Decorative wordmark. 134 cols wide, so it gets its own scroller
+            // rather than forcing the whole terminal body sideways on narrow
+            // screens. aria-hidden because it reads as noise aloud — the
+            // welcome line right below carries the name.
+            <div key={index} className="mb-1 overflow-x-auto" aria-hidden="true">
+              <pre
+                className="font-mono"
+                style={{ color: 'var(--pink)', fontSize: '10px', lineHeight: 1.15, margin: 0 }}
+              >
+                {line.text}
+              </pre>
+            </div>
+          ) : (
+            <pre key={index} className="mb-1 font-mono text-sm" style={{ color: getOutputColor(line.type) }}>
+              {line.text}
+            </pre>
+          )
+        )}
 
         {/* Input Line */}
         {!gameState && (
