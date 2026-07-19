@@ -193,14 +193,13 @@ function Gallery({ photos }) {
                     </span>
                   )}
                 </div>
+                {/* Description is deliberately withheld here — it shows in the
+                    lightbox once you click in, so the wall stays visual. */}
                 {item.location && (
                   <div className={styles.galleryLocation}>
                     <MapPin className={styles.galleryLocationIcon} />
                     <span>{item.location}</span>
                   </div>
-                )}
-                {item.description && (
-                  <p className={styles.galleryDescription}>{item.description}</p>
                 )}
               </div>
             </CornerCard>
