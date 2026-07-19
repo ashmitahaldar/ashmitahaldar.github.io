@@ -5,32 +5,15 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { SITE, STATIC_ROUTES, POSTS_QUERY, query } from './site-routes.mjs';
 
-const SITE = 'https://ashmitahaldar.com';
-const SANITY = 'https://2azshrlg.apicdn.sanity.io/v2024-01-01/data/query/production';
 const OUT_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'public');
-
-// Static routes with a rough change-frequency hint.
-const STATIC_ROUTES = [
-  { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/about', changefreq: 'monthly', priority: '0.8' },
-  { path: '/projects', changefreq: 'monthly', priority: '0.8' },
-  { path: '/blog', changefreq: 'weekly', priority: '0.7' },
-  { path: '/lab', changefreq: 'weekly', priority: '0.6' },
-];
 
 const esc = (s = '') =>
   String(s)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
-
-async function query(groq) {
-  const res = await fetch(`${SANITY}?query=${encodeURIComponent(groq)}`);
-  if (!res.ok) throw new Error(`Sanity query failed: ${res.status}`);
-  const { result } = await res.json();
-  return result || [];
-}
 
 function urlEntry({ path, lastmod, changefreq, priority }) {
   const lm = lastmod ? `\n    <lastmod>${lastmod.slice(0, 10)}</lastmod>` : '';
@@ -51,9 +34,7 @@ ${entries.map(urlEntry).join('\n')}
 
 let posts = [];
 try {
-  posts = await query(
-    `*[_type == "blogPost" && defined(slug.current)] | order(publishedAt desc){"slug": slug.current, publishedAt, _updatedAt}`,
-  );
+  posts = await query(POSTS_QUERY);
 } catch (err) {
   console.warn(`sitemap: Sanity unreachable, writing static routes only — ${err.message}`);
 }
