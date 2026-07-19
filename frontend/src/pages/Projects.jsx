@@ -5,6 +5,7 @@ import PageHeader from '../components/PageHeader';
 import ProjectModal from '../components/ProjectModal';
 import { getProjects } from '../services/sanityClient';
 import PortableText from '../components/PortableText';
+import Seo from '../components/Seo';
 import styles from '../styles/Projects.module.css';
 
 const Projects = () => {
@@ -46,6 +47,11 @@ const Projects = () => {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title="Projects"
+        path="/projects"
+        description="Selected projects by Ashmita Haldar — web apps, games, and creative coding experiments built with React, Python, and more."
+      />
       <div className={styles.content}>
         <PageHeader word="projects" command="ls -la ~/projects | grep awesome" />
 

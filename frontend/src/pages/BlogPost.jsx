@@ -4,6 +4,8 @@ import { Calendar, Tag, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import CornerCard from '../components/CornerCard';
 import PortableText from '../components/PortableText';
+import Seo from '../components/Seo';
+import { articleLd, breadcrumbLd } from '../lib/seo';
 import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getBlogPostBySlug } from '../services/sanityClient';
 import styles from '../styles/BlogPost.module.css';
@@ -24,7 +26,6 @@ const BlogPost = () => {
     const fetchPost = async () => {
       try {
         const data = await getBlogPostBySlug(slug);
-        console.log('Fetched blog post:', data);
         setPost(data);
       } catch (error) {
         console.error('Error fetching blog post from Sanity:', error);
@@ -46,6 +47,7 @@ const BlogPost = () => {
   if (!post) {
     return (
       <div className={styles.notFoundContainer}>
+        <Seo title="Post Not Found" path={`/blog/${slug}`} noindex />
         <div className={styles.notFoundContent}>
           <h1 className={styles.notFoundTitle}>Post Not Found</h1>
           <button
@@ -61,6 +63,28 @@ const BlogPost = () => {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title={post.title}
+        path={`/blog/${slug}`}
+        description={post.excerpt || `${post.title} — a post on Ashmita Haldar's blog.`}
+        type="article"
+        publishedTime={post.publishedAt}
+        tags={post.tags}
+        jsonLd={[
+          articleLd({
+            title: post.title,
+            description: post.excerpt || `${post.title} — a post on Ashmita Haldar's blog.`,
+            path: `/blog/${slug}`,
+            publishedTime: post.publishedAt,
+            tags: post.tags,
+          }),
+          breadcrumbLd([
+            { name: 'Home', path: '/' },
+            { name: 'Blog', path: '/blog' },
+            { name: post.title, path: `/blog/${slug}` },
+          ]),
+        ]}
+      />
       <div className={styles.content}>
         {/* Back Button */}
         <button

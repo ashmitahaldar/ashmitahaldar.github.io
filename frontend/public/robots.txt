@@ -1,0 +1,5 @@
+# https://ashmitahaldar.com
+User-agent: *
+Allow: /
+
+Sitemap: https://ashmitahaldar.com/sitemap.xml

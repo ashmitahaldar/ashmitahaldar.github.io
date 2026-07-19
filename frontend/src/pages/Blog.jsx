@@ -4,6 +4,7 @@ import { Calendar, Tag, ArrowRight } from 'lucide-react';
 import CornerCard from '../components/CornerCard';
 import PageHeader from '../components/PageHeader';
 import { getBlogPosts } from '../services/sanityClient';
+import Seo from '../components/Seo';
 import styles from '../styles/Blog.module.css';
 
 const Blog = () => {
@@ -62,6 +63,11 @@ const Blog = () => {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title="Blog"
+        path="/blog"
+        description="Writing on code, building, and the occasional pun — essays and notes by Ashmita Haldar."
+      />
       <div className={styles.content}>
         <PageHeader word="blog" command="tail -f ~/thoughts/blog.log" />
 
