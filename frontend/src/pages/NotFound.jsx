@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PixelGirl from '../components/PixelGirl';
+import Seo from '../components/Seo';
 import styles from '../styles/NotFound.module.css';
 
 export default function NotFound() {
@@ -8,6 +9,7 @@ export default function NotFound() {
 
   return (
     <div className={styles.container}>
+      <Seo title="404 — Not Found" path={pathname} noindex />
       <div className={styles.terminalLines}>
         <div className={styles.cmdLine}>
           <span className={styles.prompt}>$</span> cd {pathname}

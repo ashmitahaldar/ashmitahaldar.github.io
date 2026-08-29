@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
-import Terminal from './Terminal';
 import { getProfile } from '../services/sanityClient';
 import styles from './TerminalOverlay.module.css';
+
+// Only pulled down the first time someone opens the terminal.
+const Terminal = lazy(() => import('./Terminal'));
 
 export default function TerminalOverlay() {
   const [open, setOpen] = useState(false);
@@ -48,7 +50,17 @@ export default function TerminalOverlay() {
             </Dialog.Close>
           </div>
 
-          <Terminal profileData={profileData} />
+          <Suspense
+            fallback={
+              <div className={styles.loading}>
+                <span style={{ color: 'var(--pink)' }}>$</span>
+                &nbsp;loading...
+                <span className="blink" style={{ color: 'var(--pink)' }} />
+              </div>
+            }
+          >
+            <Terminal profileData={profileData} />
+          </Suspense>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

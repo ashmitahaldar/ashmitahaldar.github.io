@@ -13,6 +13,8 @@ import { useTypingEffect } from '../hooks/useTypingEffect';
 import { getBlogPosts, getMicroblogs, getProfile, getProjects } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
+import Seo from '../components/Seo';
+import { personLd, websiteLd } from '../lib/seo';
 import styles from '../styles/Home.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -229,7 +231,6 @@ function ProjectRows({ projects }) {
               ) : (
                 <Link to="/projects" className={styles.rowCover} aria-label={p.title} />
               )}
-              <span className={styles.rowPerm}>drwxr-xr-x</span>
               <span className={styles.rowMain}>
                 <span className={styles.rowTitleLine}>
                   <span className={styles.rowTitle}>{p.title}</span>
@@ -271,7 +272,6 @@ function WritingRows({ posts }) {
       <div className={styles.rowList}>
         {posts.map((p) => (
           <Link key={p._id} to={`/blog/${p.slug?.current}`} className={styles.row}>
-            <span className={styles.rowPerm}>-rw-r--r--</span>
             <span className={styles.rowMain}>
               <span className={styles.rowTitleLine}>
                 <span className={styles.rowTitle}>{p.title}</span>
@@ -362,6 +362,16 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
+      <Seo
+        path="/"
+        jsonLd={[
+          personLd({
+            name: profileData?.name,
+            sameAs: [profileData?.github, profileData?.linkedin],
+          }),
+          websiteLd(),
+        ]}
+      />
 
       <Hero profileData={profileData} />
 

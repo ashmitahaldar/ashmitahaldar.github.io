@@ -180,7 +180,7 @@
 .row {
   position: relative; /* anchors the stretched cover link */
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: 8px 20px;
   padding: 16px 12px;
@@ -216,18 +216,6 @@
 .rowLink:hover {
   color: var(--cyan);
   border-color: var(--cyan-dim);
-}
-
-.rowPerm {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--text-faint);
-  white-space: nowrap;
-  transition: color 0.25s;
-}
-
-.row:hover .rowPerm {
-  color: var(--pink);
 }
 
 .rowMain {
@@ -355,10 +343,6 @@
   .row {
     grid-template-columns: minmax(0, 1fr);
     gap: 6px;
-  }
-
-  .rowPerm {
-    display: none;
   }
 
   .rowAside {

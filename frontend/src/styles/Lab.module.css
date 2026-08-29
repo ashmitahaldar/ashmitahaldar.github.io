@@ -310,13 +310,6 @@
 
 .galleryLocationIcon { width: 11px; height: 11px; }
 
-.galleryDescription {
-  color: var(--text-mute);
-  font-size: 13px;
-  line-height: 1.55;
-  margin: 0;
-}
-
 /* ── fun facts ────────────────────────────────────────────── */
 
 .factsGrid {

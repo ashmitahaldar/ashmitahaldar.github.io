@@ -6,11 +6,11 @@ import PageHeader from '../components/PageHeader';
 import QuickNav from '../components/QuickNav';
 import SectionHeader from '../components/SectionHeader';
 import Reveal from '../components/Reveal';
-import Terminal from '../components/Terminal';
 import ArtLightboxModal from '../components/ArtLightboxModal';
 import { getArtPhotos, getMicroblogs, getProfile } from '../services/sanityClient';
 import { HOME_CONTENT } from '../content/home';
 import { LOG_FALLBACK } from '../content/log';
+import Seo from '../components/Seo';
 import styles from '../styles/Lab.module.css';
 
 // ── helpers ──────────────────────────────────────────────────
@@ -193,14 +193,13 @@ function Gallery({ photos }) {
                     </span>
                   )}
                 </div>
+                {/* Description is deliberately withheld here — it shows in the
+                    lightbox once you click in, so the wall stays visual. */}
                 {item.location && (
                   <div className={styles.galleryLocation}>
                     <MapPin className={styles.galleryLocationIcon} />
                     <span>{item.location}</span>
                   </div>
-                )}
-                {item.description && (
-                  <p className={styles.galleryDescription}>{item.description}</p>
                 )}
               </div>
             </CornerCard>
@@ -270,7 +269,7 @@ export default function Lab() {
     });
   }, []);
 
-  // Honour #log / #gallery / #facts / #terminal deep links once content is in.
+  // Honour #log / #gallery / #facts deep links once content is in.
   useEffect(() => {
     if (loading || !location.hash) return;
     const el = document.getElementById(location.hash.slice(1));
@@ -298,6 +297,11 @@ export default function Lab() {
 
   return (
     <div className={styles.container}>
+      <Seo
+        title="Lab"
+        path="/lab"
+        description="~/lab — Ashmita Haldar's microblog log, photography, and creative experiments. Nothing here is a deliverable."
+      />
       <PageHeader
         word="lab"
         command="cd ~/lab && ls -la"
@@ -310,7 +314,6 @@ export default function Lab() {
           { id: 'log',      label: 'log' },
           { id: 'gallery',  label: 'gallery' },
           { id: 'facts',    label: 'facts' },
-          { id: 'terminal', label: 'terminal' },
         ]}
       />
 
@@ -319,15 +322,6 @@ export default function Lab() {
       <Reveal><Gallery photos={photos} /></Reveal>
 
       <Reveal><FunFacts facts={facts} /></Reveal>
-
-      <Reveal>
-        <section id="terminal" className={styles.anchorSection}>
-          <SectionHeader cmd="ssh" arg="visitor@ashmita" comment="try `help` or `snake`" />
-          <Window title="portfolio-terminal">
-            <Terminal profileData={profileData} height="420px" />
-          </Window>
-        </section>
-      </Reveal>
     </div>
   );
 }

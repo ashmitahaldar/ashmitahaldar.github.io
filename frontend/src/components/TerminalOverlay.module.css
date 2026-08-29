@@ -24,6 +24,19 @@
   outline: none;
 }
 
+/* Placeholder while the lazy Terminal chunk loads.
+   Matches Terminal's default height so the window doesn't jump. */
+.loading {
+  display: flex;
+  align-items: center;
+  height: 480px;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  background: var(--bg);
+}
+
 .titleBar {
   display: flex;
   align-items: center;
